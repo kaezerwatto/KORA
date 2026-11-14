@@ -16,9 +16,10 @@
 4. Une correspondance exacte est recherchée dans les mémoires Safinum et financière générale.
 5. Pour un texte inédit, KORA masque les valeurs puis applique un gabarit sémantique.
 6. À défaut, le glossaire remplace les expressions les plus longues en premier seulement si sa couverture atteint 100 % pour un contenu financier critique, ou 80 % pour un libellé non critique.
-7. En dessous de ce seuil, KORA garde l’original au lieu d’inventer une traduction.
-8. Le contrôle vérifie que chaque valeur sensible apparaît exactement autant de fois que dans l’original.
-9. Le nœud texte est modifié sans remplacer son élément, ses événements ou ses propriétés.
+7. Les formulations autorisées sont classées par un modèle `fub` unigramme/bigramme/trigramme de 625 contextes.
+8. En dessous du seuil sémantique, KORA garde l’original : le modèle de langue ne peut jamais autoriser une phrase refusée.
+9. Le contrôle vérifie que chaque valeur sensible apparaît exactement autant de fois que dans l’original.
+10. Le nœud texte est modifié sans remplacer son élément, ses événements ou ses propriétés.
 
 ## Contenu dynamique
 
@@ -39,11 +40,13 @@ Le bouton d’arrêt restaure chaque texte et attribut uniquement s’il contien
 
 ## Détection de langue
 
-La mémoire bilingue est vérifiée avant l’heuristique. KORA ne dépend pas de `<html lang>`, car Safinum peut basculer sa langue sans le mettre à jour. Le popup permet de forcer `fr`, `en` ou `auto`.
+La mémoire bilingue est vérifiée avant l’heuristique. KORA ne dépend pas de `<html lang>`, car une page peut basculer sa langue sans le mettre à jour. La popup utilise exclusivement la détection automatique.
 
-## Pourquoi aucun modèle dans le ZIP
+## Modèle léger et absence de modèle neuronal
 
-Les petits modèles pertinents testés font environ 75–80 Mo quantifiés :
+Le ZIP contient un modèle de langue `fub` d’environ 30 Kio, construit à partir des transcriptions CC0 de Common Voice. Il prédit le mot suivant et note la fluidité; il ne génère pas la traduction et ne peut pas contourner le verrou sémantique.
+
+Les modèles neuronaux de traduction pertinents testés font environ 75–80 Mo quantifiés :
 
 - Flagship `francais-fufulde`;
 - DS4H `linguo_mt_en_fub`.

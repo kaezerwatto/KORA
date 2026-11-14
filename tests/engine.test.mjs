@@ -8,6 +8,12 @@ import {
   restoreSensitive,
   translateText
 } from "../src/engine.js";
+import {
+  FUB_MODEL_META,
+  predictNextFub,
+  rankFubCandidates,
+  scoreFubFluency
+} from "../src/language-model.js";
 
 const sourcePairs = JSON.parse(
   await readFile(new URL("../scripts/source-texts.json", import.meta.url), "utf8")
@@ -16,6 +22,19 @@ const sourcePairs = JSON.parse(
 test("detects both source languages", () => {
   assert.equal(detectSource("Vérifiez les frais avant de confirmer."), "fr");
   assert.equal(detectSource("Check the fees before confirming."), "en");
+});
+
+test("ships a compact fub next-word model and deterministic fluency scorer", () => {
+  assert.equal(FUB_MODEL_META.language, "fub");
+  assert.equal(FUB_MODEL_META.license, "CC0");
+  assert.equal(FUB_MODEL_META.sentences, 1067);
+  assert.ok(FUB_MODEL_META.contexts > 500);
+  const predictions = predictNextFub("o", 5);
+  assert.equal(predictions.length, 5);
+  assert.ok(predictions.some(({ word }) => word === "wii" || word === "wi'i"));
+  assert.ok(predictions.every(({ probability }) => probability > 0 && probability <= 1));
+  assert.ok(scoreFubFluency("o wii") > 0);
+  assert.equal(rankFubCandidates(["o wii", "xqz qzx"]).at(-1).text, "xqz qzx");
 });
 
 test("translates exact French and English strings to the same fub output", () => {

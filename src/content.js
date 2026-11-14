@@ -1,5 +1,7 @@
 import { translateText } from "./engine.js";
 
+const shouldInitialize = !globalThis.__KORA_CONTENT_INITIALIZED__;
+if (shouldInitialize) globalThis.__KORA_CONTENT_INITIALIZED__ = true;
 const SKIP_TAGS = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "CODE", "PRE", "SVG", "CANVAS", "IFRAME"]);
 const records = new Map();
 const attributeRecords = new Map();
@@ -233,7 +235,8 @@ async function loadPreferences() {
   sourceHint = stored.koraSource;
 }
 
-chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+function registerMessageListener() {
+  chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message?.type === "KORA_STATUS") {
     sendResponse({ enabled, sourceHint, stats, language: "fub", offline: true });
     return;
@@ -266,10 +269,12 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     });
     sendResponse(result);
   }
-});
+  });
+}
 
 async function initialize() {
   await loadPreferences();
+  registerMessageListener();
   startObserver();
   if (enabled) scan();
   for (const eventName of ["click", "change", "input"]) {
@@ -284,4 +289,6 @@ async function initialize() {
   }, 500);
 }
 
-initialize();
+if (shouldInitialize) void initialize().catch(() => {
+  delete globalThis.__KORA_CONTENT_INITIALIZED__;
+});

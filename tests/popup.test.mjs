@@ -16,24 +16,16 @@ try {
   const page = await browser.newPage();
   await page.setViewport({ width: 400, height: 700, deviceScaleFactor: 2 });
   await page.evaluateOnNewDocument(() => {
-    let sourceHint = "auto";
     let enabled = true;
-    let translated = 17;
     let injected = false;
     globalThis.chrome = {
       tabs: {
         query: async () => [{ id: 7, url: "https://bank.example/dashboard" }],
         sendMessage: async (_tabId, message) => {
           if (!injected) throw new Error("Receiving end does not exist");
-          if (message.type === "KORA_SOURCE") sourceHint = message.source;
           if (message.type === "KORA_TOGGLE") enabled = message.enabled;
-          if (message.type === "KORA_RESCAN") translated = 21;
           if (message.type === "KORA_STATUS") {
-            return {
-              enabled,
-              sourceHint,
-              stats: { translated, protected: 6, fallback: 2 }
-            };
+            return { enabled, sourceHint: "auto", stats: {} };
           }
           return { ok: true };
         }
@@ -48,27 +40,30 @@ try {
   });
 
   await page.goto(`file://${path.join(root, "dist/popup.html")}`, { waitUntil: "load" });
-  await page.waitForFunction(() => document.querySelector("#status-title")?.textContent === "KORA est actif");
+  await page.waitForFunction(() => document.querySelector("#status-title")?.textContent === "Traduction activée");
 
-  assert.equal(await page.$eval("#status-detail", (node) => node.textContent), "bank.example · traitement local");
-  assert.equal(await page.$eval("#translated", (node) => node.textContent), "17");
+  assert.equal(
+    await page.$eval("#status-detail", (node) => node.textContent),
+    "bank.example · mise à jour automatique"
+  );
+  assert.equal(await page.$$eval("input", (inputs) => inputs.length), 1);
+  assert.equal(await page.$$eval("button, .toast, .local-badge", (nodes) => nodes.length), 0);
+  assert.equal(await page.$eval("body", (node) => getComputedStyle(node).backgroundColor), "rgb(13, 13, 13)");
 
-  await page.click('input[name="source"][value="fr"]');
-  await page.waitForFunction(() => document.querySelector('input[name="source"][value="fr"]')?.checked);
-  await page.click("#rescan");
-  await page.waitForFunction(() => document.querySelector("#translated")?.textContent === "21");
+  await page.click("#enabled");
+  await page.waitForFunction(() => document.querySelector("#status-title")?.textContent === "Traduction désactivée");
+  assert.equal(await page.$eval("#enabled", (input) => input.checked), false);
 
-  await page.click(".lab summary");
-  await page.type("#sample", "Bonjour, Fatou Ndiaye");
-  await page.click("#translate-sample");
-  assert.equal(await page.$eval("#sample-output", (node) => node.textContent), "Sannu, Fatou Ndiaye");
+  await page.click("#enabled");
+  await page.waitForFunction(() => document.querySelector("#status-title")?.textContent === "Traduction activée");
+  assert.equal(await page.$eval("#enabled", (input) => input.checked), true);
 
   await page.screenshot({
     path: path.join(root, "test-results/kora-popup.png"),
     fullPage: true
   });
 
-  console.log("POPUP PASS: controls, local translator, status and responsive visual render.");
+  console.log("POPUP PASS: dark one-switch UI, automatic injection and reliable activation.");
 } finally {
   await browser.close();
 }

@@ -12,6 +12,7 @@ import {
   GENERAL_TEMPLATES_EN,
   GENERAL_TEMPLATES_FR
 } from "./general-translations.js";
+import { rankFubCandidates, scoreFubFluency } from "./language-model.js";
 
 const FRENCH_MARKERS = /\b(le|la|les|des|du|de|votre|vous|avant|après|bonjour|bonsoir|bienvenue|transfert|frais|solde|compte|vérifiez|paiement|carte|mot|passe|retrait|dépôt)\b/i;
 const ENGLISH_MARKERS = /\b(the|your|you|before|after|hello|welcome|good evening|transfer|fees?|balance|account|check|confirm|payment|card|password|withdrawal|deposit)\b/i;
@@ -123,11 +124,14 @@ function applyTemplates(masked, source) {
   const templates = source === "en"
     ? [...TEMPLATES_EN, ...GENERAL_TEMPLATES_EN]
     : [...TEMPLATES_FR, ...GENERAL_TEMPLATES_FR];
+  const candidates = [];
   for (const template of templates) {
     const match = masked.match(template.pattern);
-    if (match) return template.render(match);
+    if (!match) continue;
+    const rendered = template.render(match);
+    candidates.push(...(Array.isArray(rendered) ? rendered : [rendered]));
   }
-  return null;
+  return candidates.length ? rankFubCandidates(candidates)[0].text : null;
 }
 
 function applyGlossary(masked, source) {
@@ -188,6 +192,7 @@ export function translateText(text, options = {}) {
       text: translated,
       source,
       method: "memory",
+      fluency: scoreFubFluency(translated),
       changed: normalizeText(translated) !== key
     };
   }
@@ -208,6 +213,7 @@ export function translateText(text, options = {}) {
     text: restored,
     source,
     method: templated ? "template" : "glossary",
+    fluency: scoreFubFluency(restored),
     changed: normalizeText(restored) !== key
   };
 }

@@ -1,10 +1,11 @@
 {
   "name": "kora",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "KORA — traduction financière locale français/anglais vers fulfulde Adamawa (fub)",
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
+    "build:model": "python3 scripts/build_fub_language_model.py",
     "test": "node --test tests/engine.test.mjs",
     "test:popup": "npm run build && node tests/popup.test.mjs",
     "test:pages": "npm run build && node tests/pages.test.mjs",

@@ -11,7 +11,7 @@ Le paquet Chrome doit rester inférieur à 10 Mo et le protocole interdit de col
 - NLLB-200 600M ONNX quantifié : environ 895 Mo et cible `fuv`, pas `fub`.
 - M2M-100 quantifié : environ 632 Mo et cible le macrocode `ff`.
 
-Les modèles ont donc été utilisés seulement hors extension, sur cinq phrases publiques, comme outils de comparaison. KORA livré n’emploie aucun proxy ni service distant.
+Les modèles neuronaux ont donc été utilisés seulement hors extension, sur cinq phrases publiques, comme outils de comparaison. KORA livré n’emploie aucun proxy ni service distant. Il embarque uniquement un n-gramme `fub` de 30 Kio entraîné sur Common Voice CC0 pour prédire le mot suivant et classer les formulations déjà validées sémantiquement.
 
 ## Comparaison sur cinq actions critiques
 

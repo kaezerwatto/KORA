@@ -138,4 +138,4 @@ Le test Puppeteer charge réellement l’extension sur Safinum Pay :
 
 ## 9. Faisabilité
 
-L’archive livrée pèse environ 43 Kio. Elle fonctionne sans GPU, serveur ou connexion de traduction. La conception peut être étendue à d’autres langues camerounaises en remplaçant les fichiers de mémoire et le glossaire.
+L’archive livrée pèse environ 42 Kio. Elle fonctionne sans GPU, serveur ou connexion de traduction. La conception peut être étendue à d’autres langues camerounaises en remplaçant les fichiers de mémoire, le glossaire et le petit modèle de langue.

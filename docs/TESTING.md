@@ -13,6 +13,8 @@
 - contenu financier inédit traité par gabarit ou glossaire.
 - formes Adamawa corrigées (`-go`, `yonaa`);
 - intentions financières générales et seuil de confiance.
+- modèle `fub` de prédiction du mot suivant et score de fluidité déterministe;
+- popup dark limitée à un seul interrupteur.
 
 ## Test Chrome en direct
 
@@ -43,4 +45,4 @@ LIVE PASS: English source switched and translated to the same fub interface.
 
 ## Taille
 
-`npm run package` produit aussi `release/kora-unpacked`, directement chargeable dans Chrome, et échoue au-delà de 10 Mio. Le ZIP actuel mesure environ 43 Kio.
+`npm run package` produit aussi `release/kora-unpacked`, directement chargeable dans Chrome, et échoue au-delà de 10 Mio. Le ZIP actuel mesure environ 42 Kio.
