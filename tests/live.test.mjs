@@ -109,6 +109,35 @@ try {
     assert.match(juryText, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "iu"), expected);
   }
 
+  const injectedSource = "hello mon frere qui est tu";
+  const injectionFieldFound = await page.evaluate((value) => {
+    const field = [...document.querySelectorAll("textarea, input")].find((candidate) =>
+      /message|inject|inédit|unseen/i.test(
+        [
+          candidate.id,
+          candidate.name,
+          candidate.getAttribute("placeholder"),
+          candidate.getAttribute("aria-label")
+        ].join(" ")
+      )
+    );
+    if (!field) return false;
+    const prototype =
+      field instanceof HTMLTextAreaElement
+        ? HTMLTextAreaElement.prototype
+        : HTMLInputElement.prototype;
+    Object.getOwnPropertyDescriptor(prototype, "value")?.set?.call(field, value);
+    field.dispatchEvent(new Event("input", { bubbles: true }));
+    field.dispatchEvent(new Event("change", { bubbles: true }));
+    return true;
+  }, injectedSource);
+  assert.equal(injectionFieldFound, true, "jury injection field should be available");
+  await clickOriginal(page, "Injecter");
+  await page.waitForFunction(
+    () => document.body.innerText.includes("Sannu musiɗɗo am, aan ko moy?"),
+    { timeout: 10_000 }
+  );
+
   const initial = await page.evaluate(() => document.body.innerText);
   assert.match(initial, /konte maa/i);
   assert.match(initial, /kaalisi gonɗi e konte/i);
@@ -160,9 +189,16 @@ try {
   const beneficiaryStep = await page.evaluate(() => document.body.innerText);
   assert.doesNotMatch(beneficiaryStep, /Continuer|Note \(optionnel\)/i);
   assert.match(beneficiaryStep, /Tesko \(so a yiɗi\)/i);
-  const fields = await page.$$eval("input", (inputs) => inputs.map((input) => ({ type: input.type, value: input.value })));
+  const fields = await page.$$eval(
+    "input, textarea, select",
+    (inputs) => inputs.map((input) => ({ type: input.type, value: input.value }))
+  );
   assert.ok(fields.some((field) => field.value === "Jean-Paul Mbarga"));
   assert.ok(fields.some((field) => field.value === "+237 6 99 12 34 56"));
+  assert.ok(
+    fields.some((field) => /^(?:Paiement de services|Payment for services)$/u.test(field.value)),
+    "transfer reason input must remain unchanged"
+  );
   await clickVisibleCheckbox(page);
   await page.waitForFunction(() => !/Continuer|Note \(optionnel\)/i.test(document.body.innerText));
   await page.waitForFunction(() =>

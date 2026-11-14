@@ -124,6 +124,10 @@ export const GENERAL_FR_TO_FUB = Object.freeze({
   "créer un compte": "Sos konte",
   "poser une question": "Ƴam lamɗo",
   "message": "Ɓatakuru",
+  "hello mon frere qui est tu": "Sannu musiɗɗo am, aan ko moy?",
+  "hello mon frere qui es tu": "Sannu musiɗɗo am, aan ko moy?",
+  "hello mon frère, qui es-tu ?": "Sannu musiɗɗo am, aan ko moy?",
+  "hello mon frère qui es-tu ?": "Sannu musiɗɗo am, aan ko moy?",
   "panneau jury": "Pano juri",
   "outil interne safinum — non fourni aux équipes": "Kuutorgal nder Safinum — hokkaaka ekip ɗin",
   "contrôle": "Ƴeewtagol",
@@ -287,6 +291,7 @@ export const GENERAL_EN_TO_FUB = Object.freeze({
   "create account": "Sos konte",
   "ask a question": "Ƴam lamɗo",
   "message": "Ɓatakuru",
+  "hello my brother, who are you?": "Sannu musiɗɗo am, aan ko moy?",
   "jury panel": "Pano juri",
   "safinum internal tool — not provided to teams": "Kuutorgal nder Safinum — hokkaaka ekip ɗin",
   "control": "Ƴeewtagol",
@@ -343,6 +348,7 @@ const AUDIT_TEMPLATES = Object.freeze([
 
 export const GENERAL_TEMPLATES_FR = Object.freeze([
   ...AUDIT_TEMPLATES,
+  { pattern: /^(?:hello|bonjour|salut)[,\s]+mon fr[èe]re[,\s]+qui (?:es|est)[-\s]+tu\s*[?!.]*$/iu, render: () => "Sannu musiɗɗo am, aan ko moy?" },
   { pattern: /^Bonjour[,\s]+(.+)$/iu, render: (m) => `Sannu, ${m[1]}` },
   { pattern: /^Bonsoir[,\s]+(.+)$/iu, render: (m) => `Jam hiiri, ${m[1]}` },
   { pattern: /^Bienvenue[,\s]+(.+)$/iu, render: (m) => `A jaɓɓaama, ${m[1]}` },
@@ -360,6 +366,7 @@ export const GENERAL_TEMPLATES_FR = Object.freeze([
 
 export const GENERAL_TEMPLATES_EN = Object.freeze([
   ...AUDIT_TEMPLATES,
+  { pattern: /^(?:hello|hi)[,\s]+my brother[,\s]+who are you\s*[?!.]*$/iu, render: () => "Sannu musiɗɗo am, aan ko moy?" },
   { pattern: /^Hello[,\s]+(.+)$/iu, render: (m) => `Sannu, ${m[1]}` },
   { pattern: /^Good evening[,\s]+(.+)$/iu, render: (m) => `Jam hiiri, ${m[1]}` },
   { pattern: /^Welcome[,\s]+(.+)$/iu, render: (m) => `A jaɓɓaama, ${m[1]}` },

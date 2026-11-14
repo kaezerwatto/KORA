@@ -143,11 +143,16 @@ Le masquage produit des jetons internes temporaires, par exemple `⟪KORA_0⟫`.
 ```mermaid
 flowchart LR
     A[Mutation DOM] --> B[Debounce]
-    B --> C[Collecte des nouveaux nœuds]
-    C --> D[Protection des champs]
-    D --> E[Traduction]
-    E --> F[Mise à jour sans remplacer les éléments]
-    F --> G[Mémorisation original ↔ traduction]
+    B --> C[Découverte document + Shadow DOM ouvert]
+    C --> D[Collecte textes et attributs]
+    D --> E{Champ financier ou source d'injection ?}
+    E -->|Donnée utilisateur| P[Protéger]
+    E -->|Source à traduire| T[Conserver le champ, traduire le rendu]
+    E -->|Texte normal| T
+    T --> F[Traduction]
+    P --> F
+    F --> G[Mise à jour sans remplacer les éléments]
+    G --> H[Mémorisation original ↔ traduction]
 ```
 
 `MutationObserver` surveille :
@@ -157,7 +162,11 @@ flowchart LR
 - recalcul des frais;
 - changement de langue du site;
 - `aria-label`, `title` et `placeholder`;
-- boutons, liens, labels et options.
+- boutons, liens, labels et options;
+- racines Shadow DOM ouvertes;
+- cadres où le navigateur autorise le content script.
+
+Les mutations produites par `append`, `innerHTML`, `DocumentFragment`, remplacement de `textContent` et rendu de framework suivent le même pipeline. Les Shadow DOM fermés, le contenu d’un canvas, les pixels d’une image et les pages internes protégées par Chrome ne sont pas exposés à une extension et restent donc hors périmètre technique.
 
 Un garde global versionné empêche l’initialisation multiple. Si une ancienne version du content script est encore attachée à l’onglet, la popup recharge la page une fois pour installer le protocole courant.
 
@@ -168,10 +177,10 @@ Un garde global versionné empêche l’initialisation multiple. Si une ancienne
 Corpus :
 
 - 1 067 phrases Common Voice 27 `fub`, CC0;
-- 242 formulations KORA relues;
+- 243 formulations KORA relues;
 - 9 368 tokens Common Voice;
-- 1 098 mots fréquents;
-- 1 375 contextes prédictifs.
+- 1 101 mots fréquents;
+- 1 385 contextes prédictifs.
 
 ```mermaid
 flowchart LR
@@ -185,7 +194,7 @@ flowchart LR
     H --> I[Classement de candidats déjà sûrs]
 ```
 
-Le réseau compte 38 488 paramètres. Ses poids et son vocabulaire occupent environ 64 Kio avant minification. Sur 107 phrases Common Voice tenues hors entraînement, le modèle int8 atteint 13,7 % top-1 et 31,6 % top-5. Ces métriques modestes sont publiées sans les confondre avec une qualité de traduction : le modèle complète le moteur déterministe mais ne remplace pas un modèle neuronal de traduction générale.
+Le réseau compte 38 488 paramètres. Ses poids et son vocabulaire occupent environ 64 Kio avant minification. Sur 107 phrases Common Voice tenues hors entraînement, le modèle int8 atteint 14,0 % top-1 et 31,5 % top-5. Ces métriques modestes sont publiées sans les confondre avec une qualité de traduction : le modèle complète le moteur déterministe mais ne remplace pas un modèle neuronal de traduction générale.
 
 ## Modules
 

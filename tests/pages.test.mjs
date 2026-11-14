@@ -33,12 +33,17 @@ const pages = {
     <section><h2>Academic library</h2><a>Frequently asked questions</a></section>
     <aside><button>New chat</button><button>Send message</button></aside>
     <select id="bank"><option value="other-bank">Other bank</option><option value="mobile-money">Mobile Money</option></select>
-    <select id="reason"><option value="Payment for services">Payment for services</option></select>
+    <input id="reason" value="Payment for services"><p id="reason-echo">Payment for services</p>
+    <iframe id="injected-frame" src="/frame"></iframe>
     <input value="Fatou Ndiaye"><p id="customer">Fatou Ndiaye</p>
     <script>
       document.querySelector('#switch-fr').onclick = () => document.documentElement.dataset.siteLanguage = 'fr';
       document.querySelector('#switch-en').onclick = () => document.documentElement.dataset.siteLanguage = 'en';
     </script>
+  </body></html>`,
+  "/frame": `<!doctype html><html lang="en"><body>
+    <p id="frame-message">Injected content</p>
+    <input id="frame-attribute" placeholder="Amount">
   </body></html>`
 };
 
@@ -131,9 +136,15 @@ try {
   assert.equal(await page.$eval("#bank", (select) => select.value), "other-bank");
   assert.equal(await page.$eval("#bank option", (option) => option.value), "other-bank");
   assert.equal(await page.$eval("#bank option", (option) => option.textContent), "Baŋki goɗɗo");
-  assert.equal(await page.$eval("#reason", (select) => select.value), "Payment for services");
-  assert.equal(await page.$eval("#reason option", (option) => option.value), "Payment for services");
-  assert.equal(await page.$eval("#reason option", (option) => option.textContent), "Yoɓugo golle");
+  assert.equal(await page.$eval("#reason", (input) => input.value), "Payment for services");
+  assert.equal(await page.$eval("#reason-echo", (node) => node.textContent), "Payment for services");
+  const injectedFrame = page.frames().find((frame) => frame.url().endsWith("/frame"));
+  assert.ok(injectedFrame, "same-origin frame should be present");
+  await injectedFrame.waitForFunction(
+    () =>
+      document.querySelector("#frame-message")?.textContent === "Loowdi naatnaandi" &&
+      document.querySelector("#frame-attribute")?.placeholder === "Jate kaalisi"
+  );
 
   await page.evaluate(() => {
     const panel = document.createElement("section");
@@ -141,6 +152,9 @@ try {
     panel.innerHTML = `
       <h2>Inject unseen content</h2>
       <p>Text rendered in the page after load. The extension must translate it without a dedicated hook.</p>
+      <label for="inject-source">Inject unseen content</label>
+      <textarea id="inject-source" placeholder="e.g. An important message for customers…">hello mon frere qui est tu</textarea>
+      <p id="mixed-injection">hello mon frere qui est tu</p>
       <button>Inject</button><h3>Injected content</h3>
       <p>Trigger an error / warning</p><button>Security warning</button><button>Network error</button>
       <p>Alter canonical values</p><label>Amount</label><output>25,000 FCFA</output>
@@ -171,6 +185,62 @@ try {
   ]) {
     assert.match(juryPanel, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), expected);
   }
+  assert.equal(
+    await page.$eval("#inject-source", (field) => field.value),
+    "hello mon frere qui est tu"
+  );
+  assert.equal(
+    await page.$eval("#mixed-injection", (node) => node.textContent),
+    "Sannu musiɗɗo am, aan ko moy?"
+  );
+
+  await page.evaluate(() => {
+    const changing = document.createElement("p");
+    changing.id = "changing-injection";
+    changing.textContent = "Network error";
+    document.body.appendChild(changing);
+
+    const attributes = document.createElement("input");
+    attributes.id = "attribute-injection";
+    attributes.placeholder = "Amount";
+    attributes.setAttribute("aria-label", "Apply");
+    attributes.title = "Security warning";
+    document.body.appendChild(attributes);
+
+    const host = document.createElement("div");
+    host.id = "shadow-injection";
+    host.attachShadow({ mode: "open" }).innerHTML =
+      '<p id="shadow-message">Injected content</p><input id="shadow-field" placeholder="Amount">';
+    document.body.appendChild(host);
+  });
+  await page.waitForFunction(
+    () =>
+      document.querySelector("#changing-injection")?.textContent === "Juumre reso" &&
+      document.querySelector("#attribute-injection")?.placeholder === "Jate kaalisi" &&
+      document.querySelector("#shadow-injection")?.shadowRoot
+        ?.querySelector("#shadow-message")?.textContent === "Loowdi naatnaandi"
+  );
+  assert.equal(
+    await page.$eval("#attribute-injection", (field) => field.getAttribute("aria-label")),
+    "Huutin"
+  );
+  assert.equal(
+    await page.$eval("#attribute-injection", (field) => field.title),
+    "Jeertina kisal"
+  );
+  assert.equal(
+    await page.$eval(
+      "#shadow-injection",
+      (host) => host.shadowRoot.querySelector("#shadow-field").placeholder
+    ),
+    "Jate kaalisi"
+  );
+  await page.$eval("#changing-injection", (node) => {
+    node.textContent = "Security warning";
+  });
+  await page.waitForFunction(
+    () => document.querySelector("#changing-injection")?.textContent === "Jeertina kisal"
+  );
 
   await page.$eval("#switch-en", (control) => control.click());
   await page.waitForFunction(() => document.documentElement.dataset.siteLanguage === "en");
@@ -179,7 +249,7 @@ try {
   await page.waitForFunction(() => document.documentElement.dataset.koraActive === "true");
   assert.match(await page.evaluate(() => document.body.innerText), /Sannu, Fatou Ndiaye/);
 
-  console.log("PAGES PASS: FR/EN/FUB switching, select values, banking, portal, assistant and dynamic UI.");
+  console.log("PAGES PASS: FR/EN/FUB, inputs, dynamic text/attributes, open Shadow DOM and iframe.");
 } finally {
   await browser.close();
   await new Promise((resolve) => server.close(resolve));

@@ -29,7 +29,7 @@ KORA n’utilise aucun serveur de traduction. Le paquet ne contient aucun traceu
 
 ## Faisabilité
 
-- archive KORA 1.4.1 : 94,3 Kio;
+- archive : taille contrôlée automatiquement et très inférieure à 10 Mio;
 - matériel : tout ordinateur exécutant Chrome;
 - réseau : nécessaire uniquement pour ouvrir le service financier;
 - installation : extension non empaquetée en moins d’une minute;

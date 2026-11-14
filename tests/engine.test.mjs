@@ -219,6 +219,13 @@ test("covers injected test controls and financial audit labels", () => {
     translateText("tu dois tout teter avec l'argent").text,
     "A foti ƴeewtugo fuu bee kaalisi."
   );
+  for (const message of [
+    "hello mon frere qui est tu",
+    "Hello mon frère, qui es-tu ?",
+    "Hello my brother, who are you?"
+  ]) {
+    assert.equal(translateText(message).text, "Sannu musiɗɗo am, aan ko moy?", message);
+  }
   for (const canonical of [
     "NETWORK_001",
     "25,000 FCFA",

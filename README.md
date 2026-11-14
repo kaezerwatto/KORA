@@ -1,5 +1,7 @@
 # KORA
 
+![Logo KORA](src/icons/icon-128.png)
+
 **KORA** est une extension Chrome locale qui traduit les pages web du français ou de l’anglais vers le **fulfulde de l’Adamaoua (`fub`)**. Elle a été conçue pour le SAFINUM Innovate Challenge 2026, puis structurée comme une base réutilisable pour les interfaces financières camerounaises.
 
 KORA fonctionne sans serveur de traduction, sans API distante, sans télémétrie et sans transmission du contenu des pages.
@@ -37,22 +39,35 @@ La popup reste volontairement simple :
 - `Français` ou `English` restaure le texte original et déclenche le sélecteur natif du site lorsqu’il existe;
 - l’interrupteur active ou restaure la traduction immédiatement.
 
-Le contenu ajouté après le chargement est traduit automatiquement. Sur `chrome://`, le Chrome Web Store et les autres pages protégées par le navigateur, Chrome interdit l’injection d’extensions.
+Le contenu ajouté après le chargement est traduit automatiquement.
+
+KORA surveille les surfaces DOM accessibles au navigateur :
+
+- nœuds ajoutés par `append`, `innerHTML`, fragments ou rendu de framework;
+- texte remplacé après chargement;
+- `placeholder`, `aria-label` et `title` modifiés;
+- options visibles sans modification de leur valeur technique;
+- Shadow DOM ouvert;
+- cadres et iframes où Chrome autorise le content script.
+
+Les valeurs de champs financiers ou personnels restent intactes. Un champ explicitement destiné à injecter une phrase de test est traité comme une source à traduire, sans modifier la valeur du champ lui-même.
+
+Les Shadow DOM fermés, le texte dessiné dans un `<canvas>`, les images et les pages protégées comme `chrome://` ou le Chrome Web Store ne sont pas accessibles aux extensions.
 
 ## Petit modèle linguistique embarqué
 
-KORA 1.4.1 embarque une base d’intelligence linguistique légère et entièrement locale :
+KORA embarque une base d’intelligence linguistique légère et entièrement locale :
 
 - réseau neuronal à contexte de deux mots, 38 488 paramètres, poids int8;
 - couche d’embedding de 12 dimensions et couche cachée de 24 neurones;
 - entraîné sur 1 067 phrases Adamawa Fulfulde de Common Voice 27, sous licence CC0;
-- 9 368 tokens Common Voice, 242 formulations KORA relues, 1 098 mots fréquents et 1 375 contextes prédictifs;
+- 9 368 tokens Common Voice, 243 formulations KORA relues, 1 101 mots fréquents et 1 385 contextes prédictifs;
 - prédiction neuronale du mot suivant avec repli n-gramme déterministe;
 - score de fluidité déterministe pour classer plusieurs formulations sûres;
-- validation séparée sur 107 phrases Common Voice : top-1 13,7 %, top-5 31,6 %;
+- validation séparée sur 107 phrases Common Voice : top-1 14,0 %, top-5 31,5 %;
 - 64 Kio de poids et vocabulaire avant minification.
 
-Le réseau neuronal n’est pas un traducteur libre : il prédit la fluidité en `fub`. Il classe uniquement les traductions déjà autorisées par le moteur sémantique. Il ne peut donc ni modifier un montant, ni inventer une action financière.
+Le réseau neuronal est réellement exécuté dans l’extension : chaque traduction acceptée passe par `scoreFubFluency`, qui appelle l’inférence int8, et le classement de plusieurs candidats utilise sa probabilité avec un repli n-gramme. Ce réseau n’est toutefois pas un traducteur libre : il prédit la fluidité en `fub` et ne peut ni modifier un montant, ni autoriser seul une action financière.
 
 ```mermaid
 flowchart LR
@@ -85,6 +100,17 @@ flowchart TB
 ```
 
 Ce petit réseau ne remplace pas un grand modèle neuronal de traduction. Sous la contrainte de 10 Mio et sans corpus parallèle `fub` suffisamment large et validé, son rôle limité de classement est plus sûr qu’un modèle génératif miniature susceptible de produire des contresens.
+
+### Test réel du modèle
+
+`npm run model:demo` exécute les poids int8 utilisés par le bundle. Les sorties reproductibles vérifient notamment :
+
+- `transfeer maa` → candidats `neldaama`, `yettaama`;
+- `kaalisi` → candidats `gonɗi`, `yonaa`;
+- `Votre paiement de 25 000 FCFA a été refusé.` → `Yoɓugol maa 25 000 FCFA salaama.`;
+- une négation inconnue comme `Le transfert n'a pas échoué.` est conservée en français.
+
+Les métriques, la séparation entraînement/validation et les sorties observées sont détaillées dans [`docs/MODEL_EVALUATION.md`](docs/MODEL_EVALUATION.md).
 
 ## Intégrité et confidentialité
 
@@ -146,7 +172,10 @@ La suite vérifie :
 - popup sombre, sélecteur Fulfulde/Français/English et activation immédiate;
 - pages bancaires génériques FR/EN;
 - parcours Safinum complet en navigateur réel;
-- contenu dynamique et bascule de langue.
+- contenu dynamique et bascule de langue;
+- texte, attributs, Shadow DOM ouvert et iframes;
+- conservation de `Payment for services` lorsqu’il s’agit d’une saisie;
+- traduction live de `hello mon frere qui est tu` après injection.
 
 ## Structure
 

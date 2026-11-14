@@ -20,12 +20,42 @@ Le découpage est fait par phrase : 107 phrases Common Voice sont tenues hors en
 - architecture : contexte de deux mots, embeddings 12, couche tanh 24;
 - quantification : poids int8, biais float32;
 - taille générée : 64 Kio avec vocabulaire et métadonnées;
-- exactitude top-1 int8 : 13,7 %;
-- exactitude top-5 int8 : 31,6 %;
+- exactitude top-1 int8 : 14,0 %;
+- exactitude top-5 int8 : 31,5 %;
 - paramètres : 38 488;
 - graine reproductible : 2026.
 
 Ces résultats évaluent la prédiction du prochain mot, pas la fidélité d’une traduction. Le réseau n’a pas l’autorité d’accepter une phrase et ne peut contourner ni le verrou sémantique ni la conservation des valeurs.
+
+## Preuve d’exécution dans le produit
+
+Le réseau n’est pas seulement livré comme fichier. Le chemin exécuté est :
+
+1. `translateText` produit un candidat dont le sens et les valeurs sont déjà contrôlés;
+2. `scoreFubFluency` appelle `scoreNeuralFub`;
+3. l’inférence JavaScript décode les poids int8 et calcule la distribution du mot suivant;
+4. le score neuronal compte pour 80 % du score de fluidité, avec 20 % de repli n-gramme;
+5. `rankFubCandidates` trie uniquement des candidats déjà sûrs.
+
+La commande réelle est :
+
+```bash
+npm run model:demo
+```
+
+Extraits observés sur les poids embarqués :
+
+```text
+o → ɗon, wii, wi'i
+transfeer maa → neldaama, yettaama
+kaalisi → gonɗi, yonaa
+Votre paiement de 25 000 FCFA a été refusé.
+→ Yoɓugol maa 25 000 FCFA salaama.
+Le transfert n'a pas échoué.
+→ original conservé
+```
+
+`npm test` exécute aussi directement le réseau, vérifie ses métadonnées, ses prédictions, le classement de fluidité et le rejet d’une séquence inconnue. Les tests navigateur exécutent ensuite ce même bundle sur des textes statiques et injectés.
 
 ## Comparaison sur cinq actions critiques
 

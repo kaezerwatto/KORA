@@ -16,7 +16,10 @@
 - petit réseau neuronal `fub` quantifié, prédiction du mot suivant, score de fluidité et repli n-gramme;
 - popup dark avec interrupteur et sélecteur FUB/FR/EN;
 - restauration réelle FR/EN et retour vers Fulfulde via les messages d’extension;
-- traduction du libellé d’une option sans modification de sa valeur technique.
+- traduction du libellé d’une option sans modification de sa valeur technique;
+- conservation des saisies, notamment `Payment for services`;
+- ajout de nœuds, remplacement de texte, attributs dynamiques, Shadow DOM ouvert et iframe;
+- traduction du message injecté `hello mon frere qui est tu`.
 
 ## Test Chrome en direct
 
@@ -24,7 +27,7 @@
 
 1. lance Google Chrome avec l’extension unpacked;
 2. ouvre `https://safinum.cm/hackathon-test?jury=1`;
-3. vérifie le panneau jury, ses contrôles et son contenu dynamique;
+3. vérifie le panneau jury, injecte réellement `hello mon frere qui est tu` et contrôle sa traduction;
 4. vérifie le tableau de bord et les valeurs canoniques;
 5. injecte après chargement « Votre transfert de 9 500 FCFA est en attente. »;
 6. parcourt les cinq étapes jusqu’au reçu;
@@ -48,4 +51,4 @@ LIVE PASS: English source switched and translated to the same fub interface.
 
 ## Taille
 
-`npm run package` produit aussi `release/kora-unpacked`, directement chargeable dans Chrome, et échoue au-delà de 10 Mio. Le ZIP KORA 1.4.1 mesure 94,3 Kio.
+`npm run package` produit aussi `release/kora-unpacked`, directement chargeable dans Chrome, et échoue au-delà de 10 Mio. La taille exacte du ZIP courant est affichée par la commande de packaging.

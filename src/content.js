@@ -2,8 +2,8 @@ import { translateText } from "./engine.js";
 
 const shouldInitialize = !globalThis.__KORA_CONTENT_INITIALIZED__;
 if (shouldInitialize) globalThis.__KORA_CONTENT_INITIALIZED__ = true;
-const PROTOCOL_VERSION = 6;
-const SKIP_TAGS = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "CODE", "PRE", "SVG", "CANVAS", "IFRAME"]);
+const PROTOCOL_VERSION = 7;
+const SKIP_TAGS = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "CODE", "PRE", "SVG", "CANVAS", "IFRAME", "TEXTAREA"]);
 const records = new Map();
 const attributeRecords = new Map();
 const langRecords = new Map();
@@ -16,9 +16,28 @@ let scanTimer;
 let safetyTimer;
 let stats = freshStats();
 let originalTooltip;
+let observedRoots = new WeakSet();
 
 function freshStats() {
   return { scanned: 0, translated: 0, protected: 0, fallback: 0, memory: 0, template: 0, glossary: 0 };
+}
+
+function translationRoots() {
+  const roots = [document];
+  const seen = new Set(roots);
+  for (let index = 0; index < roots.length; index += 1) {
+    for (const element of roots[index].querySelectorAll("*")) {
+      if (element.shadowRoot && !seen.has(element.shadowRoot)) {
+        seen.add(element.shadowRoot);
+        roots.push(element.shadowRoot);
+      }
+    }
+  }
+  return roots;
+}
+
+function elementsIn(roots, selector) {
+  return roots.flatMap((root) => [...root.querySelectorAll(selector)]);
 }
 
 function parentIsEligible(node) {
@@ -29,13 +48,35 @@ function parentIsEligible(node) {
   return true;
 }
 
-function protectedValues() {
-  for (const field of document.querySelectorAll("input, textarea, select")) {
+function isTranslationSourceField(field) {
+  const labels = field.labels ? [...field.labels].map((label) => label.textContent).join(" ") : "";
+  const descriptor = [
+    field.id,
+    field.name,
+    field.getAttribute("placeholder"),
+    field.getAttribute("aria-label"),
+    labels
+  ].join(" ");
+  return /\b(?:inject|injected|injection|inédit|unseen)\b|message for customers|message important/iu.test(
+    descriptor
+  );
+}
+
+function protectedValues(roots) {
+  const protectedCurrent = new Set();
+  const translatableSources = new Set();
+  for (const field of elementsIn(roots, "input, textarea, select")) {
     if (["checkbox", "radio", "button", "submit"].includes(field.type)) continue;
     if (typeof field.value === "string" && field.value.trim().length > 2) {
-      ephemeralProtectedValues.add(field.value.trim());
+      const value = field.value.trim();
+      if (isTranslationSourceField(field)) translatableSources.add(value);
+      else protectedCurrent.add(value);
     }
   }
+  for (const value of translatableSources) {
+    if (!protectedCurrent.has(value)) ephemeralProtectedValues.delete(value);
+  }
+  for (const value of protectedCurrent) ephemeralProtectedValues.add(value);
   return [...ephemeralProtectedValues];
 }
 
@@ -116,22 +157,28 @@ function scan() {
   for (const [element] of attributeRecords) {
     if (!element.isConnected) attributeRecords.delete(element);
   }
-  const protectedList = protectedValues();
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-  const textNodes = [];
-  let node;
-  while ((node = walker.nextNode())) textNodes.push(node);
+  const roots = translationRoots();
+  observeRoots(roots);
+  const protectedList = protectedValues(roots);
+  const textNodes = roots.flatMap((root) => {
+    const target = root === document ? document.body : root;
+    const walker = document.createTreeWalker(target, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    let node;
+    while ((node = walker.nextNode())) nodes.push(node);
+    return nodes;
+  });
   for (const textNode of textNodes) translateNode(textNode, protectedList);
   // Frameworks such as Vue may replace action-label text nodes while the first
   // pass is running. Revisit interactive labels after the DOM has settled.
-  const interactive = [...document.querySelectorAll("button, a, label, option, [role='button']")].reverse();
+  const interactive = elementsIn(roots, "button, a, label, option, [role='button']").reverse();
   for (const element of interactive) {
     for (const child of element.childNodes) {
       if (child.nodeType === Node.TEXT_NODE) translateNode(child, protectedList);
     }
   }
 
-  for (const element of document.querySelectorAll("[aria-label], [placeholder], [title]")) {
+  for (const element of elementsIn(roots, "[aria-label], [placeholder], [title]")) {
     if (element.closest("[data-kora-ui]")) continue;
     for (const attribute of ["aria-label", "placeholder", "title"]) {
       if (element.hasAttribute(attribute) && element.dataset.koraAddedTitle !== "true") {
@@ -184,14 +231,23 @@ function restore() {
 function startObserver() {
   observer?.disconnect();
   observer = new MutationObserver(scheduleScan);
-  if (document.body) {
-    observer.observe(document.body, {
+  observedRoots = new WeakSet();
+  observeRoots(translationRoots());
+}
+
+function observeRoots(roots) {
+  if (!observer) return;
+  for (const root of roots) {
+    const target = root === document ? document.body : root;
+    if (!target || observedRoots.has(target)) continue;
+    observer.observe(target, {
       subtree: true,
       childList: true,
       characterData: true,
       attributes: true,
       attributeFilter: ["aria-label", "placeholder", "title", "disabled", "selected"]
     });
+    observedRoots.add(target);
   }
 }
 
