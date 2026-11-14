@@ -47,15 +47,18 @@ linguistique du projet; il n’est pas compté parmi les trois membres déclaré
 - [x] Le ZIP contient `manifest.json` à sa racine.
 - [x] Le dépôt GitHub est public et son README affiche les livrables.
 - [x] Les fichiers remis ne contiennent aucune donnée bancaire réelle.
-- [ ] Le formulaire affiche bien trois membres.
-- [ ] Le compte Google utilisé est `miguel.azab@facsciences-uy1.cm`.
-- [ ] Une copie ou capture de la confirmation finale du formulaire est gardée.
+
+## Actions manuelles au moment de l’envoi
+
+- Vérifier que le formulaire affiche bien trois membres.
+- Utiliser le compte Google `miguel.azab@facsciences-uy1.cm`.
+- Garder une copie ou une capture de la confirmation finale.
 
 Empreintes SHA-256 des fichiers remis :
 
 ```text
-4141c02f50069f57c88caf7b7eaeddc3b3925f003cafc8507f120089e367e488  kora-extension.zip
-25f89a73b39bb8817ecff1ef823d1c8bf45946543009ada8e6bf617c410519df  KORA-Documentation-SAFINUM.pdf
+13471be1e4e2480bec1ab95e9cb501b879eb8f05488b425e65dbcef312d9f5a3  kora-extension.zip
+12291aec9bf7e0093b6612345e42078ba1a3e513bebea5d53dd3811fdf3a5d90  KORA-Documentation-SAFINUM.pdf
 1f1261a45aec4d6d7400a872d1ba4d5dfe552a4aed6697d431cc8633ef137f11  KORA_Demo_Pitch_SAFINUM_2026.mp4
 ```
 
