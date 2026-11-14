@@ -4,13 +4,7 @@
   <meta charset="utf-8">
   <title>KORA — Enregistreur de démonstration réelle</title>
   <style>
-    html, body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      overflow: hidden;
-      background: #08100c;
-    }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #050806; }
     body { display: grid; place-items: center; }
     canvas { width: 1280px; height: 720px; }
   </style>
@@ -23,21 +17,40 @@
     const width = canvas.width;
     const height = canvas.height;
     const logo = new Image();
+    const safinumLogo = new Image();
     logo.src = "../../src/icons/icon-128.png";
+    safinumLogo.src = "assets/logo-safinum.png";
+
+    const noise = document.createElement("canvas");
+    noise.width = 320;
+    noise.height = 180;
+    const noiseContext = noise.getContext("2d");
+    const noiseData = noiseContext.createImageData(noise.width, noise.height);
+    for (let index = 0; index < noiseData.data.length; index += 4) {
+      const value = Math.random() * 255;
+      noiseData.data[index] = value;
+      noiseData.data[index + 1] = value;
+      noiseData.data[index + 2] = value;
+      noiseData.data[index + 3] = Math.random() * 18;
+    }
+    noiseContext.putImageData(noiseData, 0, 0);
 
     const state = {
-      mode: "brand",
+      mode: "intro",
       title: "KORA",
-      chapter: "La finance numérique en fulfulde",
+      chapter: "La finance numérique en foufouldé",
       caption: "Comprendre, vérifier et confirmer dans sa langue",
       frame: null,
+      sourceWidth: 1440,
+      sourceHeight: 900,
+      popupFrame: null,
+      popupVisible: false,
+      installPathVisible: false,
       cursor: { x: width / 2, y: height / 2, visible: false },
       click: { startedAt: 0 },
-      focus: null,
-      focusCurrent: null,
       transitionStartedAt: performance.now(),
       sceneIndex: 0,
-      sceneCount: 7,
+      sceneCount: 8,
       audio: null,
       audioEnded: true,
       audioContext: null,
@@ -45,6 +58,8 @@
       musicGain: null,
       musicOscillators: [],
       musicTimer: null,
+      pulseTimer: null,
+      master: null,
       recorder: null,
       chunks: []
     };
@@ -79,136 +94,203 @@
       return y + (row + 1) * lineHeight;
     }
 
-    function drawBrand() {
-      ctx.fillStyle = "#08100c";
+    function drawBackdrop() {
+      ctx.fillStyle = "#050806";
       ctx.fillRect(0, 0, width, height);
-      const glow = ctx.createRadialGradient(1040, 90, 20, 1040, 90, 600);
-      glow.addColorStop(0, "rgba(35, 190, 151, .30)");
-      glow.addColorStop(1, "rgba(8, 16, 12, 0)");
+      const glow = ctx.createRadialGradient(1100, 80, 20, 1100, 80, 720);
+      glow.addColorStop(0, "rgba(16, 163, 127, .24)");
+      glow.addColorStop(0.48, "rgba(15, 63, 50, .08)");
+      glow.addColorStop(1, "rgba(5, 8, 6, 0)");
       ctx.fillStyle = glow;
       ctx.fillRect(0, 0, width, height);
-
-      ctx.globalAlpha = 0.98;
-      ctx.drawImage(logo, 86, 88, 92, 92);
+      ctx.globalAlpha = 0.12;
+      ctx.drawImage(noise, 0, 0, width, height);
       ctx.globalAlpha = 1;
-      ctx.fillStyle = "#edbd45";
-      ctx.font = "800 16px DejaVu Sans, Arial";
-      ctx.fillText("SAFINUM INNOVATE CHALLENGE 2026", 86, 248);
-      ctx.fillStyle = "#ffffff";
-      ctx.font = "800 60px DejaVu Sans, Arial";
-      const bottom = wrap(state.title, 86, 326, 860, 68, 3);
-      ctx.fillStyle = "#9fb9af";
-      ctx.font = "400 25px DejaVu Sans, Arial";
-      wrap(state.caption, 88, bottom + 24, 820, 38, 3);
-
-      roundRect(86, 572, 425, 48, 24);
-      ctx.fillStyle = "#10271f";
-      ctx.fill();
-      ctx.fillStyle = "#55d8b5";
-      ctx.font = "700 16px DejaVu Sans, Arial";
-      ctx.fillText("KORA TEAM · Yaoundé, Cameroun", 111, 603);
     }
 
-    function smoothFocus() {
-      if (!state.focus) {
-        state.focusCurrent = null;
-        return null;
+    function drawBrand() {
+      drawBackdrop();
+      const elapsed = performance.now() - state.transitionStartedAt;
+      const reveal = Math.min(1, elapsed / 520);
+      const eased = 1 - Math.pow(1 - reveal, 3);
+      ctx.save();
+      ctx.globalAlpha = eased;
+      ctx.translate((1 - eased) * 36, 0);
+
+      if (state.mode === "outro") {
+        ctx.drawImage(logo, 74, 72, 92, 92);
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "800 52px DejaVu Sans, Arial";
+        ctx.fillText("KORA", 194, 132);
+        ctx.fillStyle = "#7fdcc4";
+        ctx.font = "700 18px DejaVu Sans, Arial";
+        ctx.fillText("COMPRENDRE · VÉRIFIER · CONFIRMER", 76, 218);
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "700 30px DejaVu Sans, Arial";
+        ctx.fillText("Une finance numérique accessible", 76, 278);
+        ctx.fillText("en foufouldé.", 76, 318);
+
+        ctx.fillStyle = "#a7b8b1";
+        ctx.font = "400 17px DejaVu Sans, Arial";
+        ctx.fillText("Validation linguistique", 76, 402);
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "700 21px DejaVu Sans, Arial";
+        ctx.fillText("Jean-Ernest SOUROUMBAI", 76, 434);
+        ctx.fillStyle = "#a7b8b1";
+        ctx.font = "400 16px DejaVu Sans, Arial";
+        ctx.fillText("AZAB A RANGA FRANCK MIGUEL · BELL AQIL", 76, 515);
+        ctx.fillText("SIMO SIGEU NKOUAMKAM MENELIK", 76, 545);
+        ctx.fillStyle = "#e9b949";
+        ctx.font = "700 16px DejaVu Sans, Arial";
+        ctx.fillText("github.com/kaezerwatto/KORA", 76, 625);
+
+        ctx.drawImage(safinumLogo, 914, 116, 250, 250);
+        ctx.fillStyle = "#d9e3df";
+        ctx.textAlign = "center";
+        ctx.font = "700 17px DejaVu Sans, Arial";
+        ctx.fillText("SAFINUM INNOVATE CHALLENGE 2026", 1039, 415);
+        ctx.fillStyle = "#91a39c";
+        ctx.font = "400 15px DejaVu Sans, Arial";
+        ctx.fillText("Local · privé · valeurs préservées", 1039, 448);
+        ctx.textAlign = "left";
+      } else {
+        ctx.drawImage(logo, 76, 70, 102, 102);
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "800 28px DejaVu Sans, Arial";
+        ctx.fillText("KORA", 204, 132);
+        ctx.drawImage(safinumLogo, 1052, 52, 126, 126);
+        ctx.fillStyle = "#e9b949";
+        ctx.font = "700 15px DejaVu Sans, Arial";
+        ctx.fillText("PITCH-DÉMO RÉEL · SAFINUM 2026", 76, 242);
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "800 57px DejaVu Sans, Arial";
+        const bottom = wrap(state.title, 76, 318, 930, 65, 2);
+        ctx.fillStyle = "#a7b8b1";
+        ctx.font = "400 24px DejaVu Sans, Arial";
+        wrap(state.caption, 78, bottom + 26, 850, 36, 2);
+
+        ctx.strokeStyle = "rgba(126, 220, 196, .28)";
+        ctx.beginPath();
+        ctx.moveTo(76, 565);
+        ctx.lineTo(1180, 565);
+        ctx.stroke();
+        ctx.font = "700 15px DejaVu Sans, Arial";
+        ctx.fillStyle = "#7fdcc4";
+        ctx.fillText("100 % LOCAL", 76, 615);
+        ctx.fillText("FR / EN → FOUFOULDÉ", 376, 615);
+        ctx.fillText("MONTANTS ET IDENTITÉS INTACTS", 760, 615);
       }
-      if (!state.focusCurrent) state.focusCurrent = { ...state.focus };
-      for (const key of ["x", "y", "width", "height"]) {
-        state.focusCurrent[key] += (state.focus[key] - state.focusCurrent[key]) * 0.09;
+      ctx.restore();
+    }
+
+    function containRect(sourceWidth, sourceHeight, target = { x: 0, y: 0, width, height }) {
+      const scale = Math.min(target.width / sourceWidth, target.height / sourceHeight);
+      const drawWidth = sourceWidth * scale;
+      const drawHeight = sourceHeight * scale;
+      return {
+        x: target.x + (target.width - drawWidth) / 2,
+        y: target.y + (target.height - drawHeight) / 2,
+        width: drawWidth,
+        height: drawHeight,
+        scale
+      };
+    }
+
+    function drawCursor() {
+      if (!state.cursor.visible || state.popupVisible) return;
+      const { x, y } = state.cursor;
+      const elapsed = performance.now() - state.click.startedAt;
+      if (elapsed < 300) {
+        const progress = elapsed / 300;
+        ctx.beginPath();
+        ctx.arc(x, y, 9 + progress * 20, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(233, 185, 73, ${1 - progress})`;
+        ctx.lineWidth = 3 - progress;
+        ctx.stroke();
       }
-      return state.focusCurrent;
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, 24);
+      ctx.lineTo(7, 18);
+      ctx.lineTo(13, 29);
+      ctx.lineTo(19, 26);
+      ctx.lineTo(13, 15);
+      ctx.lineTo(23, 14);
+      ctx.closePath();
+      ctx.fillStyle = "#ffffff";
+      ctx.shadowColor = "rgba(0,0,0,.78)";
+      ctx.shadowBlur = 6;
+      ctx.fill();
+      ctx.strokeStyle = "#08100c";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.restore();
     }
 
     function drawScreen() {
-      ctx.fillStyle = "#09110d";
+      ctx.fillStyle = "#050806";
       ctx.fillRect(0, 0, width, height);
       if (state.frame) {
-        const focus = smoothFocus();
-        if (focus) {
-          ctx.drawImage(
-            state.frame,
-            focus.x,
-            focus.y,
-            focus.width,
-            focus.height,
-            0,
-            0,
-            width,
-            height
-          );
-        } else {
-          ctx.drawImage(state.frame, 0, 0, width, height);
-        }
+        const rect = containRect(state.sourceWidth, state.sourceHeight);
+        ctx.drawImage(state.frame, rect.x, rect.y, rect.width, rect.height);
       }
 
-      const top = ctx.createLinearGradient(0, 0, 0, 92);
-      top.addColorStop(0, "rgba(5, 12, 9, .88)");
-      top.addColorStop(1, "rgba(5, 12, 9, 0)");
-      ctx.fillStyle = top;
-      ctx.fillRect(0, 0, width, 92);
-      ctx.drawImage(logo, 28, 20, 42, 42);
-      ctx.fillStyle = "#ffffff";
-      ctx.font = "800 20px DejaVu Sans, Arial";
-      ctx.fillText("KORA", 83, 48);
-      ctx.fillStyle = "#c3d6cf";
-      ctx.textAlign = "right";
-      ctx.font = "700 15px DejaVu Sans, Arial";
-      ctx.fillText(state.chapter, width - 30, 47);
-      ctx.textAlign = "left";
-
-      if (state.caption) {
-        roundRect(44, height - 104, width - 88, 62, 14);
-        ctx.fillStyle = "rgba(7, 15, 11, .88)";
+      if (state.installPathVisible) {
+        roundRect(330, 22, 620, 64, 12);
+        ctx.fillStyle = "rgba(10, 16, 13, .94)";
         ctx.fill();
-        ctx.strokeStyle = "rgba(79, 214, 177, .45)";
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = "rgba(126, 220, 196, .45)";
         ctx.stroke();
+        ctx.fillStyle = "#7fdcc4";
+        ctx.font = "700 12px DejaVu Sans, Arial";
+        ctx.fillText("CHARGER L’EXTENSION NON EMPAQUETÉE", 354, 48);
         ctx.fillStyle = "#ffffff";
-        ctx.font = "600 19px DejaVu Sans, Arial";
-        ctx.textAlign = "center";
-        ctx.fillText(state.caption, width / 2, height - 66);
-        ctx.textAlign = "left";
+        ctx.font = "600 16px DejaVu Sans Mono, monospace";
+        ctx.fillText("release/kora-unpacked", 354, 72);
       }
 
-      if (state.cursor.visible) {
-        const { x, y } = state.cursor;
-        const elapsed = performance.now() - state.click.startedAt;
-        if (elapsed < 560) {
-          const progress = elapsed / 560;
-          ctx.beginPath();
-          ctx.arc(x, y, 11 + progress * 26, 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(237, 189, 69, ${1 - progress})`;
-          ctx.lineWidth = 4 - progress * 2;
-          ctx.stroke();
-        }
+      if (state.popupVisible && state.popupFrame) {
+        const popupWidth = 360;
+        const popupHeight = Math.min(520, state.popupFrame.naturalHeight);
+        const x = width - popupWidth - 46;
+        const y = 64;
         ctx.save();
-        ctx.translate(x, y);
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(0, 26);
-        ctx.lineTo(7, 19);
-        ctx.lineTo(13, 31);
-        ctx.lineTo(19, 28);
-        ctx.lineTo(13, 16);
-        ctx.lineTo(24, 15);
-        ctx.closePath();
-        ctx.fillStyle = "#ffffff";
-        ctx.shadowColor = "rgba(0,0,0,.7)";
-        ctx.shadowBlur = 7;
+        ctx.shadowColor = "rgba(0, 0, 0, .72)";
+        ctx.shadowBlur = 34;
+        ctx.shadowOffsetY = 12;
+        roundRect(x - 1, y - 1, popupWidth + 2, popupHeight + 2, 22);
+        ctx.fillStyle = "#0d0d0d";
         ctx.fill();
-        ctx.strokeStyle = "#08100c";
-        ctx.lineWidth = 2;
-        ctx.stroke();
+        ctx.restore();
+        ctx.save();
+        roundRect(x, y, popupWidth, popupHeight, 21);
+        ctx.clip();
+        ctx.drawImage(
+          state.popupFrame,
+          0,
+          0,
+          state.popupFrame.naturalWidth,
+          popupHeight,
+          x,
+          y,
+          popupWidth,
+          popupHeight
+        );
         ctx.restore();
       }
+      drawCursor();
     }
 
     function drawProgress() {
       const local =
         state.audio && Number.isFinite(state.audio.duration) && state.audio.duration > 0
-          ? Math.min(1, state.audio.currentTime / state.audio.duration)
+          ? Math.min(
+              1,
+              (state.audioContext.currentTime - state.audio.startedAt) /
+                state.audio.duration
+            )
           : 0;
       const overall = (state.sceneIndex + local) / state.sceneCount;
       ctx.fillStyle = "rgba(12, 29, 22, .92)";
@@ -223,8 +305,20 @@
       drawProgress();
 
       const transition = performance.now() - state.transitionStartedAt;
-      if (transition < 420) {
-        ctx.fillStyle = `rgba(8, 16, 12, ${1 - transition / 420})`;
+      if (transition < 360) {
+        const progress = transition / 360;
+        const alpha = Math.sin(progress * Math.PI) * 0.18;
+        const leak = ctx.createLinearGradient(
+          width * (progress - 0.28),
+          0,
+          width * (progress + 0.18),
+          height
+        );
+        leak.addColorStop(0, "rgba(7, 18, 13, 0)");
+        leak.addColorStop(0.45, `rgba(36, 207, 163, ${alpha})`);
+        leak.addColorStop(0.7, `rgba(233, 185, 73, ${alpha * 0.55})`);
+        leak.addColorStop(1, "rgba(7, 18, 13, 0)");
+        ctx.fillStyle = leak;
         ctx.fillRect(0, 0, width, height);
       }
       requestAnimationFrame(draw);
@@ -235,6 +329,22 @@
       const image = new Image();
       image.onload = () => {
         state.frame = image;
+        state.sourceWidth = image.naturalWidth;
+        state.sourceHeight = image.naturalHeight;
+      };
+      image.src = dataUrl;
+    }
+
+    function setPopup(dataUrl) {
+      if (!dataUrl) {
+        state.popupFrame = null;
+        state.popupVisible = false;
+        return;
+      }
+      const image = new Image();
+      image.onload = () => {
+        state.popupFrame = image;
+        state.popupVisible = true;
       };
       image.src = dataUrl;
     }
@@ -250,37 +360,54 @@
         state.transitionStartedAt = performance.now();
         if (mode !== "screen") {
           state.cursor.visible = false;
-          state.focus = null;
+          state.popupVisible = false;
+          state.installPathVisible = false;
         }
       },
       setFrame,
+      setPopup,
+      showPopup(visible) {
+        state.popupVisible = Boolean(visible) && Boolean(state.popupFrame);
+      },
+      showInstallPath(visible) {
+        state.installPathVisible = Boolean(visible);
+      },
       setCursor(cursor) {
         state.cursor = { ...state.cursor, ...cursor };
       },
       click() {
         state.click.startedAt = performance.now();
       },
-      setFocus(focus) {
-        state.focus = focus;
-        if (!focus) state.focusCurrent = null;
+      async resumeAudio() {
+        if (state.audioContext?.state === "suspended") {
+          await state.audioContext.resume();
+        }
       },
       async startRecording() {
         state.audioContext = new AudioContext();
         state.audioDestination = state.audioContext.createMediaStreamDestination();
         await state.audioContext.resume();
 
+        state.master = state.audioContext.createDynamicsCompressor();
+        state.master.threshold.value = -10;
+        state.master.knee.value = 14;
+        state.master.ratio.value = 3;
+        state.master.attack.value = 0.004;
+        state.master.release.value = 0.22;
+        state.master.connect(state.audioDestination);
+
         const filter = state.audioContext.createBiquadFilter();
         filter.type = "lowpass";
-        filter.frequency.value = 820;
+        filter.frequency.value = 1100;
         filter.Q.value = 0.7;
         state.musicGain = state.audioContext.createGain();
         state.musicGain.gain.setValueAtTime(0, state.audioContext.currentTime);
         state.musicGain.gain.linearRampToValueAtTime(
-          0.022,
-          state.audioContext.currentTime + 2.4
+          0.058,
+          state.audioContext.currentTime + 1.8
         );
         filter.connect(state.musicGain);
-        state.musicGain.connect(state.audioDestination);
+        state.musicGain.connect(state.master);
 
         const chords = [
           [110, 164.81, 220],
@@ -311,9 +438,27 @@
               1.4
             );
           });
-        }, 8_000);
+        }, 7_200);
 
-        const canvasStream = canvas.captureStream(15);
+        let pulseStep = 0;
+        state.pulseTimer = setInterval(() => {
+          const now = state.audioContext.currentTime;
+          const notes = [440, 392, 523.25, 349.23];
+          const oscillator = state.audioContext.createOscillator();
+          const pulseGain = state.audioContext.createGain();
+          oscillator.type = "sine";
+          oscillator.frequency.value = notes[pulseStep % notes.length];
+          pulseGain.gain.setValueAtTime(0, now);
+          pulseGain.gain.linearRampToValueAtTime(0.012, now + 0.02);
+          pulseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.62);
+          oscillator.connect(pulseGain);
+          pulseGain.connect(state.master);
+          oscillator.start(now);
+          oscillator.stop(now + 0.65);
+          pulseStep += 1;
+        }, 3_600);
+
+        const canvasStream = canvas.captureStream(24);
         const stream = new MediaStream([
           canvasStream.getVideoTracks()[0],
           state.audioDestination.stream.getAudioTracks()[0]
@@ -324,7 +469,7 @@
         state.chunks = [];
         state.recorder = new MediaRecorder(stream, {
           mimeType,
-          videoBitsPerSecond: 430000,
+          videoBitsPerSecond: 470000,
           audioBitsPerSecond: 64000
         });
         state.recorder.addEventListener("dataavailable", (event) => {
@@ -334,33 +479,42 @@
         return mimeType;
       },
       async startAudio(url, playbackRate = 1) {
-        const audio = new Audio(url);
-        audio.preload = "auto";
-        await new Promise((resolve, reject) => {
-          audio.addEventListener("loadedmetadata", resolve, { once: true });
-          audio.addEventListener("error", reject, { once: true });
-          audio.load();
-        });
-        const source = state.audioContext.createMediaElementSource(audio);
-        source.connect(state.audioDestination);
-        audio.playbackRate = playbackRate;
-        state.audio = audio;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`Narration inaccessible : ${response.status}`);
+        const buffer = await state.audioContext.decodeAudioData(await response.arrayBuffer());
+        const source = state.audioContext.createBufferSource();
+        source.buffer = buffer;
+        source.playbackRate.value = playbackRate;
+        source.connect(state.master);
+        const duration = buffer.duration / playbackRate;
+        state.audio = {
+          source,
+          duration,
+          startedAt: state.audioContext.currentTime
+        };
         state.audioEnded = false;
-        audio.addEventListener("ended", () => {
+        source.addEventListener("ended", () => {
           state.audioEnded = true;
         }, { once: true });
-        await audio.play();
-        return audio.duration;
+        source.start();
+        return duration;
       },
       audioStatus() {
+        const currentTime = state.audio
+          ? Math.min(
+              state.audio.duration,
+              state.audioContext.currentTime - state.audio.startedAt
+            )
+          : 0;
         return {
           ended: state.audioEnded,
-          currentTime: state.audio?.currentTime ?? 0,
+          currentTime,
           duration: state.audio?.duration ?? 0
         };
       },
       async stopRecording() {
         clearInterval(state.musicTimer);
+        clearInterval(state.pulseTimer);
         const fadeStarted = state.audioContext.currentTime;
         state.musicGain.gain.cancelScheduledValues(fadeStarted);
         state.musicGain.gain.setValueAtTime(state.musicGain.gain.value, fadeStarted);

@@ -61,7 +61,7 @@ Deux modèles téléchargeables ont été exécutés sur cinq phrases financièr
 
 ## Limite déclarée
 
-**M. Jean Ernset Souroumbai** assure la responsabilité de la validation
+**M. Jean-Ernest SOUROUMBAI** assure la responsabilité de la validation
 linguistique du projet. La mémoire étendue n’a toutefois pas encore fait
 l’objet d’une double validation à l’aveugle par plusieurs locuteurs de
 Ngaoundéré, Garoua et Maroua. Les formes marquées

@@ -439,6 +439,7 @@ function registerMessageListener() {
       sourceHint,
       displayLanguage,
       stats,
+      pageUrl: location.href,
       language: "fub",
       offline: true
     });

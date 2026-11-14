@@ -4,10 +4,22 @@ const statusDetail = document.querySelector("#status-detail");
 const statusIcon = document.querySelector("#status-icon");
 const languageInputs = [...document.querySelectorAll('input[name="display-language"]')];
 const PROTOCOL_VERSION = 12;
+const standalonePreview = new URLSearchParams(location.search).has("standalone");
 
 async function activeTab() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  return tab;
+  if (supportsPage(tab)) return tab;
+  if (!standalonePreview) return tab;
+
+  // Support a standalone preview of the real popup without changing normal use.
+  const tabs = await chrome.tabs.query({ currentWindow: true });
+  return tabs
+    .filter((candidate) => candidate.id !== tab?.id)
+    .sort((left, right) => {
+      const leftWeb = /^https?:/i.test(left.url ?? "") ? 1 : 0;
+      const rightWeb = /^https?:/i.test(right.url ?? "") ? 1 : 0;
+      return rightWeb - leftWeb || (right.lastAccessed ?? 0) - (left.lastAccessed ?? 0);
+    })[0] ?? tab;
 }
 
 function supportsPage(tab) {
@@ -34,7 +46,12 @@ function returnFocusToPage() {
 
 async function sendToPage(message) {
   const tab = await activeTab();
-  if (!tab?.id || !supportsPage(tab)) return { response: null, tab };
+  if (
+    !tab?.id ||
+    (!supportsPage(tab) && !(standalonePreview && !tab.url))
+  ) {
+    return { response: null, tab };
+  }
 
   try {
     const response = await chrome.tabs.sendMessage(tab.id, message);
@@ -73,7 +90,7 @@ function renderAvailable(status, tab) {
   }
   if (status.enabled) {
     statusTitle.textContent = "Traduction activée";
-    statusDetail.textContent = `${pageLabel(tab)} · Fulfulde automatique`;
+    statusDetail.textContent = `${pageLabel({ url: status.pageUrl ?? tab?.url })} · Fulfulde automatique`;
   } else if (status.displayLanguage === "fr") {
     statusTitle.textContent = "Page en français";
     statusDetail.textContent = `${pageLabel(tab)} · texte original ou langue du site`;

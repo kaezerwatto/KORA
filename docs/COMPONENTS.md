@@ -33,6 +33,22 @@ Les rôles, API et méthodes d’intégration sont détaillés dans
 
 Ces dépendances ne sont pas placées dans l’archive Chrome.
 
+## Production du pitch-démo
+
+- voix française : Lucie (`YxrwjAKoUKULGd0g8K9Y`), ElevenLabs
+  `eleven_multilingual_v2`;
+- logo SAFINUM : fichier public officiel
+  `https://safinum.cm/logo-safinum.png`, conservé dans
+  `submission/video/assets/logo-safinum.png`;
+- transitions : adaptation Canvas originale des principes du pack Slick
+  Slideshow fourni pour la production (panoramique court, échelle, fuite
+  lumineuse et grain); les modèles Apple Motion et leurs médias stock ne sont
+  ni exécutés ni redistribués;
+- musique : synthèse originale locale avec Web Audio API, sans piste stock;
+- capture : vrai Chrome, vraie extension et vrai parcours Safinum; les états
+  sont contrôlés avant d’être montés sur la narration pour supprimer les
+  délais réseau sans fabriquer d’écran.
+
 ## Modèles évalués, non distribués
 
 | Modèle | Licence annoncée | Décision |

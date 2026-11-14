@@ -6,7 +6,7 @@ KORA cible le fulfulde de l’Adamaoua, ISO 639-3 `fub`, écrit en caractères l
 
 ## Responsable de la validation linguistique
 
-**M. Jean Ernset Souroumbai** assure la responsabilité de la validation linguistique du projet. Une formulation n’est marquée comme validée dans les données qu’après une revue explicite et traçable, phrase par phrase.
+**M. Jean-Ernest SOUROUMBAI** assure la responsabilité de la validation linguistique du projet. Une formulation n’est marquée comme validée dans les données qu’après une revue explicite et traçable, phrase par phrase.
 
 ## Sources prioritaires
 

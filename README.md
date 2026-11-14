@@ -42,7 +42,7 @@ Une traduction financière ne doit jamais transformer `25 000 FCFA`, inverser «
 
 ### Livrables SAFINUM
 
-- [Vidéo pitch-démo réelle — 2 min 16 s, 5,1 Mio](release/KORA_Demo_Pitch_SAFINUM_2026.webm)
+- [Vidéo pitch-démo réelle — 2 min 20 s, 6,93 Mio](release/KORA_Demo_Pitch_SAFINUM_2026.webm)
 - [Documentation technique complète — 10 pages A4, 740 Kio](release/KORA-Documentation-SAFINUM.pdf)
 - [Extension Chrome prête à remettre — 254,3 Kio](release/kora-extension.zip)
 - [Guide de démonstration](docs/DEMO.md)
@@ -514,7 +514,7 @@ présentés comme un corpus parallèle `fub`.
 
 ## Validation linguistique
 
-- **M. JEAN ERNSET SOUROUMBAI** — responsable de la validation linguistique du projet.
+- **M. JEAN-ERNEST SOUROUMBAI** — responsable de la validation linguistique du projet.
 
 ## Limites
 

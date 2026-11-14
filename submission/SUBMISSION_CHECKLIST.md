@@ -15,7 +15,7 @@ Ce document regroupe les valeurs à copier dans le formulaire et les contrôles
 - **E-mail :** miguel.azab@facsciences-uy1.cm
 - **Téléphone / WhatsApp :** +237686826745
 
-M. Jean Ernset Souroumbai assure la responsabilité de la validation
+M. Jean-Ernest SOUROUMBAI assure la responsabilité de la validation
 linguistique du projet; il n’est pas compté parmi les trois membres déclarés.
 
 ## Texte court de présentation
@@ -41,7 +41,7 @@ linguistique du projet; il n’est pas compté parmi les trois membres déclaré
 ## Contrôles avant envoi
 
 - [x] Le lien vidéo s’ouvre sans authentification.
-- [x] La vidéo finale dure 2 min 16 s : WebM VP9/Opus, 1280×720, 5,1 Mio.
+- [x] La vidéo finale dure 2 min 20 s : WebM VP9/Opus, 1280×720, 6,93 Mio.
 - [x] Le PDF s’ouvre et pèse moins de 10 Mo : 10 pages A4, 740 Kio.
 - [x] Le ZIP pèse moins de 10 Mo : 254,3 Kio.
 - [x] Le ZIP contient `manifest.json` à sa racine.
@@ -54,9 +54,9 @@ linguistique du projet; il n’est pas compté parmi les trois membres déclaré
 Empreintes SHA-256 des fichiers remis :
 
 ```text
-21b0110baacb56e1dc975fb37d959fe5d31de9e870c58f4987064114653185ba  kora-extension.zip
-3a5ba7504e2383a6c987d891e4976081403bdb8fabdd063a3a2b50dc2e348a0c  KORA-Documentation-SAFINUM.pdf
-3d7a7fd316f1674eebb697286c707ce1ae7e73cac12dfc6e8903741791dc474e  KORA_Demo_Pitch_SAFINUM_2026.webm
+cbb0f493443e778a121a4fb499d4d28e0868e8fa42ba6da61ca54bf23846cda6  kora-extension.zip
+264f54a1e0ac7b0f9c13522fe30790373ff7e2a2abc002e48cfbc66a7277dc22  KORA-Documentation-SAFINUM.pdf
+185cd19d0094324b24363e17c0cad9b09065ff7ca32338e3d9f1d341c9c9aaa3  KORA_Demo_Pitch_SAFINUM_2026.webm
 ```
 
 ## Correspondance avec les exigences officielles
