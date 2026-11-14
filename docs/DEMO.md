@@ -1,66 +1,44 @@
-# Démonstration KORA — moins de 3 minutes
+# Démonstration KORA — parcours réel Safinum
 
-Le livrable final se trouve dans
-[`../release/kora-pitch-demo.webm`](../release/kora-pitch-demo.webm). Il est
-construit à partir de captures réelles du site Safinum avec KORA chargée, puis
-narré en français. Le script de rendu est reproductible :
+Le livrable final est
+[`../release/KORA_Demo_Pitch_SAFINUM_2026.webm`](../release/KORA_Demo_Pitch_SAFINUM_2026.webm).
+Il enregistre un vrai profil Chrome, l’installation de l’extension et les cinq
+étapes du parcours normal Safinum. Aucun panneau jury, texte injecté ou écran
+simulé n’est utilisé. Chrome applique un rendu sombre réel; le montage ajoute
+une musique d’ambiance originale, des fondus, un curseur et des effets de clic
+sobres sous la narration ElevenLabs Lucie.
+
+## Reproduire la vidéo
+
+Placer une clé ElevenLabs valide dans la variable locale
+`ELEVENLABS_API_KEY`, puis exécuter :
 
 ```bash
-npm run submission:capture
 npm run submission:video
 ```
 
-La génération de la voix demande `gTTS` dans `.venv`. Ce composant sert
-uniquement à produire le fichier de présentation : il n’est ni embarqué ni
-appelé par l’extension.
+La commande :
 
-## 0:00–0:25 — problème
+1. reconstruit et empaquette l’extension;
+2. génère la narration française avec la voix Lucie;
+3. démarre un profil Chrome propre;
+4. charge réellement `release/kora-unpacked`;
+5. enregistre le parcours `https://safinum.cm/hackathon-test`;
+6. produit le WebM final.
 
-« Une interface bancaire en français ou en anglais peut exclure un utilisateur qui parle surtout fulfulde. KORA ajoute une couche d’accessibilité sans modifier le service financier. »
+La clé n’est jamais enregistrée dans le dépôt. ElevenLabs reçoit uniquement
+le texte public de narration, jamais le contenu d’une page.
 
-Présenter KORA et le problème d’accès linguistique aux services financiers.
+## Parcours visible
 
-## 0:25–0:55 — traduction immédiate
+1. carte KORA dans `chrome://extensions`;
+2. solde, compte et transactions;
+3. tentative réelle de `300 000 FCFA` et erreur de solde;
+4. correction à `25 000 FCFA` et calcul des frais;
+5. saisie du bénéficiaire, téléphone, motif et note fictifs;
+6. vérification du récapitulatif;
+7. confirmation et reçu simulé.
 
-Montrer la popup puis le tableau de bord réellement traduit :
-
-- solde et compte inchangés;
-- actions et avertissement traduits;
-- popup KORA indiquant traitement local.
-
-Expliquer que Français ou English restaure l’original.
-
-## 0:55–1:35 — intégrité du parcours
-
-Effectuer un transfert de `25 000 FCFA` :
-
-1. frais et total;
-2. bénéficiaire et téléphone non traduits;
-3. note saisie inchangée;
-4. récapitulatif;
-5. reçu.
-
-Insister sur la référence et les montants identiques.
-
-## 1:35–1:58 — contenu inédit
-
-Ajouter dynamiquement : « Votre transfert de 9 500 FCFA est en attente. »
-
-Montrer la traduction instantanée sans rechargement et la conservation exacte de `9 500 FCFA`.
-Injecter ensuite `sodle insufisant` : KORA corrige les deux fautes et affiche
-`Kaalisi yonaa`, sans modifier le champ source.
-
-## 1:58–2:20 — architecture et sécurité
-
-Montrer le flux popup → DOM → moteur → mémoires → modèles et rappeler
-qu’aucun contenu de page n’est transmis.
-
-## 2:20–fin — innovation et preuves
-
-« KORA est locale, sans collecte et très loin de la limite de 10 Mio. Son
-verrou financier refuse toute traduction qui perd un montant, un numéro ou
-une référence. Son réseau neuronal `fub`, quantifié en int8, prédit les mots
-suivants uniquement pour classer les formulations déjà sûres. »
-
-Terminer sur les 504 concepts, 1 252 cas orthographiques, 27 tests unitaires,
-les tests Safinum/UBA, le logo KORA et le dépôt public.
+Le script mot à mot et les timecodes sont dans
+[`DEMO_SCRIPT.md`](DEMO_SCRIPT.md). La captation automatisée se trouve dans
+[`../scripts/record_safinum_demo.mjs`](../scripts/record_safinum_demo.mjs).

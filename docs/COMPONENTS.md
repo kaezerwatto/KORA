@@ -28,7 +28,8 @@ Les rôles, API et méthodes d’intégration sont détaillés dans
 | puppeteer-core | 25.17.0 | Test live dans Chrome |
 | Node.js test runner | Node 24 | Tests unitaires |
 | PyTorch + NumPy | environnement `.venv` | Réentraînement optionnel, hors archive |
-| gTTS | environnement `.venv` | Narration française du livrable vidéo, hors archive |
+| ElevenLabs TTS | API de production | Narration française Lucie du livrable vidéo, hors extension |
+| Web Audio API | API native Chrome | Musique d’ambiance originale générée pendant le montage |
 
 Ces dépendances ne sont pas placées dans l’archive Chrome.
 
@@ -49,9 +50,9 @@ Pendant le développement :
 - cinq libellés publics ont été comparés à Google Translate vers `ff`; les
   résultats sont archivés séparément et ne sont pas importés;
 - une mémoire publique `ff` a servi de référence secondaire pour cinq phrases;
-- le texte public du pitch a été transmis à Google Text-to-Speech via `gTTS`
-  pour générer la narration française; aucun contenu de page ni donnée
-  personnelle n’a été envoyé;
+- le texte public du pitch est transmis à ElevenLabs pour générer la narration
+  française avec la voix Lucie; la clé reste dans `.env` et aucun contenu de
+  page ni donnée personnelle n’est envoyé;
 - aucune donnée saisie, personnelle ou provenant d’une session de test n’a été transmise.
 
 ## Sources linguistiques

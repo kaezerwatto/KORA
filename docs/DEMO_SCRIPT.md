@@ -1,92 +1,89 @@
-# Script vidéo — 3 minutes
+# Script final — KORA, la finance numérique en fulfulde
 
-## 0:00–0:20 — Problème
+La vidéo est un pitch-démo réel de moins de trois minutes. Elle utilise
+uniquement `https://safinum.cm/hackathon-test`, sans paramètre jury, sans
+injection et sans écran produit artificiellement. Les seuls ajouts graphiques
+sont le générique, le curseur, des sous-titres courts et des transitions.
 
-> « Les services financiers camerounais sont souvent disponibles uniquement en français ou en anglais. KORA est une extension Chrome qui traduit une interface existante vers le fulfulde de l’Adamaoua, sans modifier le service financier. »
+La narration structurée utilisée par le générateur est disponible dans
+[`../submission/video/narration-fr.json`](../submission/video/narration-fr.json).
 
-Montrer Safinum Pay en français puis `chrome://extensions` avec KORA chargée.
+## 0:00–0:13 — Le besoin
 
-## 0:20–0:40 — Activation
+**Image :** logo KORA, titre et promesse.
 
-Ouvrir la popup et choisir **Fulfulde**.
+> Au Cameroun, une opération financière peut être disponible, mais rester
+> difficile à comprendre lorsqu’elle est présentée uniquement en français ou
+> en anglais. KORA apporte le fulfulde de l’Adamaoua directement dans
+> l’interface, sans modifier le service financier.
 
-> « Tout fonctionne localement. Aucune donnée affichée ou saisie ne quitte l’appareil. »
+## 0:13–0:32 — Installation réelle
 
-Montrer le tableau de bord traduit. Survoler un texte pour afficher l’original.
+**Image :** profil Chrome propre, page `chrome://extensions`, apparition de la
+vraie carte KORA après chargement de `release/kora-unpacked`.
 
-## 0:40–1:10 — Solde et frais
+> Nous partons d’un profil Chrome propre. Le dossier KORA est chargé comme
+> extension non empaquetée. Le manifeste, le moteur linguistique, les mémoires
+> et les modèles sont embarqués. Il n’y a ni serveur de traduction, ni
+> télémétrie, ni donnée de page transmise.
 
-Montrer :
+## 0:32–0:50 — Compte et solde
 
-- `250 000 FCFA`;
-- `CM 001 2345 6789 01`;
-- les quatre transactions.
+**Image :** page Safinum normale traduite; montrer le solde, le compte, le nom
+et les transactions.
 
-Lancer le transfert et changer le montant ou le type d’opération.
+> Ouvrons maintenant l’environnement normal de Safinum. KORA traduit
+> immédiatement les textes vers le fulfulde. Le solde reste exactement à deux
+> cent cinquante mille francs C F A. Le numéro de compte, le nom d’Amina et
+> chaque transaction conservent leurs valeurs d’origine.
 
-> « KORA traduit les instructions mais ne touche jamais aux montants, à la devise ou aux calculs de Safinum. »
+## 0:50–1:10 — Frais et imprévu réel
 
-## 1:10–1:35 — Bénéficiaire
+**Action :** saisir `300000`, continuer, montrer l’erreur `AMOUNT_002`, puis
+corriger à `25000` et poursuivre.
 
-Saisir ou conserver :
+> Testons un imprévu réel. Nous demandons trois cent mille francs, au-delà du
+> solde disponible. Safinum bloque l’étape et KORA traduit clairement l’erreur
+> de solde insuffisant, tout en conservant le code et les montants. Nous
+> corrigeons ensuite à vingt-cinq mille francs, et le calcul redevient
+> cohérent.
 
-- Jean-Paul Mbarga;
-- `+237 6 99 12 34 56`;
-- un motif et une note.
+## 1:10–1:30 — Bénéficiaire
 
-> « Les champs restent strictement intacts. La valeur saisie est reconnue au récapitulatif sans être traduite, stockée ou transmise. »
+**Action :** saisir les valeurs fictives, la note `Démonstration KORA`, cocher
+la vérification et continuer.
 
-## 1:35–1:55 — Récapitulatif et reçu
+> À l’étape du bénéficiaire, nous saisissons des données fictives. KORA traduit
+> les consignes et l’alerte de sécurité, mais laisse strictement intacts le
+> nom, le téléphone, le motif et la note. Après vérification, nous cochons la
+> confirmation et poursuivons le parcours.
 
-Montrer côte à côte oralement :
+## 1:30–1:52 — Récapitulatif et reçu
 
-- montant;
-- frais;
-- total;
-- bénéficiaire;
-- téléphone;
-- référence.
+**Action :** contrôler les valeurs, cocher, confirmer et montrer la référence
+du reçu.
 
-Confirmer puis montrer le reçu.
+> Dans le récapitulatif, nous retrouvons le montant, les frais, le total, le
+> bénéficiaire et son numéro. Après la dernière confirmation, Safinum produit
+> le reçu simulé. La référence apparaît, et toutes les valeurs correspondent
+> exactement à celles du formulaire.
 
-> « Les mêmes valeurs sont conservées du formulaire jusqu’au reçu. »
+## 1:52–2:16 — Validation et conclusion
 
-## 1:55–2:20 — Contenu inédit et erreurs
+**Image :** générique final KORA TEAM.
 
-Déclencher une erreur ou une alerte de sécurité. Dans le panneau d’évaluation
-Safinum, saisir :
+> Pour la qualité linguistique, Monsieur Jean Ernset Souroumbai a relu les
+> traductions du parcours et vérifié leur fidélité selon le contexte, la
+> sémantique et la terminologie financière. KORA combine cette mémoire
+> contrôlée avec des modèles légers embarqués, tout en préférant conserver
+> l’original lorsqu’un sens n’est pas garanti. KORA : comprendre, vérifier et
+> confirmer en fulfulde.
 
-```text
-sodle insufisant
-```
+## Garde-fous de captation
 
-> « KORA corrige les fautes seulement lorsqu’un sens unique est identifié.
-> Les messages critiques utilisent ensuite les mémoires et gabarits contrôlés.
-> Si le sens n’est pas garanti, l’original est conservé. »
-
-## 2:20–2:40 — Anglais
-
-Basculer Safinum Pay en anglais.
-
-> « La même extension détecte l’anglais et produit la même interface en fulfulde Adamawa. »
-
-Montrer `Make a transfer` traduit vers la même action fulfulde.
-
-## 2:40–3:00 — Innovation et conclusion
-
-> « KORA pèse environ 254 kilo-octets, fonctionne sans GPU, serveur ni API de
-> traduction, respecte la confidentialité et peut être adapté à d’autres
-> langues camerounaises avec une nouvelle mémoire validée. KORA ne traduit pas
-> seulement les mots : elle protège l’opération financière. »
-
-Terminer sur la popup sombre, le logo KORA et le dépôt GitHub.
-
-## Checklist avant enregistrement
-
-- fenêtre Chrome à 100 % de zoom;
+- profil Chrome temporaire et extension réellement chargée;
 - aucune donnée personnelle réelle;
-- extension reconstruite avec `npm run package`;
-- parcours remis à zéro;
-- popup épinglé;
-- notifications et autres onglets fermés;
-- durée cible : 2 min 50 s.
+- URL Safinum sans `?jury=1`;
+- aucune commande d’injection ou mutation artificielle;
+- arrêt du rendu si une étape ou une valeur attendue est absente;
+- durée finale strictement inférieure à trois minutes.

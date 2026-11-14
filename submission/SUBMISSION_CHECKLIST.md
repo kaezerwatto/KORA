@@ -30,7 +30,7 @@ linguistique du projet; il n’est pas compté parmi les trois membres déclaré
 ## Champs « Présentation du prototype »
 
 - **Lien de la vidéo :**  
-  https://raw.githubusercontent.com/kaezerwatto/KORA/master/release/kora-pitch-demo.webm
+  https://raw.githubusercontent.com/kaezerwatto/KORA/master/release/KORA_Demo_Pitch_SAFINUM_2026.webm
 - **Documentation à importer :**  
   `release/KORA-Documentation-SAFINUM.pdf`
 - **Lien du dépôt GitHub :**  
@@ -41,7 +41,7 @@ linguistique du projet; il n’est pas compté parmi les trois membres déclaré
 ## Contrôles avant envoi
 
 - [x] Le lien vidéo s’ouvre sans authentification.
-- [x] La vidéo dure moins de 3 minutes : 2 min 32 s, WebM VP9/Opus, 1280×720.
+- [x] La vidéo finale dure 2 min 16 s : WebM VP9/Opus, 1280×720, 5,1 Mio.
 - [x] Le PDF s’ouvre et pèse moins de 10 Mo : 10 pages A4, 740 Kio.
 - [x] Le ZIP pèse moins de 10 Mo : 254,3 Kio.
 - [x] Le ZIP contient `manifest.json` à sa racine.
@@ -54,9 +54,9 @@ linguistique du projet; il n’est pas compté parmi les trois membres déclaré
 Empreintes SHA-256 des fichiers remis :
 
 ```text
-c8b81d5619e85bf9b9b2d0df947fff3863740ca544fb56ab7b2e5ebe2eb830af  kora-extension.zip
-4ccee37bcfb0a9424f5892ca66cb9f120912c57db73ef6c469e1b4406445ce7f  KORA-Documentation-SAFINUM.pdf
-921344ce68fdf288820d16c7e422fb94f9bf8d8d2f030dbd6e70dfd077c8ff8c  kora-pitch-demo.webm
+21b0110baacb56e1dc975fb37d959fe5d31de9e870c58f4987064114653185ba  kora-extension.zip
+3a5ba7504e2383a6c987d891e4976081403bdb8fabdd063a3a2b50dc2e348a0c  KORA-Documentation-SAFINUM.pdf
+3d7a7fd316f1674eebb697286c707ce1ae7e73cac12dfc6e8903741791dc474e  KORA_Demo_Pitch_SAFINUM_2026.webm
 ```
 
 ## Correspondance avec les exigences officielles

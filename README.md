@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="#installation">Installer</a> ·
-  <a href="release/kora-pitch-demo.webm">Voir la démo</a> ·
+  <a href="release/KORA_Demo_Pitch_SAFINUM_2026.webm">Voir la démo réelle</a> ·
   <a href="release/KORA-Documentation-SAFINUM.pdf">Lire le dossier technique</a> ·
   <a href="docs/ARCHITECTURE.md">Explorer l’architecture</a>
 </p>
@@ -42,7 +42,7 @@ Une traduction financière ne doit jamais transformer `25 000 FCFA`, inverser «
 
 ### Livrables SAFINUM
 
-- [Vidéo de présentation — 2 min 32 s, 3,3 Mio](release/kora-pitch-demo.webm)
+- [Vidéo pitch-démo réelle — 2 min 16 s, 5,1 Mio](release/KORA_Demo_Pitch_SAFINUM_2026.webm)
 - [Documentation technique complète — 10 pages A4, 740 Kio](release/KORA-Documentation-SAFINUM.pdf)
 - [Extension Chrome prête à remettre — 254,3 Kio](release/kora-extension.zip)
 - [Guide de démonstration](docs/DEMO.md)
@@ -422,9 +422,12 @@ npm run submission:video
 
 La construction échoue automatiquement si le ZIP dépasse 10 Mio.
 
-Les trois commandes `submission:*` reproduisent les captures réelles, le
-dossier PDF et la vidéo narrée remis au jury. La génération audio de la vidéo
-demande `gTTS` dans `.venv`; elle n’est jamais utilisée par l’extension.
+Les commandes `submission:*` reproduisent les captures, le dossier PDF et la
+vidéo remis au jury. La vidéo charge réellement KORA dans un profil Chrome
+propre et parcourt la page Safinum normale, sans panneau jury ni injection.
+Sa narration utilise la voix ElevenLabs Lucie avec une clé locale
+`ELEVENLABS_API_KEY`; ce service de production n’est jamais utilisé par
+l’extension et ne reçoit aucun contenu de page.
 
 ## Validation
 

@@ -22,7 +22,9 @@
     "test:all": "npm test && npm run test:popup && npm run test:pages && npm run test:live && npm run test:uba",
     "submission:capture": "npm run build && node scripts/capture_submission_assets.mjs",
     "submission:pdf": "node scripts/render_submission_pdf.mjs",
-    "submission:video": ".venv/bin/python scripts/generate_pitch_audio.py && node scripts/render_pitch_video.mjs",
+    "submission:voice": "node scripts/generate_elevenlabs_narration.mjs",
+    "submission:video": "npm run package && npm run submission:voice && node scripts/record_safinum_demo.mjs",
+    "submission:video:preview": "npm run package && KORA_VIDEO_PREVIEW=1 KORA_VIDEO_SPEED=1.8 node scripts/record_safinum_demo.mjs",
     "package": "npm run build && npm run model:export && node scripts/package.mjs"
   },
   "keywords": [

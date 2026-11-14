@@ -1,0 +1,60 @@
+{
+  "title": "KORA — La finance numérique en fulfulde",
+  "voice": {
+    "provider": "ElevenLabs",
+    "name": "Lucie",
+    "id": "YxrwjAKoUKULGd0g8K9Y",
+    "model": "eleven_multilingual_v2"
+  },
+  "segments": [
+    {
+      "id": "01-introduction",
+      "scene": "brand",
+      "chapter": "Le besoin",
+      "caption": "Comprendre, vérifier et confirmer dans sa langue",
+      "text": "Au Cameroun, une opération financière peut être disponible, mais rester difficile à comprendre lorsqu’elle est présentée uniquement en français ou en anglais. KORA apporte le fulfulde de l’Adamaoua directement dans l’interface, sans modifier le service financier."
+    },
+    {
+      "id": "02-installation",
+      "scene": "extensions",
+      "chapter": "Installation réelle",
+      "caption": "Une extension Chrome locale, chargée dans un profil propre",
+      "text": "Nous partons d’un profil Chrome propre. Le dossier KORA est chargé comme extension non empaquetée. Le manifeste, le moteur linguistique, les mémoires et les modèles sont embarqués. Il n’y a ni serveur de traduction, ni télémétrie, ni donnée de page transmise."
+    },
+    {
+      "id": "03-dashboard",
+      "scene": "dashboard",
+      "chapter": "Compte et solde",
+      "caption": "Les textes changent. Les valeurs restent intactes.",
+      "text": "Ouvrons maintenant l’environnement normal de Safinum. KORA traduit immédiatement les textes vers le fulfulde. Le solde reste exactement à deux cent cinquante mille francs C F A. Le numéro de compte, le nom d’Amina et chaque transaction conservent leurs valeurs d’origine."
+    },
+    {
+      "id": "04-fees-error",
+      "scene": "fees",
+      "chapter": "Frais et imprévu",
+      "caption": "Une erreur réelle, traduite sans masquer son sens",
+      "text": "Testons un imprévu réel. Nous demandons trois cent mille francs, au-delà du solde disponible. Safinum bloque l’étape et KORA traduit clairement l’erreur de solde insuffisant, tout en conservant le code et les montants. Nous corrigeons ensuite à vingt-cinq mille francs, et le calcul redevient cohérent."
+    },
+    {
+      "id": "05-beneficiary",
+      "scene": "beneficiary",
+      "chapter": "Bénéficiaire",
+      "caption": "Les saisies personnelles ne sont jamais traduites",
+      "text": "À l’étape du bénéficiaire, nous saisissons des données fictives. KORA traduit les consignes et l’alerte de sécurité, mais laisse strictement intacts le nom, le téléphone, le motif et la note. Après vérification, nous cochons la confirmation et poursuivons le parcours."
+    },
+    {
+      "id": "06-summary-receipt",
+      "scene": "summary",
+      "chapter": "Contrôle et reçu",
+      "caption": "Les mêmes valeurs du formulaire jusqu’au reçu",
+      "text": "Dans le récapitulatif, nous retrouvons le montant, les frais, le total, le bénéficiaire et son numéro. Après la dernière confirmation, Safinum produit le reçu simulé. La référence apparaît, et toutes les valeurs correspondent exactement à celles du formulaire."
+    },
+    {
+      "id": "07-validation",
+      "scene": "outro",
+      "chapter": "Validation linguistique",
+      "caption": "Une traduction locale, vérifiée dans son contexte",
+      "text": "Pour la qualité linguistique, Monsieur Jean Ernset Souroumbai a relu les traductions du parcours et vérifié leur fidélité selon le contexte, la sémantique et la terminologie financière. KORA combine cette mémoire contrôlée avec des modèles légers embarqués, tout en préférant conserver l’original lorsqu’un sens n’est pas garanti. KORA : comprendre, vérifier et confirmer en fulfulde."
+    }
+  ]
+}

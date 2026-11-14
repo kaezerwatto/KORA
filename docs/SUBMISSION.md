@@ -53,7 +53,7 @@ source.
 ## Livrables
 
 - vidéo narrée de moins de trois minutes :
-  [`../release/kora-pitch-demo.webm`](../release/kora-pitch-demo.webm);
+  [`../release/KORA_Demo_Pitch_SAFINUM_2026.webm`](../release/KORA_Demo_Pitch_SAFINUM_2026.webm);
 - documentation technique A4 :
   [`../release/KORA-Documentation-SAFINUM.pdf`](../release/KORA-Documentation-SAFINUM.pdf);
 - extension Chrome :

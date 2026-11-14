@@ -1,5 +1,8 @@
 node_modules/
 .venv/
+.env
+.env.*
+!.env.example
 .models/
 dist/
 test-results/
