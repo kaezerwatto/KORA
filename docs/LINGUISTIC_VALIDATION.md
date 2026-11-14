@@ -19,7 +19,7 @@ KORA cible le fulfulde de l’Adamaoua, ISO 639-3 `fub`, écrit en caractères l
 
 ## Ressources évaluées mais non intégrées
 
-- Flagship `francais-fufulde` : petit modèle camerounais, mais sorties très instables sur les libellés bancaires.
+- Flagship `francais-fufulde` : modèle camerounais, mais sorties très instables sur les libellés bancaires.
 - DS4H `linguo_mt_en_fub` : BLEU publié 17,43, mais corpus non documenté.
 - NLLB-200 : cible `fuv_Latn`, pas `fub`.
 - Google Traduction : cinq réponses `ff` ont été relevées le 14 novembre 2026
@@ -53,7 +53,30 @@ revue à l’Adamawa `fub`.
 
 ## Corrections Adamawa intégrées
 
-La revue 2026 a verrouillé les formes Adamawa en `-go` (`yoɓugo`, `tabitingo`, `huutoreego`) à la place des infinitifs occidentaux en `-de`. `Kaalisi yonaa` exprime « l’argent ne suffit pas »; la forme affirmative/future `yonay` est interdite dans les alertes d’insuffisance. Valider et confirmer restent deux actions distinctes : `jaɓugo` et `tabitingo`.
+Les commandes et compléments verbaux gardent les formes Adamawa en `-go`
+(`waɗugo`, `tabitingo`, `huutoreego`) à la place des infinitifs occidentaux
+en `-de`. Les noms de concepts emploient la forme nominale en `-ugol` :
+`Yoɓugol njulaagu` désigne le paiement marchand, tandis que `Yoɓugo
+njulaagu` reste une instruction « payer le marchand ».
+
+La note de revue linguistique fournie au projet le 14 novembre 2026 a entraîné
+les corrections suivantes :
+
+- `Compte bloqué` → `Konte uddaaɗo`;
+- `Date de valeur` → `Ñalngu kiisaangu`;
+- `Découvert autorisé` → `Kaalisi ɓeydaaɗi yamiraaɗi`;
+- `Paiement récurrent` → `Yoɓugol lortotoongol`;
+- `Paiement sans contact` → `Yoɓugol tawa meemaaka`;
+- remboursement marchand → `Ruttinangol kaalisi`;
+- remboursement de prêt → `Yoɓugol nyamaande`;
+- rétrofacturation → `Ruttinangol kaalisi yoɓaaɗi`.
+
+Ces corrections sont tracées dans les `sources` des entrées concernées. Elles
+améliorent le corpus d’entraînement, mais les entrées qui étaient candidates
+restent candidates jusqu’à une validation native explicite. `Kaalisi yonaa`
+exprime « l’argent ne suffit pas »; la forme affirmative/future `yonay` est
+interdite dans les alertes d’insuffisance. Valider et confirmer restent deux
+actions distinctes : `jaɓugo` et `tabitingo`.
 
 ## Statuts terminologiques
 

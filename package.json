@@ -9,7 +9,7 @@
     "build": "npm run build:terminology && node scripts/build.mjs",
     "build:icons": "python3 scripts/generate_icons.py",
     "build:model": "npm run build:terminology && python3 scripts/build_fub_language_model.py",
-    "model:train": "npm run build:terminology && .venv/bin/python scripts/train_tiny_fub_neural.py",
+    "model:train": "npm run build:terminology && .venv/bin/python scripts/train_fub_neural_model.py",
     "model:export": "node scripts/export_neural_model.mjs",
     "model:demo": "node scripts/model_demo.mjs",
     "pretest": "npm run build:terminology",

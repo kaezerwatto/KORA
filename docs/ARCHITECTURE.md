@@ -22,7 +22,7 @@ flowchart LR
         E[Engine]
         TM[Mémoires FR/EN → fub]
         CT[Terminologie financière contrôlée]
-        LM[Petit réseau neuronal fub]
+        LM[Modèle neuronal fub]
         NG[Repli n-gramme]
         S[(Préférences locales)]
     end
@@ -77,7 +77,9 @@ flowchart TD
     C --> D[Masquer montants, dates, comptes et références]
     D --> E{Mémoire historique exacte ?}
     E -->|Oui| J[Candidat fub]
-    E -->|Non| CE{Terme financier contrôlé ?}
+    E -->|Non| R{Faute unique non ambiguë ?}
+    R -->|Oui| J
+    R -->|Non| CE{Terme financier contrôlé ?}
     CE -->|Oui| J
     CE -->|Non| F{Gabarit typé ?}
     F -->|Oui| J
@@ -108,7 +110,11 @@ segment contient lui-même un marqueur financier non ambigu. Cette porte évite,
 par exemple, de traduire le mot français « action » comme un titre boursier sur
 une page sans rapport avec la finance.
 
-Le modèle de langue n’autorise jamais une traduction. Il classe uniquement plusieurs formulations déjà acceptées par le verrou sémantique.
+Le rapprochement orthographique accepte au maximum une insertion, suppression,
+substitution ou inversion adjacente et seulement si toutes les correspondances
+possibles donnent la même traduction. Le modèle de langue n’autorise jamais
+une traduction. Il classe uniquement plusieurs formulations déjà acceptées
+par le verrou sémantique.
 
 ## Sélection Fulfulde, Français et English
 
@@ -180,9 +186,12 @@ Les mutations produites par `append`, `innerHTML`, `DocumentFragment`, remplacem
 
 Un garde global versionné empêche l’initialisation multiple. Si une ancienne version du content script est encore attachée à l’onglet, la popup recharge la page une fois pour installer le protocole courant.
 
-## Petit modèle de langue
+## Modèle de langue
 
-`scripts/train_tiny_fub_neural.py` entraîne le réseau puis génère `src/fub-neural-model.js`. `src/neural-language-model.js` exécute ses poids int8 directement en JavaScript, sans bibliothèque d’inférence. Le n-gramme généré par `scripts/build_fub_language_model.py` reste un repli déterministe.
+`scripts/train_fub_neural_model.py` entraîne le réseau puis génère
+`src/fub-neural-model.js`. `src/neural-language-model.js` exécute ses poids
+int8 directement en JavaScript, sans bibliothèque d’inférence. Le n-gramme
+généré par `scripts/build_fub_language_model.py` reste un repli déterministe.
 
 Corpus :
 
@@ -190,8 +199,9 @@ Corpus :
 - 262 formulations historiques de la mémoire KORA;
 - 386 formulations terminologiques candidates à poids réduit;
 - 9 368 tokens Common Voice;
-- 1 198 mots fréquents;
-- 1 559 contextes prédictifs.
+- 1 472 unités dans le vocabulaire neuronal;
+- 1 199 mots fréquents;
+- 1 561 contextes prédictifs.
 
 ```mermaid
 flowchart LR
@@ -205,11 +215,11 @@ flowchart LR
     H --> I[Classement de candidats déjà sûrs]
 ```
 
-Le réseau compte 192 864 paramètres. Ses poids, son vocabulaire et ses
-métadonnées occupent environ 273 Kio avant minification. L’entraînement utilise
+Le réseau compte 185 120 paramètres. Ses poids, son vocabulaire et ses
+métadonnées occupent environ 262 Kio avant minification. L’entraînement utilise
 un arrêt anticipé : sur le run reproductible final, le meilleur état est celui
 de l’époque 2 et l’exécution s’arrête après 8 époques. Sur 107 phrases Common
-Voice tenues hors entraînement, le modèle int8 atteint 14,6 % top-1 et 34,0 %
+Voice tenues hors entraînement, le modèle int8 atteint 14,8 % top-1 et 35,0 %
 top-5. La top-5 est la métrique la plus pertinente pour son rôle de classement
 de plusieurs candidats. Un cache borné conserve les 1 000 derniers scores afin
 que les libellés répétés ne relancent pas l’inférence. Ces métriques restent
@@ -253,4 +263,6 @@ flowchart LR
     Q -->|Non| X[Échec du build]
 ```
 
-Le paquet final contient uniquement le manifest, les bundles incluant les petits poids KORA, la popup et quatre tailles d’icône. Aucun corpus brut, modèle tiers ni dépendance de développement n’est livré.
+Le paquet final contient uniquement le manifest, les bundles incluant les
+poids KORA, la popup et quatre tailles d’icône. Aucun corpus brut, modèle tiers
+ni dépendance de développement n’est livré.

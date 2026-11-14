@@ -77,3 +77,22 @@ test("does not apply ambiguous corpus-only terms outside a financial page", () =
     "Action"
   );
 });
+
+test("applies the supplied morphology corrections without merging refund meanings", () => {
+  assert.equal(terminology.metadata.format, "kora-financial-terminology-candidates");
+  const expected = new Map([
+    ["Compte bloqué", "Konte uddaaɗo"],
+    ["Date de valeur", "Ñalngu kiisaangu"],
+    ["Découvert autorisé", "Kaalisi ɓeydaaɗi yamiraaɗi"],
+    ["Paiement récurrent", "Yoɓugol lortotoongol"],
+    ["Paiement sans contact", "Yoɓugol tawa meemaaka"],
+    ["Remboursement", "Ruttinangol kaalisi"],
+    ["Rétrofacturation", "Ruttinangol kaalisi yoɓaaɗi"],
+    ["Remboursement de crédit", "Yoɓugol nyamaande"],
+    ["Paiement marchand", "Yoɓugol njulaagu"]
+  ]);
+  for (const [french, fub] of expected) {
+    const entry = terminology.entries.find(({ fr }) => fr === french);
+    assert.equal(entry?.fub, fub, french);
+  }
+});

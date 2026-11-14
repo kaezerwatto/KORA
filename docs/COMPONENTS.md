@@ -8,9 +8,11 @@
 | Mémoire KORA | Phrases du parcours et messages financiers | Projet KORA |
 | Glossaire compilé | Terminologie et provenance | Métadonnées du projet; respecter chaque source citée |
 | Terminologie financière contrôlée | Index FR/EN→`fub` compilé; statuts conservés | Projet KORA; inventaires fournis sans licence déclarée |
-| Petit modèle neuronal KORA | Classement de fluidité, poids int8 entraînés par KORA | Code MIT; Common Voice CC0, mémoire et candidats KORA |
+| Modèle neuronal KORA | Classement de fluidité, poids int8 entraînés par KORA | Code MIT; Common Voice CC0, mémoire et candidats KORA |
 
-Le paquet inclut les petits poids KORA et leur inférence JavaScript. Il n’inclut aucun corpus brut, poids neuronal tiers, bibliothèque d’inférence ou code chargé à distance.
+Le paquet inclut les poids KORA et leur inférence JavaScript. Il n’inclut
+aucun corpus brut, poids neuronal tiers, bibliothèque d’inférence ou code
+chargé à distance.
 
 Le même modèle peut être exporté séparément avec `npm run model:export`. L’artefact `release/kora-fub-neural-model.json` contient les métadonnées, le vocabulaire, les tenseurs quantifiés et une empreinte SHA-256.
 

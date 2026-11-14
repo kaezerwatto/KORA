@@ -40,6 +40,9 @@ Déclencher solde insuffisant puis l’alerte de nouveau bénéficiaire. Montrer
 
 ## 2:30–3:00 — innovation
 
-« KORA est locale, sans collecte et très loin de la limite de 10 Mio. Son verrou financier refuse toute traduction qui perd un montant, un numéro ou une référence. Son petit réseau neuronal `fub`, quantifié en int8, prédit les mots suivants uniquement pour classer les formulations déjà sûres. »
+« KORA est locale, sans collecte et très loin de la limite de 10 Mio. Son
+verrou financier refuse toute traduction qui perd un montant, un numéro ou
+une référence. Son réseau neuronal `fub`, quantifié en int8, prédit les mots
+suivants uniquement pour classer les formulations déjà sûres. »
 
 Terminer sur les sources camerounaises et la feuille de route : validation communautaire, audio `fub` et ajout d’autres langues nationales.

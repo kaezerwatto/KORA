@@ -145,4 +145,7 @@ Le test Puppeteer charge réellement l’extension sur Safinum Pay :
 
 ## 9. Faisabilité
 
-L’archive livrée reste très inférieure à 10 Mio. Elle fonctionne sans GPU, serveur ou connexion de traduction. La conception peut être étendue à d’autres langues camerounaises en remplaçant les fichiers de mémoire, le glossaire et le petit modèle de langue.
+L’archive livrée reste très inférieure à 10 Mio. Elle fonctionne sans GPU,
+serveur ou connexion de traduction. La conception peut être étendue à d’autres
+langues camerounaises en remplaçant les fichiers de mémoire, le glossaire et
+le modèle de langue.

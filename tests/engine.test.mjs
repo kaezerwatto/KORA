@@ -258,6 +258,29 @@ test("covers injected test controls and financial audit labels", () => {
   }
 });
 
+test("corrects one unambiguous typo in injected financial labels", () => {
+  const french = translateText("solde insufisant", {
+    sourceHint: "auto",
+    domainHint: "financial"
+  });
+  const english = translateText("insufficient balanc", {
+    sourceHint: "auto",
+    domainHint: "financial"
+  });
+  assert.equal(french.text, "Kaalisi yonaa");
+  assert.equal(french.method, "typo-memory");
+  assert.equal(english.text, "Kaalisi yonaa");
+  assert.equal(english.method, "typo-memory");
+  assert.equal(
+    translateText("customer pineapple", {
+      sourceHint: "auto",
+      domainHint: "general"
+    }).text,
+    "customer pineapple",
+    "unknown general text must not be guessed"
+  );
+});
+
 test("general templates preserve unexpected financial values byte-for-byte", () => {
   const pairs = [
     ["Vous avez reçu 13 725 FCFA.", "A jaɓii 13 725 FCFA."],

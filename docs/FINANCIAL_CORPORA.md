@@ -86,6 +86,13 @@ Les cinq réponses Google relevées le 14 novembre 2026 sont conservées dans
 `data/corpora/google-ff-comparison.json`. Elles montrent pourquoi une sortie
 `ff` ne doit pas être assimilée sans contrôle au `fub` camerounais.
 
+Une note linguistique fournie par l’équipe le même jour corrige huit formes
+ou distinctions morphologiques : compte bloqué, date de valeur, découvert
+autorisé, paiement récurrent, paiement sans contact, paiement marchand,
+remboursement et rétrofacturation. Sa provenance est inscrite dans `sources`
+sur les entrées concernées. Cette note ne transforme pas automatiquement les
+propositions compositionnelles en formes `attested`.
+
 ## Intégration à l’extension
 
 `scripts/build_corpus_translations.mjs` compile les entrées vers deux index
@@ -104,7 +111,7 @@ inchangés.
 
 ## Effet sur le modèle
 
-Les formulations `fub` servent au petit modèle uniquement comme phrases de
+Les formulations `fub` servent au modèle uniquement comme phrases de
 terminologie à faible poids. Elles n’entrent pas dans la validation Common
 Voice et ne transforment pas le réseau en traducteur génératif. Les
 formulations historiques de la mémoire KORA conservent un poids

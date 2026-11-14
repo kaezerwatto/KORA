@@ -13,13 +13,15 @@
 - contenu financier inédit traité par gabarit ou glossaire.
 - formes Adamawa corrigées (`-go`, `yonaa`);
 - intentions financières générales et seuil de confiance.
-- petit réseau neuronal `fub` quantifié, prédiction du mot suivant, score de fluidité et repli n-gramme;
+- réseau neuronal `fub` quantifié, prédiction du mot suivant, score de fluidité et repli n-gramme;
 - popup dark avec interrupteur et sélecteur FUB/FR/EN;
 - restauration réelle FR/EN et retour vers Fulfulde via les messages d’extension;
 - traduction du libellé d’une option sans modification de sa valeur technique;
 - conservation des saisies, notamment `Payment for services`;
 - ajout de nœuds, remplacement de texte, attributs dynamiques, Shadow DOM ouvert et iframe;
 - traduction dynamique du message `hello mon frere qui est tu`.
+- traduction dynamique de `solde insufisant` par rapprochement orthographique
+  unique vers `Kaalisi yonaa`;
 - fermeture de la popup après action et restitution immédiate du focus;
 - `Ctrl+A` sur toute la page traduite et dans un champ de formulaire;
 - principaux libellés visibles d’une page UBA Cameroon reproduite localement;
@@ -32,7 +34,8 @@
 
 1. lance Google Chrome avec l’extension unpacked;
 2. ouvre l’environnement Safinum de test;
-3. ajoute réellement `hello mon frere qui est tu` après chargement et contrôle sa traduction;
+3. ajoute réellement `hello mon frere qui est tu`, puis `solde insufisant`,
+   après chargement et contrôle leurs traductions;
 4. vérifie le tableau de bord et les valeurs canoniques;
 5. injecte après chargement « Votre transfert de 9 500 FCFA est en attente. »;
 6. parcourt les cinq étapes jusqu’au reçu;
@@ -49,7 +52,7 @@ Résultat de référence :
 ```text
 LIVE PASS: French journey, dynamic content, form values and receipt integrity.
 LIVE PASS: English source switched and translated to the same fub interface.
-UBA LIVE PASS: translated homepage, page selection 1942 characters, field selection 10/10.
+UBA LIVE PASS: translated homepage, page selection 2203 characters, field selection 10/10.
 ```
 
 ## Matrice manuelle avant remise

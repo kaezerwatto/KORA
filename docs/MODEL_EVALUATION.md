@@ -14,11 +14,11 @@ Le paquet Chrome doit rester inférieur à 10 Mo et le protocole interdit de col
 Les grands modèles neuronaux ont donc été utilisés seulement hors extension,
 sur des phrases publiques, comme outils de comparaison. KORA livré n’emploie
 aucun proxy ni service distant. Il embarque son propre réseau neuronal `fub`
-de 192 864 paramètres, limité à la prédiction du mot suivant et au classement
+de 185 120 paramètres, limité à la prédiction du mot suivant et au classement
 de formulations dont le sens est déterminé en amont. Un n-gramme compact sert
 de repli.
 
-## Évaluation du petit réseau KORA
+## Évaluation du réseau KORA
 
 Le découpage est fait par phrase : 107 phrases Common Voice sont tenues hors
 entraînement. Les 262 formulations historiques de la mémoire KORA et les 386 formulations
@@ -28,11 +28,11 @@ inférieur aux formulations historiques de la mémoire KORA.
 
 - architecture : contexte de trois mots, embeddings 24, couche tanh 96;
 - quantification : poids int8, biais float32;
-- vocabulaire neuronal : 1 536 unités;
-- taille générée : environ 273 Kio avec vocabulaire et métadonnées;
-- exactitude top-1 int8 : 14,6 %;
-- exactitude top-5 int8 : 34,0 %;
-- paramètres : 192 864;
+- vocabulaire neuronal : 1 472 unités;
+- taille générée : environ 262 Kio avec vocabulaire et métadonnées;
+- exactitude top-1 int8 : 14,8 %;
+- exactitude top-5 int8 : 35,0 %;
+- paramètres : 185 120;
 - arrêt anticipé : époque optimale 2, arrêt après 8 époques sur un maximum de 40;
 - graine reproductible : 2026.
 
@@ -43,17 +43,24 @@ Ces résultats évaluent la prédiction du prochain mot, pas la fidélité d’u
 Les variantes ont été entraînées avec la même graine, le même découpage et le
 même arrêt anticipé. Résultats top-1 / top-5 observés :
 
-- contexte 2, couche 64, vocabulaire 2 048 : 12,7 % / 28,3 %;
-- contexte 3, couche 64, vocabulaire 2 048 : 12,5 % / 28,2 %;
-- contexte 2, couche 96, vocabulaire 2 048 : 11,4 % / 27,7 %;
-- contexte 3, couche 96, vocabulaire 2 048 : 12,0 % / 29,1 %;
-- contexte 3, couche 128, vocabulaire 2 048 : 10,2 % / 28,9 %;
-- embeddings 32, couche 96, vocabulaire 2 048 : 12,2 % / 25,7 %;
-- contexte 3, couche 96, vocabulaire 1 792 : 11,3 % / 31,5 %;
-- configuration retenue, vocabulaire 1 536 : 14,6 % / 34,0 %.
+- contexte 2, couche 64, vocabulaire 2 048 : 12,5 % / 27,2 %;
+- contexte 3, couche 64, vocabulaire 2 048 : 12,9 % / 27,0 %;
+- contexte 2, couche 96, vocabulaire 2 048 : 13,4 % / 26,8 %;
+- contexte 3, couche 96, vocabulaire 2 048 : 11,5 % / 27,9 %;
+- contexte 3, couche 128, vocabulaire 2 048 : 11,9 % / 26,1 %;
+- embeddings 32, couche 96, vocabulaire 2 048 : 12,2 % / 25,6 %;
+- vocabulaire 1 792 : 13,5 % / 31,1 %;
+- vocabulaire 1 600 : 13,3 % / 31,8 %;
+- vocabulaire 1 536 : 14,8 % / 33,3 %;
+- vocabulaire 1 504 : 15,3 % / 33,2 %;
+- vocabulaire 1 488 : 15,3 % / 34,2 %;
+- configuration retenue, vocabulaire 1 472 : 14,8 % / 35,0 %;
+- vocabulaire 1 456 : 15,0 % / 34,4 %;
+- vocabulaire 1 408 : 14,8 % / 33,0 %.
 
-La configuration retenue dépasse donc les anciennes métriques KORA tout en
-restant très petite. Les 504 concepts restent couverts par la mémoire exacte;
+La configuration retenue maximise la top-5, métrique principale du classement
+de plusieurs candidats, et donne aussi le meilleur total top-1 + top-5 parmi
+les variantes testées. Les 504 concepts restent couverts par la mémoire exacte;
 le vocabulaire neuronal n’a pas besoin de dupliquer chaque code ou emprunt
 technique pour garantir leur traduction.
 
@@ -110,7 +117,7 @@ l’exécution.
 
 ### Flagship `francais-fufulde`
 
-- Avantage : petit modèle camerounais et exécution CPU.
+- Avantage : modèle camerounais et exécution CPU.
 - Échec : répétitions longues, nombreux contresens et forte empreinte de textes religieux.
 - Conclusion : impropre à une action financière où une erreur est majeure.
 

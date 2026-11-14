@@ -242,6 +242,11 @@ try {
     changing.textContent = "Network error";
     document.body.appendChild(changing);
 
+    const typo = document.createElement("p");
+    typo.id = "financial-typo-injection";
+    typo.textContent = "solde insufisant";
+    document.body.appendChild(typo);
+
     const attributes = document.createElement("input");
     attributes.id = "attribute-injection";
     attributes.placeholder = "Amount";
@@ -258,6 +263,7 @@ try {
   await page.waitForFunction(
     () =>
       document.querySelector("#changing-injection")?.textContent === "Juumre reso" &&
+      document.querySelector("#financial-typo-injection")?.textContent === "Kaalisi yonaa" &&
       document.querySelector("#attribute-injection")?.placeholder === "Jate kaalisi" &&
       document.querySelector("#shadow-injection")?.shadowRoot
         ?.querySelector("#shadow-message")?.textContent === "Loowdi naatnaandi"

@@ -47,6 +47,9 @@ Après une action, la popup se ferme et rend le focus à la page. Les raccourcis
 du navigateur et du site, notamment `Ctrl+A`, restent utilisables.
 
 Le contenu ajouté après le chargement est traduit automatiquement.
+Pour les libellés connus, une faute unique non ambiguë est aussi tolérée :
+`solde insufisant` est rapproché de `solde insuffisant`, puis traduit en
+`Kaalisi yonaa`. Si plusieurs corrections sont possibles, KORA s’abstient.
 
 KORA surveille les surfaces DOM accessibles au navigateur :
 
@@ -61,23 +64,24 @@ Les valeurs de champs financiers ou personnels restent intactes. Un champ explic
 
 Les Shadow DOM fermés, le texte dessiné dans un `<canvas>`, les images et les pages protégées comme `chrome://` ou le Chrome Web Store ne sont pas accessibles aux extensions.
 
-## Petit modèle linguistique embarqué
+## Modèle linguistique embarqué
 
 KORA embarque une base d’intelligence linguistique légère et entièrement locale :
 
-- réseau neuronal à contexte de trois mots, 192 864 paramètres, poids int8;
+- réseau neuronal à contexte de trois mots, 185 120 paramètres, poids int8;
 - couche d’embedding de 24 dimensions et couche cachée de 96 neurones;
+- vocabulaire neuronal de 1 472 unités;
 - entraîné sur 1 067 phrases Adamawa Fulfulde de Common Voice 27, sous licence CC0;
 - 9 368 tokens Common Voice, 262 formulations de la mémoire KORA et 386
   formulations terminologiques candidates à poids réduit;
-- repli n-gramme de 1 198 mots fréquents et 1 559 contextes prédictifs;
+- repli n-gramme de 1 199 mots fréquents et 1 561 contextes prédictifs;
 - prédiction neuronale du mot suivant avec repli n-gramme déterministe;
 - score de fluidité déterministe pour classer plusieurs formulations sûres;
 - cache local des 1 000 derniers scores pour éviter de recalculer les libellés répétés;
 - arrêt anticipé reproductible : meilleur état obtenu à l’époque 2 sur 8
   exécutées;
-- validation séparée sur 107 phrases Common Voice : top-1 14,6 %, top-5 34,0 %;
-- environ 273 Kio de poids, vocabulaire et métadonnées avant minification.
+- validation séparée sur 107 phrases Common Voice : top-1 14,8 %, top-5 35,0 %;
+- environ 262 Kio de poids, vocabulaire et métadonnées avant minification.
 
 Le réseau neuronal est réellement exécuté dans l’extension : chaque traduction acceptée passe par `scoreFubFluency`, qui appelle l’inférence int8, et le classement de plusieurs candidats utilise sa probabilité avec un repli n-gramme. Ce réseau n’est toutefois pas un traducteur libre : il prédit la fluidité en `fub` et ne peut ni modifier un montant, ni autoriser seul une action financière.
 
@@ -104,14 +108,36 @@ flowchart TB
     P[Popup KORA] -->|Activer ou choisir FUB/FR/EN| C[Content script]
     C --> T[Engine de traduction]
     T --> M[Mémoires FR/EN vers fub]
-    T --> N[Petit réseau neuronal fub]
+    T --> N[Modèle neuronal fub]
     N --> G[Repli n-gramme]
     C --> O[MutationObserver]
     O -->|Nouveau contenu| C
     C --> R[Page web existante]
 ```
 
-Ce petit réseau ne remplace pas un grand modèle neuronal de traduction. Sous la contrainte de 10 Mio et sans corpus parallèle `fub` suffisamment large et validé, son rôle limité de classement est plus sûr qu’un modèle génératif miniature susceptible de produire des contresens.
+Ce réseau ne remplace pas un grand modèle neuronal de traduction. Sous la contrainte de 10 Mio et sans corpus parallèle `fub` suffisamment large et validé, son rôle limité de classement est plus sûr qu’un modèle génératif susceptible de produire des contresens.
+
+### Embarquement et exécution dans Chrome
+
+Le modèle est inclus dans l’extension, pas téléchargé au premier lancement :
+
+1. `scripts/train_fub_neural_model.py` génère les poids int8 et le vocabulaire
+   dans `src/fub-neural-model.js`;
+2. `src/neural-language-model.js` réalise l’inférence matricielle en JavaScript,
+   sans PyTorch dans Chrome;
+3. `src/language-model.js` combine 85 % de prédiction neuronale et 15 % de
+   repli n-gramme pour le mot suivant; le score de phrase combine ensuite
+   80 % de score neuronal et 20 % de score n-gramme;
+4. `src/engine.js` obtient d’abord un candidat sûr depuis les mémoires,
+   gabarits ou termes contrôlés, puis demande au modèle de classer sa fluidité;
+5. `npm run build` regroupe le moteur, les poids et les mémoires dans
+   `dist/content.js`; `npm run package` copie ce bundle dans
+   `release/kora-unpacked/content.js` et dans le ZIP.
+
+À l’exécution, il n’existe donc aucun appel réseau, aucun chargement différé
+de poids et aucune dépendance Python. Désactiver Internet ne change pas le
+pipeline. Le JSON exportable est destiné à l’audit ou à une autre intégration;
+l’extension exécute directement les modules JavaScript générés.
 
 ### Test réel du modèle
 
@@ -139,6 +165,44 @@ Cette commande produit `release/kora-fub-neural-model.json`, un artefact portabl
 
 L’implémentation de référence pour l’inférence se trouve dans `src/neural-language-model.js`. L’export ne contient aucune donnée utilisateur ni contenu provenant des pages visitées.
 
+### Réentraîner et utiliser le modèle
+
+Le procédé reproductible est :
+
+```bash
+npm run build:corpora
+npm run build:terminology
+npm run build:model
+npm run model:train
+npm run model:export
+npm run model:demo
+```
+
+- `build:corpora` inventorie les 512 libellés sources et contrôle les
+  chevauchements;
+- `build:terminology` compile les 504 concepts FR/EN→`fub` et protège les 113
+  codes;
+- `build:model` régénère le repli n-gramme;
+- `model:train` entraîne le réseau, garde le meilleur état de validation,
+  quantifie les poids et produit le module exécutable;
+- `model:export` produit le JSON autonome avec son empreinte;
+- `model:demo` charge exactement les poids livrés et affiche prédictions,
+  scores et cas d’abstention.
+
+L’API interne est disponible depuis `src/language-model.js` :
+
+```js
+import {
+  predictNextFub,
+  rankFubCandidates,
+  scoreFubFluency
+} from "./src/language-model.js";
+```
+
+`predictNextFub` propose les mots suivants, `scoreFubFluency` note une
+formulation `fub` et `rankFubCandidates` trie plusieurs formulations déjà
+sûres. Ces fonctions ne traduisent pas seules une phrase FR/EN.
+
 ## Intégrité et confidentialité
 
 KORA ne modifie jamais :
@@ -161,10 +225,24 @@ Dans un `<select>`, seul le libellé visible d’une option est traduit. Sa prop
   investissement, comptabilité, conformité, microfinance, fiscalité, API et
   litiges — 512 libellés, 504 concepts dédupliqués, 113 codes protégés;
 - contenu dynamique et contrôles d’intégrité financière;
+- correction conservatrice d’une faute unique lorsqu’une seule entrée connue
+  correspond;
 - authentification, code OTP/PIN et session;
 - carte, paiement, dépôt, retrait et transfert;
 - compte, historique, relevé, crédit, prêt et remboursement;
 - interfaces web générales et contenu ajouté dynamiquement.
+
+La terminologie compilée expose 391 clés françaises et 390 clés anglaises
+pour 504 concepts. Elle alimente 386 formulations `fub` distinctes dans
+l’entraînement à poids réduit. Cette surface s’ajoute aux 262 formulations
+historiques KORA et aux gabarits capables de conserver des valeurs variables.
+
+« Contenu dynamique » signifie tout texte réellement exposé au DOM accessible :
+nœud ajouté ou remplacé, attribut visible, option, Shadow DOM ouvert ou iframe
+autorisée. Une image, un canvas, un Shadow DOM fermé ou une page
+`chrome://` n’expose pas son texte à une extension. Une phrase libre dont le
+sens n’existe dans aucune mémoire ou aucun gabarit reste également intacte :
+le modèle de fluidité ne doit pas inventer sa traduction.
 
 ## Développement
 
@@ -227,7 +305,7 @@ src/
 scripts/
   build_corpus_translations.mjs
   build_fub_language_model.py
-  train_tiny_fub_neural.py
+  train_fub_neural_model.py
   export_neural_model.mjs
   generate_icons.py
   model_demo.mjs

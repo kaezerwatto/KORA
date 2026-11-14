@@ -3,7 +3,7 @@ const statusTitle = document.querySelector("#status-title");
 const statusDetail = document.querySelector("#status-detail");
 const statusIcon = document.querySelector("#status-icon");
 const languageInputs = [...document.querySelectorAll('input[name="display-language"]')];
-const PROTOCOL_VERSION = 10;
+const PROTOCOL_VERSION = 11;
 
 async function activeTab() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });

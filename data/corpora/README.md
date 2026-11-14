@@ -29,6 +29,9 @@ ressources linguistiques libres de tiers.
   `financial-terminology-candidates.json`.
 - Une formulation candidate n’est pas décrite comme validée tant qu’elle n’a
   pas fait l’objet d’une revue linguistique explicite.
+- Les corrections morphologiques fournies à l’équipe le 14 novembre 2026 sont
+  tracées dans `sources`; elles corrigent les formes concernées sans convertir
+  automatiquement une entrée candidate en attestation indépendante.
 
 `index.json` contient l’inventaire vérifiable des sections et des 512 libellés,
 soit 504 concepts après déduplication. Il est régénéré par

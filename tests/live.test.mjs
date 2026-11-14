@@ -146,6 +146,39 @@ try {
     { timeout: 10_000 }
   );
 
+  await page.evaluate(() => {
+    const field = [...document.querySelectorAll("textarea, input")].find((candidate) =>
+      /message|inject|inédit|unseen/i.test(
+        [
+          candidate.id,
+          candidate.name,
+          candidate.getAttribute("placeholder"),
+          candidate.getAttribute("aria-label")
+        ].join(" ")
+      )
+    );
+    const prototype =
+      field instanceof HTMLTextAreaElement
+        ? HTMLTextAreaElement.prototype
+        : HTMLInputElement.prototype;
+    Object.getOwnPropertyDescriptor(prototype, "value")?.set?.call(
+      field,
+      "solde insufisant"
+    );
+    field.dispatchEvent(new Event("input", { bubbles: true }));
+    field.dispatchEvent(new Event("change", { bubbles: true }));
+  });
+  await clickOriginal(page, "Injecter");
+  await page.waitForFunction(
+    () =>
+      [...document.querySelectorAll("[data-kora-original]")].some(
+        (node) =>
+          node.dataset.koraOriginal === "solde insufisant" &&
+          node.textContent.includes("Kaalisi yonaa")
+      ),
+    { timeout: 10_000 }
+  );
+
   const initial = await page.evaluate(() => document.body.innerText);
   assert.match(initial, /konte maa/i);
   assert.match(initial, /kaalisi gonɗi e konte/i);

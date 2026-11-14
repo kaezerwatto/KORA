@@ -22,7 +22,7 @@ sourcé. Elle préfère conserver l’original plutôt que produire un contresen
 - analyse générique du DOM d’une page non modifiée;
 - verrou local des données financières;
 - moteur bilingue FR/EN → FUB déterministe;
-- petit réseau neuronal `fub` int8 pour classer la fluidité des formulations sûres;
+- réseau neuronal `fub` int8 pour classer la fluidité des formulations sûres;
 - traduction dynamique idempotente compatible avec Vue;
 - retour instantané au texte original;
 - popup accessible qui restitue immédiatement le focus et les raccourcis clavier;
