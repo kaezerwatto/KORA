@@ -14,7 +14,9 @@
 - formes Adamawa corrigées (`-go`, `yonaa`);
 - intentions financières générales et seuil de confiance.
 - modèle `fub` de prédiction du mot suivant et score de fluidité déterministe;
-- popup dark limitée à un seul interrupteur.
+- popup dark avec interrupteur et sélecteur FUB/FR/EN;
+- restauration réelle FR/EN et retour vers Fulfulde via les messages d’extension;
+- traduction du libellé d’une option sans modification de sa valeur technique.
 
 ## Test Chrome en direct
 

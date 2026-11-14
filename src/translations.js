@@ -100,6 +100,7 @@ export const EN_TO_FUB = Object.freeze({
   "online banking": "Baŋki e internet",
   "balance": "Kaalisi gonɗi e konte",
   "fees": "Musakaaji",
+  "fee": "Musakaaji",
   "beneficiary": "Jaɓoowo",
   "summary": "Tonngol humpito",
   "confirmation": "Tabitingol",
@@ -110,6 +111,7 @@ export const EN_TO_FUB = Object.freeze({
   "current account": "Konte jooni",
   "make a transfer": "Waɗugo transfeer",
   "review fees": "Ƴeewtugo musakaaji",
+  "view fees": "Ƴeewtugo musakaaji",
   "recent transactions": "Transaksiyonji cakkitiiɗi",
   "merchant payment": "Yoɓugo njulaagu",
   "salary received": "Njoɓdi golle jaɓaama",
@@ -443,9 +445,9 @@ export const GLOSSARY_EN = Object.freeze([
 const TOKEN = "(⟪KORA_\\d+⟫)";
 export const TEMPLATES_FR = Object.freeze([
   { pattern: new RegExp(`^Votre transfert de ${TOKEN} est en attente\\.$`, "iu"), render: (m) => `Transfeer maa ${m[1]} ɗon e fadde.` },
-  { pattern: new RegExp(`^Numéro de compte\\s*:\s*${TOKEN}$`, "iu"), render: (m) => `Lamba konte : ${m[1]}` }
+  { pattern: new RegExp(`^Numéro de compte\\s*:\\s*${TOKEN}$`, "iu"), render: (m) => `Lamba konte : ${m[1]}` }
 ]);
 export const TEMPLATES_EN = Object.freeze([
   { pattern: new RegExp(`^Your transfer of ${TOKEN} is pending\\.$`, "iu"), render: (m) => `Transfeer maa ${m[1]} ɗon e fadde.` },
-  { pattern: new RegExp(`^Account number\\s*:\s*${TOKEN}$`, "iu"), render: (m) => `Lamba konte : ${m[1]}` }
+  { pattern: new RegExp(`^Account number\\s*:\\s*${TOKEN}$`, "iu"), render: (m) => `Lamba konte : ${m[1]}` }
 ]);

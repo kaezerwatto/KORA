@@ -34,10 +34,17 @@ try {
             return { ok: true, enabled, displayLanguage };
           }
           if (message.type === "KORA_STATUS") {
-            return { enabled, displayLanguage, sourceHint: "auto", stats: {} };
+            return {
+              protocolVersion: 4,
+              enabled,
+              displayLanguage,
+              sourceHint: "auto",
+              stats: {}
+            };
           }
           return { ok: true };
-        }
+        },
+        reload: async () => undefined
       },
       scripting: {
         executeScript: async () => {

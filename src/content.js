@@ -2,6 +2,7 @@ import { translateText } from "./engine.js";
 
 const shouldInitialize = !globalThis.__KORA_CONTENT_INITIALIZED__;
 if (shouldInitialize) globalThis.__KORA_CONTENT_INITIALIZED__ = true;
+const PROTOCOL_VERSION = 4;
 const SKIP_TAGS = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "CODE", "PRE", "SVG", "CANVAS", "IFRAME"]);
 const records = new Map();
 const attributeRecords = new Map();
@@ -286,7 +287,15 @@ async function loadPreferences() {
 function registerMessageListener() {
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message?.type === "KORA_STATUS") {
-    sendResponse({ enabled, sourceHint, displayLanguage, stats, language: "fub", offline: true });
+    sendResponse({
+      protocolVersion: PROTOCOL_VERSION,
+      enabled,
+      sourceHint,
+      displayLanguage,
+      stats,
+      language: "fub",
+      offline: true
+    });
     return;
   }
   if (message?.type === "KORA_TOGGLE") {

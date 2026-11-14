@@ -9,23 +9,35 @@ const extensionPath = path.join(root, "dist");
 const pages = {
   "/fr": `<!doctype html><html lang="fr"><body>
     <h1>Bonjour, Mariama Bello</h1>
+    <button id="switch-fr">FR</button><button id="switch-en">EN</button>
     <nav><button>Déposer de l'argent</button><button>Retirer de l'argent</button></nav>
     <p>Carte bloquée</p><p>Transaction en attente</p>
     <dl><dt>Solde disponible</dt><dd>375 400 FCFA</dd></dl>
     <nav><a>Accueil</a><a>Développement des langues</a><a>Ressources</a><a>Actualités</a></nav>
     <section><h2>Bibliothèque académique</h2><a>Foire aux questions</a></section>
     <aside><button>Nouvelle discussion</button><button>Envoyer le message</button></aside>
+    <select id="bank"><option value="other-bank">Autre banque</option><option value="mobile-money">Mobile Money</option></select>
     <input value="Mariama Bello"><p id="customer">Mariama Bello</p>
+    <script>
+      document.querySelector('#switch-fr').onclick = () => document.documentElement.dataset.siteLanguage = 'fr';
+      document.querySelector('#switch-en').onclick = () => document.documentElement.dataset.siteLanguage = 'en';
+    </script>
   </body></html>`,
   "/en": `<!doctype html><html lang="en"><body>
     <h1>Hello, Fatou Ndiaye</h1>
+    <button id="switch-fr">FR</button><button id="switch-en">EN</button>
     <nav><button>Deposit money</button><button>Withdraw money</button></nav>
     <p>Payment declined</p><p>Account statement</p>
     <dl><dt>Available balance</dt><dd>81,250 FCFA</dd></dl>
     <nav><a>Home</a><a>Language development</a><a>Resources</a><a>News</a></nav>
     <section><h2>Academic library</h2><a>Frequently asked questions</a></section>
     <aside><button>New chat</button><button>Send message</button></aside>
+    <select id="bank"><option value="other-bank">Other bank</option><option value="mobile-money">Mobile Money</option></select>
     <input value="Fatou Ndiaye"><p id="customer">Fatou Ndiaye</p>
+    <script>
+      document.querySelector('#switch-fr').onclick = () => document.documentElement.dataset.siteLanguage = 'fr';
+      document.querySelector('#switch-en').onclick = () => document.documentElement.dataset.siteLanguage = 'en';
+    </script>
   </body></html>`
 };
 
@@ -41,8 +53,9 @@ const browser = await puppeteer.launch({
   executablePath: "/usr/bin/google-chrome",
   headless: true,
   enableExtensions: [extensionPath],
-  args: ["--no-sandbox", "--disable-dev-shm-usage"]
+  args: ["--no-sandbox", "--disable-dev-shm-usage", "--enable-unsafe-extension-debugging"]
 });
+const extensionId = await browser.installExtension(extensionPath);
 
 try {
   const page = await browser.newPage();
@@ -60,6 +73,32 @@ try {
   assert.match(french, /375 400 FCFA/);
   assert.equal(await page.$eval("input", (input) => input.value), "Mariama Bello");
   assert.equal(await page.$eval("#customer", (node) => node.textContent), "Mariama Bello");
+  assert.equal(await page.$eval("#bank", (select) => select.value), "other-bank");
+  assert.equal(await page.$eval("#bank option", (option) => option.value), "other-bank");
+  assert.equal(await page.$eval("#bank option", (option) => option.textContent), "Baŋki goɗɗo");
+
+  const extensionPage = await browser.newPage();
+  await extensionPage.goto(`chrome-extension://${extensionId}/popup.html`, { waitUntil: "load" });
+  const displayLanguage = async (language) => {
+    await page.bringToFront();
+    return extensionPage.evaluate(async (selectedLanguage) => {
+    const [target] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (!target?.id) throw new Error("Fixture tab not found");
+    return chrome.tabs.sendMessage(target.id, {
+      type: "KORA_DISPLAY_LANGUAGE",
+      language: selectedLanguage
+    });
+  }, language);
+  };
+
+  await displayLanguage("fr");
+  await page.waitForFunction(() => document.documentElement.dataset.siteLanguage === "fr");
+  assert.match(await page.evaluate(() => document.body.innerText), /Bonjour, Mariama Bello/);
+  assert.equal(await page.evaluate(() => document.documentElement.dataset.koraActive), undefined);
+
+  await displayLanguage("fub");
+  await page.waitForFunction(() => document.documentElement.dataset.koraActive === "true");
+  assert.match(await page.evaluate(() => document.body.innerText), /Sannu, Mariama Bello/);
 
   await page.evaluate(() => {
     const message = document.createElement("p");
@@ -82,8 +121,18 @@ try {
   assert.match(english, /Neldu ɓatakuru/);
   assert.match(english, /81,250 FCFA/);
   assert.equal(await page.$eval("#customer", (node) => node.textContent), "Fatou Ndiaye");
+  assert.equal(await page.$eval("#bank", (select) => select.value), "other-bank");
+  assert.equal(await page.$eval("#bank option", (option) => option.value), "other-bank");
+  assert.equal(await page.$eval("#bank option", (option) => option.textContent), "Baŋki goɗɗo");
 
-  console.log("PAGES PASS: banking, portal and assistant UIs in FR/EN, names, values and dynamic text.");
+  await displayLanguage("en");
+  await page.waitForFunction(() => document.documentElement.dataset.siteLanguage === "en");
+  assert.match(await page.evaluate(() => document.body.innerText), /Hello, Fatou Ndiaye/);
+  await displayLanguage("fub");
+  await page.waitForFunction(() => document.documentElement.dataset.koraActive === "true");
+  assert.match(await page.evaluate(() => document.body.innerText), /Sannu, Fatou Ndiaye/);
+
+  console.log("PAGES PASS: FR/EN/FUB switching, select values, banking, portal, assistant and dynamic UI.");
 } finally {
   await browser.close();
   await new Promise((resolve) => server.close(resolve));

@@ -3,6 +3,7 @@ const statusTitle = document.querySelector("#status-title");
 const statusDetail = document.querySelector("#status-detail");
 const statusIcon = document.querySelector("#status-icon");
 const languageInputs = [...document.querySelectorAll('input[name="display-language"]')];
+const PROTOCOL_VERSION = 4;
 
 async function activeTab() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -31,7 +32,12 @@ async function sendToPage(message) {
   if (!tab?.id || !supportsPage(tab)) return { response: null, tab };
 
   try {
-    return { response: await chrome.tabs.sendMessage(tab.id, message), tab };
+    const response = await chrome.tabs.sendMessage(tab.id, message);
+    if (message.type === "KORA_STATUS" && response?.protocolVersion !== PROTOCOL_VERSION) {
+      await chrome.tabs.reload(tab.id);
+      return { response: null, tab, reloading: true };
+    }
+    return { response, tab };
   } catch {
     try {
       await chrome.scripting.executeScript({
@@ -76,21 +82,25 @@ function renderAvailable(status, tab) {
   statusIcon.className = `status-icon ${status.enabled ? "active" : ""}`;
 }
 
-function renderUnavailable(tab) {
+function renderUnavailable(tab, reloading = false) {
   enabled.checked = false;
   enabled.disabled = true;
   for (const input of languageInputs) input.disabled = true;
-  statusTitle.textContent = supportsPage(tab) ? "Actualisez cette page" : "Page non accessible";
-  statusDetail.textContent = supportsPage(tab)
+  statusTitle.textContent = reloading
+    ? "Mise à jour de KORA…"
+    : supportsPage(tab) ? "Actualisez cette page" : "Page non accessible";
+  statusDetail.textContent = reloading
+    ? "La page se recharge avec la nouvelle version."
+    : supportsPage(tab)
     ? "KORA se reconnectera après actualisation."
     : "Ouvrez un site web normal pour traduire.";
   statusIcon.className = "status-icon error";
 }
 
 async function refresh() {
-  const { response, tab } = await sendToPage({ type: "KORA_STATUS" });
+  const { response, tab, reloading } = await sendToPage({ type: "KORA_STATUS" });
   if (response) renderAvailable(response, tab);
-  else renderUnavailable(tab);
+  else renderUnavailable(tab, reloading);
 }
 
 async function toggleTranslation() {

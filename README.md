@@ -41,7 +41,7 @@ Le contenu ajouté après le chargement est traduit automatiquement. Sur `chrome
 
 ## Petit modèle linguistique embarqué
 
-KORA 1.2 contient une première base d’intelligence linguistique légère :
+KORA 1.3 contient une première base d’intelligence linguistique légère :
 
 - modèle interpolé unigramme/bigramme/trigramme;
 - entraîné sur 1 067 phrases Adamawa Fulfulde de Common Voice 27, sous licence CC0;
@@ -50,17 +50,35 @@ KORA 1.2 contient une première base d’intelligence linguistique légère :
 - score de fluidité déterministe pour classer plusieurs formulations sûres;
 - environ 55 Kio avant minification, fortement compressé dans le ZIP.
 
-Le modèle de langue n’invente jamais le sens de la source. Il classe uniquement les traductions déjà autorisées par le moteur sémantique. Cette séparation est essentielle :
+Le modèle de langue n’invente jamais le sens de la source. Il classe uniquement les traductions déjà autorisées par le moteur sémantique.
 
-```text
-Texte FR/EN
-  ├─ détection de langue
-  ├─ verrouillage des noms et valeurs
-  ├─ extraction du sens financier critique
-  ├─ mémoire bilingue / gabarits / phrasebook
-  ├─ contrôle de couverture sémantique
-  ├─ modèle fub de prédiction et score de fluidité
-  └─ restauration exacte des valeurs ou abstention
+```mermaid
+flowchart LR
+    A[Texte FR ou EN] --> B[Détection de langue]
+    B --> C[Masquage des valeurs sensibles]
+    C --> D{Traduction sûre disponible ?}
+    D -->|Mémoire exacte| E[Mémoire bilingue]
+    D -->|Phrase variable| F[Gabarit typé]
+    D -->|Libellé couvert| G[Phrasebook]
+    D -->|Non| H[Conserver l'original]
+    E --> I[Verrou sémantique]
+    F --> I
+    G --> I
+    I -->|Sens complet| J[Modèle fub : fluidité]
+    I -->|Sens incomplet| H
+    J --> K[Restauration exacte des valeurs]
+    K --> L[DOM traduit]
+```
+
+```mermaid
+flowchart TB
+    P[Popup KORA] -->|Activer ou choisir FUB/FR/EN| C[Content script]
+    C --> T[Engine de traduction]
+    T --> M[Mémoires FR/EN vers fub]
+    T --> N[Petit modèle n-gramme fub]
+    C --> O[MutationObserver]
+    O -->|Nouveau contenu| C
+    C --> R[Page web existante]
 ```
 
 Un petit n-gramme ne remplace pas un grand modèle neuronal de traduction. Sous la contrainte de 10 Mio et sans corpus parallèle `fub` suffisamment large et validé, cette architecture hybride est plus sûre qu’un modèle génératif miniature qui produirait des contresens.
@@ -76,6 +94,8 @@ KORA ne modifie jamais :
 - les références, codes et dates.
 
 Chaque valeur sensible doit apparaître exactement autant de fois dans la sortie que dans l’original. En cas d’échec, la phrase source reste affichée. Aucun `fetch`, WebSocket, proxy ou service externe n’est utilisé à l’exécution.
+
+Dans un `<select>`, seul le libellé visible d’une option est traduit. Sa propriété `value`, utilisée par le formulaire et le serveur, reste inchangée.
 
 ## Couverture
 
@@ -133,7 +153,7 @@ src/
   general-translations.js    phrasebook financier général
   fub-language-model.js      modèle n-gramme compact généré
   language-model.js          prédiction et score de fluidité
-  popup.*                    interface dark à un interrupteur
+  popup.*                    interface dark et sélecteur FUB/FR/EN
 scripts/
   build_fub_language_model.py
   generate_icons.py

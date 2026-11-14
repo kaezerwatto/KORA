@@ -119,6 +119,21 @@ test("translates greetings while preserving arbitrary names without hardcoding",
   assert.doesNotMatch(runtimeSources.join("\n"), /\b(?:Amina|Jean-Paul Mbarga)\b/u);
 });
 
+test("covers Safinum English variants without mixed-language leftovers", () => {
+  const cases = [
+    ["Hello, Amina", "Sannu, Amina"],
+    ["View fees", "Ƴeewtugo musakaaji"],
+    ["Fee", "Musakaaji"],
+    ["Account number : CM 001 2345 6789 01", "Lamba konte : CM 001 2345 6789 01"]
+  ];
+  for (const [source, expected] of cases) {
+    const result = translateText(source, { sourceHint: "en" });
+    assert.equal(result.text, expected, source);
+    assert.equal(result.changed, true, source);
+    assert.equal(preservesSensitive(source, result.text), true, source);
+  }
+});
+
 test("supports compositional fallback for unseen banking content", () => {
   const result = translateText("Erreur de transfert", { sourceHint: "fr" });
   assert.equal(result.changed, true);
