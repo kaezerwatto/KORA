@@ -53,81 +53,92 @@ visité. Déconnecter le réseau après chargement ne change pas le pipeline KOR
 
 \subsection{Rôle précis de chaque composant}
 
-\begin{longtable}{@{}L{43mm}L{58mm}L{55mm}@{}}
-\toprule
+\begin{longtable}{@{}|L{43mm}|L{58mm}|L{55mm}|@{}}
+\hline
 \textbf{Composant} & \textbf{Responsabilité} & \textbf{Contrat de sûreté}\\
-\midrule
+\hline
 \endfirsthead
-\toprule
+\hline
 \textbf{Composant} & \textbf{Responsabilité} & \textbf{Contrat de sûreté}\\
-\midrule
+\hline
 \endhead
 \code{manifest.json} &
 Déclare MV3, popup, icônes, content script et permissions. &
 Pas de permission réseau ni de code distant.\\
+\hline
 \code{src/popup.*} &
 Choix Fulfulde/Français/English, activation et état. &
 Ne reçoit pas le contenu de page; rend le focus après action.\\
+\hline
 \code{src/content.js} &
 Parcourt le DOM, collecte les valeurs, applique les sorties, restaure les
 originaux et observe les mutations. &
 Ne remplace pas les éléments interactifs; ne modifie aucune propriété de
 formulaire.\\
+\hline
 \code{src/engine.js} &
 Détection de source, cascade de traduction, couverture sémantique et contrôle
 d’intégrité. &
 Retourne l’original si le sens ou les valeurs échouent.\\
+\hline
 \code{src/spelling.js} &
 Rapproche une entrée fautive d’une clé FR/EN connue avec distance
 Damerau--Levenshtein bornée. &
 Accepte seulement un meilleur sens unique; exclut nombres et codes.\\
+\hline
 \code{src/translations.js} &
 Mémoire du parcours Safinum relue. &
 Prioritaire sur les candidats terminologiques.\\
+\hline
 \texttt{src/general-\allowbreak translations.js} &
 Libellés web et financiers généraux. &
 Activé selon la langue et le contexte détectés.\\
+\hline
 \texttt{src/corpus-\allowbreak translations.js} &
 Index FR/EN généré depuis 504 concepts. &
 Conserve le statut de provenance et les codes protégés.\\
+\hline
 \code{src/language-model.js} &
 Prédiction, score de fluidité et classement hybrides. &
 Ne peut pas autoriser seul une traduction.\\
+\hline
 \texttt{src/neural-\allowbreak language-model.js} &
 Inférence JavaScript des poids int8. &
 Pas de bibliothèque d’inférence ni de chargement réseau.\\
+\hline
 \code{chrome.storage.local} &
 Mémorise activation et langue choisie. &
 Aucun texte de page, montant, nom ou historique.\\
-\bottomrule
+\hline
 \end{longtable}
 
 \subsection{Séquence d’une activation}
 
 \begin{figure}[H]
 \centering
-\resizebox{0.96\linewidth}{!}{%
 \begin{tikzpicture}[
-  actor/.style={draw=InkSoft,fill=Paper,rounded corners=1.5mm,
-    minimum width=26mm,minimum height=9mm,align=center,font=\small\bfseries},
-  msg/.style={-{Latex[length=2mm]},thick,color=TealDark},
+  actor/.style={draw=Teal,fill=Mint,rounded corners=1.5mm,
+    text width=22mm,minimum height=10mm,align=center,font=\small\bfseries},
+  msg/.style={-{Latex[length=2mm]},line width=0.7pt,color=TealDark},
   life/.style={dashed,color=Line,thick}
 ]
 \node[actor] (u) {Utilisateur};
-\node[actor,right=20mm of u] (p) {Popup};
-\node[actor,right=20mm of p] (c) {Content script};
-\node[actor,right=20mm of c] (e) {Moteur};
-\node[actor,right=20mm of e] (d) {DOM};
-\foreach \n in {u,p,c,e,d} {\draw[life] (\n.south) -- ++(0,-63mm);}
-\draw[msg] ($(u.south)+(0,-7mm)$) -- node[above,font=\scriptsize]{choisit Fulfulde} ($(p.south)+(0,-7mm)$);
-\draw[msg] ($(p.south)+(0,-17mm)$) -- node[above,font=\scriptsize]{KORA\_DISPLAY\_LANGUAGE} ($(c.south)+(0,-17mm)$);
-\draw[msg] ($(c.south)+(0,-27mm)$) -- node[above,font=\scriptsize]{lit textes et valeurs} ($(d.south)+(0,-27mm)$);
-\draw[msg] ($(c.south)+(0,-37mm)$) -- node[above,font=\scriptsize]{translateText(segment)} ($(e.south)+(0,-37mm)$);
-\draw[msg] ($(e.south)+(0,-47mm)$) -- node[above,font=\scriptsize]{traduction sûre ou original} ($(c.south)+(0,-47mm)$);
-\draw[msg] ($(c.south)+(0,-57mm)$) -- node[above,font=\scriptsize]{modifie le texte visible} ($(d.south)+(0,-57mm)$);
-\end{tikzpicture}}
-\caption{La popup ne voit pas la page : elle transmet une préférence au
-content script de l’onglet actif.}
+\node[actor,right=11mm of u] (p) {Popup};
+\node[actor,right=11mm of p] (c) {Content script};
+\node[actor,right=11mm of c] (e) {Moteur};
+\node[actor,right=11mm of e] (d) {Site};
+\foreach \n in {u,p,c,e,d}
+  \draw[life] (\n.south) -- ++(0,-78mm);
+\draw[msg] ($(u.south)+(0,-8mm)$) -- node[above,font=\scriptsize]{choisit Fulfulde} ($(p.south)+(0,-8mm)$);
+\draw[msg] ($(p.south)+(0,-18mm)$) -- node[above,font=\scriptsize]{active KORA} ($(c.south)+(0,-18mm)$);
+\draw[msg] ($(c.south)+(0,-28mm)$) -- node[above,font=\scriptsize]{lit DOM et valeurs} ($(d.south)+(0,-28mm)$);
+\draw[msg] ($(c.south)+(0,-38mm)$) -- node[above,font=\scriptsize]{segment protégé} ($(e.south)+(0,-38mm)$);
+\draw[msg] ($(e.south)+(0,-48mm)$) -- node[above,font=\scriptsize]{sens et intégrité} ($(c.south)+(0,-48mm)$);
+\draw[msg] ($(c.south)+(0,-58mm)$) -- node[above,font=\scriptsize]{texte visible traduit} ($(d.south)+(0,-58mm)$);
+\draw[msg] ($(d.south)+(0,-68mm)$) -- node[above,font=\scriptsize]{nouveau contenu} ($(c.south)+(0,-68mm)$);
+\end{tikzpicture}
+\caption{La popup transmet le choix de langue; le content script lit et rend
+le texte; le moteur contrôle le sens et l’intégrité sans modifier la logique du site.}
 \end{figure}
 
 \subsection{Pipeline de traduction contrôlée}

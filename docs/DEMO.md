@@ -2,6 +2,8 @@
 
 Le livrable final est
 [`../release/KORA_Demo_Pitch_SAFINUM_2026.mp4`](../release/KORA_Demo_Pitch_SAFINUM_2026.mp4).
+Le [lien public de remise](https://drive.google.com/file/d/1HcUXGmBAietvu6IhThwcRsNfDH4d8vw1/view?usp=sharing)
+ouvre la version publiée de la démonstration.
 Il enregistre un vrai profil Chrome, l’installation de l’extension et les cinq
 étapes du parcours client Safinum. Le script exécute d’abord le parcours
 complet et contrôle ses valeurs, puis monte uniquement les états réellement

@@ -86,23 +86,31 @@ fluidité trompeuse d’une interface entièrement générée.
 
 \subsection{Parcours financier démontré}
 
+\begin{figure}[H]
+\centering
 \begin{tikzpicture}[
-  node distance=5mm and 4mm,
-  journey/.style={draw=Line,fill=Paper,rounded corners=2mm,minimum height=18mm,
-    text width=27mm,align=center,font=\small},
-  num/.style={circle,fill=Teal,text=white,font=\bfseries,inner sep=2.2pt},
-  arrow/.style={-{Latex[length=2.2mm]},thick,color=TealDark}
+  node distance=3.4mm,
+  journey/.style={draw=Line,fill=Paper,rounded corners=2mm,
+    text width=145mm,minimum height=12mm,align=left,
+    inner xsep=4mm,inner ysep=2mm,font=\small},
+  arrow/.style={-{Latex[length=2mm]},line width=0.8pt,color=TealDark}
 ]
-\node[journey] (s1) {\tikz\node[num]{1};\\[1mm]\textbf{Solde}\\compte et historique};
-\node[journey,right=of s1] (s2) {\tikz\node[num]{2};\\[1mm]\textbf{Frais}\\type et montant};
-\node[journey,right=of s2] (s3) {\tikz\node[num]{3};\\[1mm]\textbf{Bénéficiaire}\\données saisies};
-\node[journey,right=of s3] (s4) {\tikz\node[num]{4};\\[1mm]\textbf{Récapitulatif}\\valeurs à vérifier};
-\node[journey,right=of s4] (s5) {\tikz\node[num]{5};\\[1mm]\textbf{Confirmation}\\reçu et retour};
-\draw[arrow] (s1) -- (s2);
-\draw[arrow] (s2) -- (s3);
-\draw[arrow] (s3) -- (s4);
-\draw[arrow] (s4) -- (s5);
+\node[journey,fill=Mint] (s1) {\textcolor{TealDark}{\textbf{01 · Solde et historique}}\\
+Lire le solde et les opérations; montants, dates et compte restent identiques.};
+\node[journey,below=of s1] (s2) {\textcolor{TealDark}{\textbf{02 · Frais et montant}}\\
+Choisir une opération, saisir un montant, puis vérifier frais et total.};
+\node[journey,below=of s2] (s3) {\textcolor{TealDark}{\textbf{03 · Bénéficiaire}}\\
+Renseigner nom, téléphone et motif sans modifier les données saisies.};
+\node[journey,below=of s3] (s4) {\textcolor{TealDark}{\textbf{04 · Récapitulatif}}\\
+Comparer le bénéficiaire, le montant, les frais et les conditions avant validation.};
+\node[journey,fill=Mint,below=of s4] (s5) {\textcolor{TealDark}{\textbf{05 · Confirmation et retour}}\\
+Lire le reçu, conserver la référence et revenir au tableau de bord.};
+\foreach \from/\to in {s1/s2,s2/s3,s3/s4,s4/s5}
+  \draw[arrow] (\from.south) -- (\to.north);
 \end{tikzpicture}
+\caption{Parcours réellement démontré sur Safinum; les valeurs financières
+sont contrôlées à chaque étape.}
+\end{figure}
 
 Les erreurs \code{AMOUNT\_001}, \code{AMOUNT\_002},
 \code{BENEFICIARY\_001}, \code{SECURITY\_001},
@@ -112,16 +120,16 @@ intacts; leurs titres et explications visibles peuvent être traduits.
 
 \subsection{Périmètre observable}
 
-\begin{tabularx}{\linewidth}{@{}Y Y@{}}
-\toprule
+\begin{tabularx}{\linewidth}{@{}|Y|Y|@{}}
+\hline
 \textbf{Pris en charge} & \textbf{Hors exposition du navigateur}\\
-\midrule
+\hline
 Nœuds texte; boutons; liens; labels; options visibles; \code{placeholder};
 \code{aria-label}; \code{title}; contenu ajouté ou remplacé; Shadow DOM
 ouvert; iframes autorisées. &
 Texte incorporé à une image; pixels d’un \code{canvas}; Shadow DOM fermé;
 pages \code{chrome://}; Chrome Web Store; iframe interdite par le navigateur.\\
-\bottomrule
+\hline
 \end{tabularx}
 
 Cette frontière est technique et vérifiable : une extension ne peut pas

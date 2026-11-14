@@ -37,46 +37,52 @@ de présenter une génération de corpus comme une norme linguistique.
 
 \subsection{Sources et propriété intellectuelle}
 
-\begin{longtable}{@{}L{43mm}L{29mm}L{43mm}L{37mm}@{}}
-\toprule
+\begin{longtable}{@{}|L{43mm}|L{29mm}|L{43mm}|L{37mm}|@{}}
+\hline
 \textbf{Ressource} & \textbf{Licence} & \textbf{Usage KORA} &
 \textbf{Redistribution}\\
-\midrule
+\hline
 \endfirsthead
-\toprule
+\hline
 \textbf{Ressource} & \textbf{Licence} & \textbf{Usage KORA} &
 \textbf{Redistribution}\\
-\midrule
+\hline
 \endhead
 Common Voice 27 \code{fub} &
 CC0 &
 1\,067 phrases pour orthographe et modèle de fluidité &
 Pas de corpus brut dans l’extension.\\
+\hline
 Tourneux \& Konaï, vocabulaire mobile &
 CC BY 4.0 &
 Terminologie camerounaise des communications et transferts &
 Attribution conservée.\\
+\hline
 Ressources SIL \code{fub} &
 Conditions propres &
 Consultation et contrôle, sans extraction automatisée &
 Non redistribuées.\\
+\hline
 Deux inventaires financiers fournis &
 Licence non déclarée &
 Inventaire de concepts et définitions françaises &
 Fichiers conservés dans le dépôt; pas présentés comme corpus parallèle.\\
+\hline
 PanLex \code{fub} &
 Ambiguïté de licence / restriction non commerciale &
 Évalué, non intégré &
 Non redistribué.\\
+\hline
 Google Translate vers \code{ff} &
 Service externe de comparaison &
 Cinq réponses publiques comparées; aucune importation automatique &
 Résultats archivés séparément.\\
+\hline
 Code KORA &
 MIT &
 Extension, moteur, modèles et tests &
 Distribué sous MIT.\\
-\bottomrule
+\hline
 \end{longtable}
 
 \subsection{Inventaires financiers et statuts}
@@ -88,21 +94,24 @@ FR/EN$\rightarrow$\code{fub}. La matrice synthétique finale du volume 2 est
 exclue : elle contient notamment des associations contradictoires entre
 réussites et causes d’échec.
 
-\begin{tabularx}{\linewidth}{@{}L{47mm}C{22mm}Y@{}}
-\toprule
+\begin{tabularx}{\linewidth}{@{}|L{47mm}|C{22mm}|Y|@{}}
+\hline
 \textbf{Statut} & \textbf{Nombre} & \textbf{Interprétation}\\
-\midrule
+\hline
 \code{reviewed-existing} & 20 &
 Formulation déjà présente dans la mémoire KORA relue.\\
+\hline
 \code{compositional-candidate} & 340 &
 Composition transparente mais encore à confirmer par revue native.\\
+\hline
 \code{local-loan-candidate} & 31 &
 Emprunt technique cohérent avec l’usage local, à confirmer.\\
+\hline
 \code{preserved-code} & 113 &
 Code ou identifiant qui reste strictement identique.\\
-\midrule
+\hline
 \textbf{Total} & \textbf{504} & 391 clés françaises et 390 clés anglaises.\\
-\bottomrule
+\hline
 \end{tabularx}
 
 Les candidats élargissent la reconnaissance de l’interface et alimentent le
@@ -116,27 +125,34 @@ d’action. Les concepts emploient préférentiellement la forme nominale
 \texttt{-ugol}; une commande peut garder la forme verbale Adamawa en
 \texttt{-ugo}.
 
-\begin{tabularx}{\linewidth}{@{}L{38mm}L{49mm}Y@{}}
-\toprule
+\begin{tabularx}{\linewidth}{@{}|L{38mm}|L{49mm}|Y|@{}}
+\hline
 \textbf{Concept} & \textbf{Forme retenue} & \textbf{Décision}\\
-\midrule
+\hline
 Compte bloqué & \texttt{Konte uddaaɗo} &
 Participe passé adjectival, pas verbe conjugué.\\
+\hline
 Date de valeur & \texttt{Ñalngu kiisaangu} &
 Écarte le faux-sens «\,ancien/usé\,».\\
+\hline
 Découvert autorisé & \texttt{Kaalisi ɓeydaaɗi yamiraaɗi} &
 Accord avec la classe de \texttt{kaalisi}.\\
+\hline
 Paiement récurrent & \texttt{Yoɓugol lortotoongol} &
 Écarte le sens «\,défaire/résilier\,».\\
+\hline
 Paiement sans contact & \texttt{Yoɓugol tawa meemaaka} &
 Voyelle longue de \texttt{meemugo}.\\
+\hline
 Remboursement de prêt & \texttt{Yoɓugol nyamaande} &
 Sens dette/prêt explicite.\\
+\hline
 Remboursement marchand & \texttt{Ruttinangol kaalisi} &
 Restitution d’argent distincte du prêt.\\
+\hline
 Rétrofacturation & \texttt{Ruttinangol kaalisi yoɓaaɗi} &
 Nom d’action et objet financier explicites.\\
-\bottomrule
+\hline
 \end{tabularx}
 
 \subsection{Pourquoi plusieurs couches plutôt qu’un traducteur génératif}
@@ -179,23 +195,32 @@ déjà sûres, qu’ils peuvent classer mais jamais autoriser seuls.
 \caption{Réseau KORA quantifié et repli n-gramme déterministe.}
 \end{figure}
 
-\begin{tabularx}{\linewidth}{@{}L{50mm}Y@{}}
-\toprule
+\begin{tabularx}{\linewidth}{@{}|L{50mm}|Y|@{}}
+\hline
 \textbf{Caractéristique} & \textbf{Valeur reproductible}\\
-\midrule
+\hline
 Architecture & Contexte 3, embedding 24, tanh 96\\
+\hline
 Paramètres & 185\,120\\
+\hline
 Quantification & Poids int8; biais float32\\
+\hline
 Vocabulaire neuronal & 1\,472 unités\\
+\hline
 Données d’entraînement &
 1\,067 phrases Common Voice; 9\,368 tokens; 262 formulations KORA;
 386 formulations terminologiques à poids réduit\\
+\hline
 Repli n-gramme & 1\,199 mots fréquents; 1\,561 contextes\\
+\hline
 Validation tenue à part & 107 phrases Common Voice\\
+\hline
 Résultat int8 & top-1 14,8\,\%; top-5 35,0\,\%\\
+\hline
 Entraînement & Graine 2026; meilleur état époque 2; arrêt après 8/40\\
+\hline
 Taille générée & Environ 262 Kio avec vocabulaire et métadonnées\\
-\bottomrule
+\hline
 \end{tabularx}
 
 La configuration retenue maximise la top-5 parmi les variantes évaluées,

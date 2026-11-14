@@ -30,7 +30,7 @@ linguistique du projet; il n’est pas compté parmi les trois membres déclaré
 ## Champs « Présentation du prototype »
 
 - **Lien de la vidéo :**  
-  https://raw.githubusercontent.com/kaezerwatto/KORA/master/release/KORA_Demo_Pitch_SAFINUM_2026.mp4
+  https://drive.google.com/file/d/1HcUXGmBAietvu6IhThwcRsNfDH4d8vw1/view?usp=sharing
 - **Documentation à importer :**  
   `release/KORA-Documentation-SAFINUM.pdf`
 - **Lien du dépôt GitHub :**  
@@ -42,7 +42,7 @@ linguistique du projet; il n’est pas compté parmi les trois membres déclaré
 
 - [x] Le lien vidéo s’ouvre sans authentification.
 - [x] La vidéo finale dure 2 min 54,429 s : MP4 H.264/AAC, 1920 × 1080.
-- [x] Le PDF s’ouvre et pèse moins de 10 Mo : 25 pages A4.
+- [x] Le PDF s’ouvre et pèse moins de 10 Mo : 23 pages A4.
 - [x] Le ZIP pèse moins de 10 Mo : 254,4 Kio.
 - [x] Le ZIP contient `manifest.json` à sa racine.
 - [x] Le dépôt GitHub est public et son README affiche les livrables.
@@ -55,7 +55,7 @@ Empreintes SHA-256 des fichiers remis :
 
 ```text
 4141c02f50069f57c88caf7b7eaeddc3b3925f003cafc8507f120089e367e488  kora-extension.zip
-e15bc2e2c253d495872e8847f0361832598a3ad450800aa881d4f264d971d35f  KORA-Documentation-SAFINUM.pdf
+25f89a73b39bb8817ecff1ef823d1c8bf45946543009ada8e6bf617c410519df  KORA-Documentation-SAFINUM.pdf
 1f1261a45aec4d6d7400a872d1ba4d5dfe552a4aed6697d431cc8633ef137f11  KORA_Demo_Pitch_SAFINUM_2026.mp4
 ```
 

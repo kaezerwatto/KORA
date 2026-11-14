@@ -78,21 +78,27 @@ console.log(result.text);    // Kaalisi yonaa
 console.log(result.method);  // spelling-memory
 \end{lstlisting}
 
-\begin{tabularx}{\linewidth}{@{}L{38mm}Y@{}}
-\toprule
+\begin{tabularx}{\linewidth}{@{}|L{38mm}|Y|@{}}
+\hline
 \textbf{Option/résultat} & \textbf{Signification}\\
-\midrule
+\hline
 \code{sourceHint} & \code{auto}, \code{fr} ou \code{en}.\\
+\hline
 \code{domainHint} & \code{general} ou \code{financial}.\\
+\hline
 \code{protectedValues} & Chaînes à conserver strictement.\\
+\hline
 \code{text} & Traduction acceptée ou texte original.\\
+\hline
 \code{changed} & Indique si le rendu a changé.\\
+\hline
 \code{method} &
 \code{memory}, \code{spelling-memory}, \code{template},
 \code{glossary}, \code{protected}, \code{integrity-fallback} ou
 \code{original}.\\
+\hline
 \code{fluency} & Score du modèle lorsque pertinent.\\
-\bottomrule
+\hline
 \end{tabularx}
 
 \subsection{Utiliser uniquement les modèles de langue}
@@ -140,26 +146,33 @@ plus qu’un simple remplacement de chaînes :
 
 \subsection{Dépendances et services déclarés}
 
-\begin{longtable}{@{}L{43mm}L{35mm}L{50mm}L{28mm}@{}}
-\toprule
+\begin{longtable}{@{}|L{43mm}|L{35mm}|L{50mm}|L{28mm}|@{}}
+\hline
 \textbf{Composant} & \textbf{Version/forme} & \textbf{Rôle} &
 \textbf{Dans le ZIP}\\
-\midrule
+\hline
 \endfirsthead
-\toprule
+\hline
 \textbf{Composant} & \textbf{Version/forme} & \textbf{Rôle} &
 \textbf{Dans le ZIP}\\
-\midrule
+\hline
 \endhead
 esbuild & 0.28.2 & Bundle local du content script & Non\\
+\hline
 puppeteer-core & 25.17.0 & Tests navigateur et capture & Non\\
+\hline
 Node test runner & Node.js & Tests unitaires & Non\\
+\hline
 PyTorch + NumPy & Environnement Python optionnel & Réentraînement & Non\\
+\hline
 Chrome MV3 & API native & Exécution de l’extension & Oui, contrat\\
+\hline
 ElevenLabs & API de production vidéo & Narration du pitch public & Non\\
+\hline
 Web Audio API & API navigateur & Musique originale du montage & Non\\
+\hline
 Modèles KORA & JavaScript int8 + n-gramme & Fluidité locale & Oui\\
-\bottomrule
+\hline
 \end{longtable}
 
 ElevenLabs n’appartient pas au runtime KORA. Seul le script public de la vidéo
@@ -168,23 +181,28 @@ n’est envoyée. Les clés restent dans un fichier local non distribué.
 
 \subsection{Limites connues et évolution}
 
-\begin{tabularx}{\linewidth}{@{}L{48mm}Y@{}}
-\toprule
+\begin{tabularx}{\linewidth}{@{}|L{48mm}|Y|@{}}
+\hline
 \textbf{Limite} & \textbf{Traitement / prochaine étape}\\
-\midrule
+\hline
 Phrase libre totalement inconnue &
 Conserver la source; enrichir ensuite par une entrée sourcée et revue.\\
+\hline
 Terminologie candidate &
 Double revue à l’aveugle par locuteurs \code{fub} et test de compréhension.\\
+\hline
 Variations régionales &
 Échantillonner Ngaoundéré, Garoua et Maroua; versionner les variantes.\\
+\hline
 Image, canvas, Shadow DOM fermé &
 Hors accès standard; envisager un module OCR séparé avec consentement.\\
+\hline
 Certification bancaire &
 Audit externe, gouvernance des versions, essais sécurité et conformité.\\
+\hline
 Déploiement navigateur &
 Signature, politique de mises à jour et publication sur un canal contrôlé.\\
-\bottomrule
+\hline
 \end{tabularx}
 
 \begin{warningbox}[Priorité de feuille de route]

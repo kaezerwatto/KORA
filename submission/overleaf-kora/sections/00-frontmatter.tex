@@ -19,19 +19,23 @@ aucun contenu de page ne quitte l’appareil.
 
 \subsection*{Accès direct aux livrables}
 
-\begin{tabularx}{\linewidth}{@{}L{32mm}Y@{}}
-\toprule
+\begin{tabularx}{\linewidth}{@{}|L{32mm}|Y|@{}}
+\hline
 \textbf{Dépôt source} &
 \href{\RepoURL}{\RepoURL}\\
+\hline
 \textbf{Vidéo de démonstration} &
 \href{\DemoVideoURL}{Voir la vidéo MP4 (2 min 54 s)}\\
+\hline
 \textbf{Extension} &
 \code{release/kora-extension.zip} et \code{release/kora-unpacked/}\\
+\hline
 \textbf{Modèle exportable} &
 \code{release/kora-fub-neural-model.json}\\
+\hline
 \textbf{Environnement} &
 \href{\ChallengeURL}{\ChallengeURL}\\
-\bottomrule
+\hline
 \end{tabularx}
 
 \vspace{3mm}
@@ -69,26 +73,35 @@ locale au-dessus d’une page existante, sans hook propriétaire et sans contrat
 
 \subsection*{Fiche d’identité vérifiable}
 
-\begin{tabularx}{\linewidth}{@{}L{46mm}Y@{}}
-\toprule
+\begin{tabularx}{\linewidth}{@{}|L{46mm}|Y|@{}}
+\hline
 \textbf{Forme du prototype} & Extension Chrome Manifest V3\\
+\hline
 \textbf{Sources prises en charge} & Français et anglais\\
+\hline
 \textbf{Langue nationale cible} & Fulfulde de l’Adamaoua, \code{fub}\\
+\hline
 \textbf{Exécution} & Locale, CPU, sans serveur de traduction\\
+\hline
 \textbf{Permissions} & \code{storage}, \code{activeTab}, \code{scripting}\\
+\hline
 \textbf{Archive courante} & 260\,523 octets, soit environ 254,4 Kio\\
+\hline
 \textbf{Surface terminologique} &
 504 concepts financiers dédupliqués; 391 clés FR, 390 clés EN,
 113 codes préservés\\
+\hline
 \textbf{Modèle neuronal} &
 185\,120 paramètres; contexte 3; embeddings 24; couche tanh 96;
 poids int8\\
+\hline
 \textbf{Validation du modèle} &
 107 phrases Common Voice tenues hors entraînement;
 top-1 14,8\,\%; top-5 35,0\,\%\\
+\hline
 \textbf{Validation linguistique} &
 \LinguisticValidator; provenance et statut enregistrés par entrée\\
-\bottomrule
+\hline
 \end{tabularx}
 
 \begin{warningbox}[Portée des chiffres]
@@ -98,58 +111,3 @@ Le sens FR/EN est déterminé en amont par les mémoires, les gabarits et le
 verrou sémantique. Le modèle sert à classer la fluidité de candidats déjà
 jugés sûrs.
 \end{warningbox}
-
-\clearpage
-\section*{Réponse synthétique au cahier des charges}
-\addcontentsline{toc}{section}{Réponse synthétique au cahier des charges}
-
-\begin{longtable}{@{}L{40mm}L{34mm}L{78mm}@{}}
-\toprule
-\textbf{Exigence SAFINUM} & \textbf{Réponse} & \textbf{Preuve dans le prototype}\\
-\midrule
-\endfirsthead
-\toprule
-\textbf{Exigence SAFINUM} & \textbf{Réponse} & \textbf{Preuve dans le prototype}\\
-\midrule
-\endhead
-Adaptation linguistique & \pass &
-Mémoires bilingues FR/EN vers une sortie commune \code{fub}; popup Fulfulde,
-Français et English.\\
-Parcours financier & \pass &
-Tableau de bord, frais, bénéficiaire, récapitulatif, confirmation, reçu,
-erreurs et alertes.\\
-Préservation des données & \pass &
-Masquage temporaire, restauration caractère pour caractère, contrôle du
-nombre d’occurrences et abstention en cas d’échec.\\
-Indépendance du service & \pass &
-Content script générique sur une page HTTP(S), sans modification du code du
-site ni hook dédié.\\
-Contenu inédit & \partialpass &
-\code{MutationObserver} couvre les nouvelles surfaces DOM; gabarits et
-glossaire couvrent les messages dont le sens est connu. Une phrase libre
-inconnue reste source par sécurité.\\
-Opérations simulées & \pass &
-Les tests utilisent des identités, comptes, références et transferts fictifs;
-KORA n’initie aucune transaction.\\
-Confidentialité & \pass &
-Aucun \code{fetch}, WebSocket, télémétrie ou stockage de contenu de page.\\
-Accessibilité & \pass &
-DOM interactif conservé, focus visible, clavier natif, attribut
-\code{lang="fub"}, libellés ARIA traduisibles.\\
-Contribution technique propre & \pass &
-Moteur, verrou d’intégrité, correction orthographique, modèles linguistiques,
-pipeline DOM et suite de tests produits par l’équipe.\\
-Documentation et reproductibilité & \pass &
-Sources, commandes, architecture, dépendances, limites, licences et matrice de
-conformité réunies dans ce dossier et le dépôt.\\
-\bottomrule
-\end{longtable}
-
-\begin{evidencebox}[Positionnement honnête]
-L’exigence «\,adaptation à un contenu inédit\,» possède deux dimensions :
-\textit{détecter} tout nouveau texte accessible et \textit{comprendre} son
-sens. KORA automatise la première pour les surfaces DOM exposées. Pour la
-seconde, il traite les intentions couvertes, les fautes non ambiguës et les
-phrases variables; il s’abstient sur un sens absent. Cette politique évite
-qu’un gain artificiel de couverture ne crée un défaut majeur financier.
-\end{evidencebox}

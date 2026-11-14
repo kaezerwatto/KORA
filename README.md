@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="#installation">Installer</a> ·
-  <a href="release/KORA_Demo_Pitch_SAFINUM_2026.mp4">Voir la démo réelle</a> ·
+  <a href="https://drive.google.com/file/d/1HcUXGmBAietvu6IhThwcRsNfDH4d8vw1/view?usp=sharing">Voir la démo réelle</a> ·
   <a href="release/KORA-Documentation-SAFINUM.pdf">Lire le dossier technique</a> ·
   <a href="docs/ARCHITECTURE.md">Explorer l’architecture</a>
 </p>
@@ -43,7 +43,7 @@ Une traduction financière ne doit jamais transformer `25 000 FCFA`, inverser «
 ### Livrables SAFINUM
 
 - [Vidéo pitch-démo réelle — 2 min 54 s, 1920 × 1080, MP4](release/KORA_Demo_Pitch_SAFINUM_2026.mp4)
-- [Dossier technique complet — 25 pages A4, PDF](release/KORA-Documentation-SAFINUM.pdf)
+- [Dossier technique complet — 23 pages A4, PDF](release/KORA-Documentation-SAFINUM.pdf)
 - [Source LaTeX autonome pour Overleaf](submission/overleaf-kora/)
 - [Extension Chrome prête à remettre — 254,4 Kio](release/kora-extension.zip)
 - [Archive Overleaf autonome](release/KORA-Dossier-Technique-Overleaf.zip)

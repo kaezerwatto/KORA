@@ -56,52 +56,63 @@ npm run package          # rebuild, modèle exporté, ZIP < 10 Mio
 
 \subsection{Matrice des scénarios critiques}
 
-\begin{longtable}{@{}L{43mm}L{55mm}L{57mm}@{}}
-\toprule
+\begin{longtable}{@{}|L{43mm}|L{55mm}|L{57mm}|@{}}
+\hline
 \textbf{Scénario} & \textbf{Oracle} & \textbf{Couverture}\\
-\midrule
+\hline
 \endfirsthead
-\toprule
+\hline
 \textbf{Scénario} & \textbf{Oracle} & \textbf{Couverture}\\
-\midrule
+\hline
 \endhead
 Source française / anglaise &
 Même intention source, même sortie \code{fub}. &
 Tests moteur et bascule live.\\
+\hline
 Solde et historique &
 Montants, signes, dates et devise identiques. &
 Tests moteur + tableau de bord live.\\
+\hline
 Calcul des frais &
 Montant, frais et total identiques avant/après traduction. &
 Tests valeurs + étape frais live.\\
+\hline
 Données bénéficiaire &
 Nom, téléphone, motif et note inchangés. &
 Tests formulaire, récapitulatif et reçu.\\
+\hline
 Libellé d’un \code{select} &
 Texte visible traduit; valeur technique inchangée. &
 Test navigateur dédié.\\
+\hline
 Message ajouté après chargement &
 Détecté par l’observateur et traité sans hook. &
 Ajout, \code{innerHTML}, fragment, remplacement, attribut.\\
+\hline
 Fautes d’orthographe &
 Même sortie uniquement si un meilleur sens est unique. &
 1\,252 libellés : 628 FR et 624 EN.\\
+\hline
 Texte libre inconnu &
 Source conservée; aucune phrase inventée. &
 Test de faible confiance.\\
+\hline
 Négation financière inconnue &
 Source conservée. &
 \texttt{Le transfert n'a pas échoué.}\\
+\hline
 Code technique &
 Code conservé; explication visible traduisible. &
 HTTP, événements, API et erreurs Safinum.\\
+\hline
 Sélection clavier &
 \code{Ctrl+A} sélectionne la page et un champ normalement. &
 Tests popup, pages et UBA.\\
+\hline
 Restauration &
 Tous les nœuds reviennent à leur texte original. &
 Test protocole popup/content script.\\
-\bottomrule
+\hline
 \end{longtable}
 
 \subsection{Test live Safinum}
@@ -139,23 +150,26 @@ opérations selon la longueur : insertion, suppression, substitution ou
 inversion adjacente. Les tests génèrent une variante fautive pour chaque clé
 textuelle éligible et exigent exactement la traduction de la clé d’origine.
 
-\begin{tabularx}{\linewidth}{@{}L{39mm}L{50mm}Y@{}}
-\toprule
+\begin{tabularx}{\linewidth}{@{}|L{39mm}|L{50mm}|Y|@{}}
+\hline
 \textbf{Entrée} & \textbf{Sortie attendue} & \textbf{Règle}\\
-\midrule
+\hline
 \texttt{sodle insufisant} &
 \texttt{Kaalisi yonaa} &
 Deux fautes, rapprochement unique.\\
+\hline
 \texttt{insuficient balnce} &
 \texttt{Kaalisi yonaa} &
 Source anglaise fautive, intention connue.\\
+\hline
 Deux clés également proches &
 Texte source &
 Ambiguïté = abstention.\\
+\hline
 \texttt{NETWORK\_001} &
 \texttt{NETWORK\_001} &
 Code protégé, jamais corrigé approximativement.\\
-\bottomrule
+\hline
 \end{tabularx}
 
 \subsection{Évaluation du modèle de langue}

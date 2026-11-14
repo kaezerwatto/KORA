@@ -8,29 +8,34 @@ d’une valeur canonique pendant le rendu. La conception traite donc la
 traduction comme une transformation non fiable qui doit prouver qu’elle a
 conservé les données.
 
-\begin{tabularx}{\linewidth}{@{}L{40mm}Y Y@{}}
-\toprule
+\begin{tabularx}{\linewidth}{@{}|L{40mm}|Y|Y|@{}}
+\hline
 \textbf{Risque} & \textbf{Impact possible} & \textbf{Mesure KORA}\\
-\midrule
+\hline
 Montant ou devise altéré &
 Décision financière erronée &
 Masquage, restauration exacte, comptage des occurrences, rejet.\\
+\hline
 Bénéficiaire traduit &
 Confusion sur le destinataire &
 Noms et valeurs saisies ajoutés au jeu protégé en mémoire d’onglet.\\
+\hline
 Action inversée &
 Confirmer au lieu d’annuler, créditer au lieu de débiter &
 Actions critiques en mémoire exacte; négation inconnue = abstention.\\
+\hline
 Alerte affaiblie &
 Utilisateur insuffisamment averti &
 Messages complets, seuil de couverture critique à 100\,\%.\\
+\hline
 Fuite de contenu &
 Exposition de données personnelles &
 Pas de transport réseau, télémétrie ou stockage persistant de page.\\
+\hline
 Régression d’interface &
 Clavier ou formulaire inutilisable &
 Modification des nœuds textuels, pas des composants ou de leur ordre.\\
-\bottomrule
+\hline
 \end{tabularx}
 
 \subsection{Invariant d’intégrité}
@@ -138,28 +143,33 @@ Chrome.
 
 \subsection{Accessibilité et expérience utilisateur}
 
-\begin{tabularx}{\linewidth}{@{}L{43mm}Y@{}}
-\toprule
+\begin{tabularx}{\linewidth}{@{}|L{43mm}|Y|@{}}
+\hline
 \textbf{Principe} & \textbf{Application}\\
-\midrule
+\hline
 Navigation clavier &
 Aucun gestionnaire global ne bloque \code{Ctrl+A}; tabulation et commandes du
 site sont conservées.\\
+\hline
 Focus &
 La popup possède des styles de focus visibles et se ferme après action pour
 rendre le focus à la page.\\
+\hline
 Sémantique &
 Les éléments ne sont ni clonés ni remplacés; rôles, labels et ordre DOM
 restent ceux du site.\\
+\hline
 Lecteurs d’écran &
 \code{aria-label}, \code{title} et \code{placeholder} peuvent être traduits;
 les sorties portent \code{lang="fub"}.\\
+\hline
 Lisibilité &
 Popup sombre, contrastes élevés, contrôles dimensionnés et états explicites.\\
+\hline
 Réversibilité &
 Chaque nœud conserve sa forme source; l’utilisateur peut restaurer la page
 instantanément.\\
-\bottomrule
+\hline
 \end{tabularx}
 
 \subsection{Cadre de démonstration}
