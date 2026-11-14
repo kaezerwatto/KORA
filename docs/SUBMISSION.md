@@ -21,7 +21,7 @@ KORA couvre le parcours complet Safinum Pay, ses erreurs et ses alertes. Elle d�
 - traduction dynamique idempotente compatible avec Vue;
 - retour instantané au texte original;
 - interface accessible et lecture optionnelle;
-- tests automatisés sur l’environnement Safinum réel, son panneau jury et ses journaux financiers.
+- tests automatisés sur l’environnement Safinum réel et ses contrôles d’intégrité financière.
 
 ## Confidentialité
 

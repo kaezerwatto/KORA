@@ -4,9 +4,9 @@
 
 KORA cible le fulfulde de l’Adamaoua, ISO 639-3 `fub`, écrit en caractères latins avec `ɓ`, `ɗ`, `ƴ`, `ŋ` et `ɲ`. Les corpus `ff`, `fuv`, `fuf` et `ffm` ne sont pas fusionnés silencieusement avec `fub`.
 
-## Validateur déclaré
+## Responsable de la validation linguistique
 
-**M. Jean Ernset Souroumbai** est le validateur linguistique déclaré du projet. Une formulation n’est toutefois marquée comme validée dans les données qu’après une revue explicite; son nom ne remplace pas la traçabilité phrase par phrase.
+**M. Jean Ernset Souroumbai** assure la responsabilité de la validation linguistique du projet. Une formulation n’est marquée comme validée dans les données qu’après une revue explicite et traçable, phrase par phrase.
 
 ## Sources prioritaires
 

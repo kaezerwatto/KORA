@@ -145,7 +145,7 @@ flowchart LR
     A[Mutation DOM] --> B[Debounce]
     B --> C[Découverte document + Shadow DOM ouvert]
     C --> D[Collecte textes et attributs]
-    D --> E{Champ financier ou source d'injection ?}
+    D --> E{Champ financier ou source dynamique ?}
     E -->|Donnée utilisateur| P[Protéger]
     E -->|Source à traduire| T[Conserver le champ, traduire le rendu]
     E -->|Texte normal| T
@@ -207,6 +207,7 @@ Le réseau compte 77 104 paramètres. Ses poids, son vocabulaire et ses métadon
 - `src/fub-neural-model.js` : poids neuronaux int8 générés;
 - `src/neural-language-model.js` : inférence neuronale locale;
 - `src/popup.*` : interface utilisateur;
+- `scripts/export_neural_model.mjs` : export JSON portable du modèle int8;
 - `scripts/build.mjs` : bundle Chrome;
 - `scripts/package.mjs` : ZIP et dossier unpacked.
 
@@ -216,11 +217,13 @@ Le réseau compte 77 104 paramètres. Ses poids, son vocabulaire et ses métadon
 flowchart LR
     S[Sources] --> M[Construction du modèle]
     S --> I[Génération des icônes]
+    M --> E[Export JSON du modèle]
     M --> B[esbuild]
     I --> B
     B --> D[dist]
     D --> U[release/kora-unpacked]
     D --> Z[release/kora-extension.zip]
+    E --> J[release/kora-fub-neural-model.json]
     Z --> Q{Taille ≤ 10 Mio ?}
     Q -->|Oui| R[Livraison]
     Q -->|Non| X[Échec du build]

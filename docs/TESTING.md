@@ -19,19 +19,19 @@
 - traduction du libellé d’une option sans modification de sa valeur technique;
 - conservation des saisies, notamment `Payment for services`;
 - ajout de nœuds, remplacement de texte, attributs dynamiques, Shadow DOM ouvert et iframe;
-- traduction du message injecté `hello mon frere qui est tu`.
+- traduction dynamique du message `hello mon frere qui est tu`.
 
 ## Test Chrome en direct
 
 `npm run test:live` :
 
 1. lance Google Chrome avec l’extension unpacked;
-2. ouvre `https://safinum.cm/hackathon-test?jury=1`;
-3. vérifie le panneau jury, injecte réellement `hello mon frere qui est tu` et contrôle sa traduction;
+2. ouvre l’environnement Safinum de test;
+3. ajoute réellement `hello mon frere qui est tu` après chargement et contrôle sa traduction;
 4. vérifie le tableau de bord et les valeurs canoniques;
 5. injecte après chargement « Votre transfert de 9 500 FCFA est en attente. »;
 6. parcourt les cinq étapes jusqu’au reçu;
-7. contrôle nom, téléphone, montants, référence et journal des soumissions;
+7. contrôle nom, téléphone, montants, référence et intégrité des données enregistrées;
 8. ouvre une seconde page, bascule Safinum en anglais et confirme la traduction vers le même `fub`.
 
 Résultat de référence :

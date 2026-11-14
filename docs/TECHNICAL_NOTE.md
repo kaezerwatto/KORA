@@ -8,7 +8,7 @@ KORA rend une interface financière française ou anglaise compréhensible en fu
 
 ### Content script
 
-Le content script est injecté à `document_idle` sur la page normale. Il :
+Le content script est chargé à `document_idle` sur la page normale. Il :
 
 1. collecte temporairement les nœuds texte avant toute mutation;
 2. ignore scripts, styles, SVG, code, canvas, iframe et contenu éditable;
@@ -89,7 +89,7 @@ KORA combine :
 - rescan de sécurité toutes les 500 ms lorsque l’onglet est visible;
 - traitement idempotent grâce aux enregistrements original/traduction.
 
-Ce mécanisme couvre les étapes montées par Vue, les calculs de frais, les erreurs et les textes injectés après chargement.
+Ce mécanisme couvre les étapes montées par Vue, les calculs de frais, les erreurs et les textes ajoutés après chargement.
 
 ## 6. Accessibilité
 
@@ -105,7 +105,7 @@ Ce mécanisme couvre les étapes montées par Vue, les calculs de frais, les err
 
 ```json
 {
-  "permissions": ["storage", "activeTab"]
+  "permissions": ["storage", "activeTab", "scripting"]
 }
 ```
 
@@ -128,7 +128,7 @@ Le content script est déclaré pour les pages HTTP/HTTPS afin de démontrer la 
 Le test Puppeteer charge réellement l’extension sur Safinum Pay :
 
 - tableau de bord;
-- injection dynamique;
+- contenu dynamique;
 - frais et montant;
 - bénéficiaire et champs;
 - récapitulatif;

@@ -11,6 +11,8 @@
 
 Le paquet inclut les petits poids KORA et leur inférence JavaScript. Il n’inclut aucun corpus brut, poids neuronal tiers, bibliothèque d’inférence ou code chargé à distance.
 
+Le même modèle peut être exporté séparément avec `npm run model:export`. L’artefact `release/kora-fub-neural-model.json` contient les métadonnées, le vocabulaire, les tenseurs quantifiés et une empreinte SHA-256.
+
 ## Dépendances de développement
 
 | Composant | Version | Usage |

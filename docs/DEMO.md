@@ -30,7 +30,7 @@ Insister sur la référence et les montants identiques.
 
 ## 1:40–2:05 — contenu inédit
 
-Injecter : « Votre transfert de 9 500 FCFA est en attente. »
+Ajouter dynamiquement : « Votre transfert de 9 500 FCFA est en attente. »
 
 Montrer la traduction instantanée sans rechargement et la conservation exacte de `9 500 FCFA`.
 

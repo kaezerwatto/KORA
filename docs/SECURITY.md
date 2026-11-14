@@ -8,10 +8,10 @@ Le risque majeur n’est pas une attaque réseau : c’est une traduction qui mo
 
 - Aucun `fetch`, WebSocket, API distante ou télémétrie.
 - Aucun contenu de page dans `chrome.storage`.
-- Seules deux préférences sont conservées : extension activée et langue source.
+- Seules trois préférences sont conservées : extension activée, langue source et langue d’affichage.
 - Aucun `innerHTML`, remplacement d’élément, clonage ou réécriture de formulaire.
 - Aucune modification de `value`, `checked`, `selected`, `name`, `id`, `type`, `min` ou `step`.
-- Permissions limitées à `storage` et `activeTab`; le content script est déclaré sur les pages web pour permettre l’adaptation indépendante.
+- Permissions limitées à `storage`, `activeTab` et `scripting`; cette dernière sert uniquement à charger le moteur local dans l’onglet actif lorsqu’il n’est pas encore présent.
 
 ## Valeurs protégées
 

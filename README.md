@@ -1,10 +1,14 @@
 # KORA
 
-![Logo KORA](src/icons/icon-128.png)
+<p align="center">
+  <img src="src/icons/icon-128.png" width="192" height="192" alt="Logo KORA">
+</p>
 
 **KORA** est une extension Chrome locale qui traduit les pages web du français ou de l’anglais vers le **fulfulde de l’Adamaoua (`fub`)**. Elle a été conçue pour le SAFINUM Innovate Challenge 2026, puis structurée comme une base réutilisable pour les interfaces financières camerounaises.
 
 KORA fonctionne sans serveur de traduction, sans API distante, sans télémétrie et sans transmission du contenu des pages.
+
+Le manifest fournit des icônes optimisées en `16`, `32`, `48` et `128` pixels. La marque remplit presque tout le canevas avec un fond émeraude contrasté afin de rester visible dans le sélecteur d’extensions, dont la taille d’affichage est imposée par Chrome.
 
 ![Popup KORA](docs/assets/kora-popup.png)
 
@@ -50,7 +54,7 @@ KORA surveille les surfaces DOM accessibles au navigateur :
 - Shadow DOM ouvert;
 - cadres et iframes où Chrome autorise le content script.
 
-Les valeurs de champs financiers ou personnels restent intactes. Un champ explicitement destiné à injecter une phrase de test est traité comme une source à traduire, sans modifier la valeur du champ lui-même.
+Les valeurs de champs financiers ou personnels restent intactes. Un champ explicitement destiné à fournir une phrase de test dynamique est traité comme une source à traduire, sans modifier la valeur du champ lui-même.
 
 Les Shadow DOM fermés, le texte dessiné dans un `<canvas>`, les images et les pages protégées comme `chrome://` ou le Chrome Web Store ne sont pas accessibles aux extensions.
 
@@ -113,6 +117,21 @@ Ce petit réseau ne remplace pas un grand modèle neuronal de traduction. Sous l
 
 Les métriques, la séparation entraînement/validation et les sorties observées sont détaillées dans [`docs/MODEL_EVALUATION.md`](docs/MODEL_EVALUATION.md).
 
+### Exporter le modèle entraîné
+
+```bash
+npm run model:export
+```
+
+Cette commande produit `release/kora-fub-neural-model.json`, un artefact portable contenant :
+
+- métadonnées d’architecture et métriques;
+- vocabulaire `fub`;
+- tenseurs int8 et échelles de quantification;
+- empreinte SHA-256 de contrôle.
+
+L’implémentation de référence pour l’inférence se trouve dans `src/neural-language-model.js`. L’export ne contient aucune donnée utilisateur ni contenu provenant des pages visitées.
+
 ## Intégrité et confidentialité
 
 KORA ne modifie jamais :
@@ -131,11 +150,11 @@ Dans un `<select>`, seul le libellé visible d’une option est traduit. Sa prop
 
 - parcours Safinum : tableau de bord, frais, bénéficiaire, récapitulatif et reçu;
 - erreurs et alertes de sécurité;
-- panneau jury, contenu injecté et journaux de contrôle financier;
+- contenu dynamique et contrôles d’intégrité financière;
 - authentification, code OTP/PIN et session;
 - carte, paiement, dépôt, retrait et transfert;
 - compte, historique, relevé, crédit, prêt et remboursement;
-- interfaces web générales et contenu injecté dynamiquement.
+- interfaces web générales et contenu ajouté dynamiquement.
 
 ## Développement
 
@@ -146,6 +165,7 @@ npm install
 npm run build:icons
 npm run build:model
 npm run model:train
+npm run model:export
 npm run model:demo
 npm test
 npm run test:popup
@@ -176,7 +196,7 @@ La suite vérifie :
 - contenu dynamique et bascule de langue;
 - texte, attributs, Shadow DOM ouvert et iframes;
 - conservation de `Payment for services` lorsqu’il s’agit d’une saisie;
-- traduction live de `hello mon frere qui est tu` après injection.
+- traduction live de `hello mon frere qui est tu` après ajout dynamique.
 
 ## Structure
 
@@ -194,6 +214,7 @@ src/
 scripts/
   build_fub_language_model.py
   train_tiny_fub_neural.py
+  export_neural_model.mjs
   generate_icons.py
   model_demo.mjs
   build.mjs
@@ -224,7 +245,7 @@ PanLex et le dictionnaire SIL complet ne sont pas redistribués : leurs conditio
 
 ## Validation linguistique
 
-- **M. JEAN ERNSET SOUROUMBAI** — validateur linguistique déclaré.
+- **M. JEAN ERNSET SOUROUMBAI** — responsable de la validation linguistique du projet.
 
 ## Limites
 

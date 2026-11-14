@@ -55,7 +55,7 @@ Le transfert n'a pas échoué.
 → original conservé
 ```
 
-`npm test` exécute aussi directement le réseau, vérifie ses métadonnées, ses prédictions, le classement de fluidité et le rejet d’une séquence inconnue. Les tests navigateur exécutent ensuite ce même bundle sur des textes statiques et injectés.
+`npm test` exécute aussi directement le réseau, vérifie ses métadonnées, ses prédictions, le classement de fluidité et le rejet d’une séquence inconnue. Les tests navigateur exécutent ensuite ce même bundle sur des textes statiques et ajoutés dynamiquement.
 
 ## Comparaison sur cinq actions critiques
 
