@@ -1,0 +1,230 @@
+\section{Langue, corpus et modèles embarqués}
+
+\subsection{Variété cible et méthode linguistique}
+
+KORA cible le \textbf{fulfulde de l’Adamaoua}, code ISO 639-3
+\code{fub}, en écriture latine. Les caractères \texttt{ɓ}, \texttt{ɗ},
+\texttt{ƴ}, \texttt{ŋ} et \texttt{ɲ} sont conservés en UTF-8. Les corpus
+étiquetés \code{ff}, \code{fuv}, \code{fuf} ou \code{ffm} ne sont pas
+silencieusement assimilés à cette variété camerounaise.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}[c]{0.47\linewidth}
+  \includegraphics[width=\linewidth]{assets/validation.png}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.49\linewidth}
+  \textbf{Processus appliqué à une entrée critique}
+  \begin{enumerate}
+    \item identifier le concept financier en FR et EN;
+    \item rechercher une forme camerounaise \code{fub};
+    \item recouper l’orthographe et le contexte;
+    \item distinguer attestation, emprunt et composition;
+    \item vérifier que FR et EN donnent la même sortie;
+    \item tester les valeurs, négations et actions;
+    \item enregistrer source, statut et décision.
+  \end{enumerate}
+\end{minipage}
+\caption{Validation humaine, traçabilité et contrôles automatisés sont
+complémentaires.}
+\end{figure}
+
+\textbf{\LinguisticValidator} assure la responsabilité de la validation
+linguistique du projet. Les formulations historiques relues sont distinguées
+des propositions compositionnelles encore à valider. Cette séparation évite
+de présenter une génération de corpus comme une norme linguistique.
+
+\subsection{Sources et propriété intellectuelle}
+
+\begin{longtable}{@{}L{43mm}L{29mm}L{43mm}L{37mm}@{}}
+\toprule
+\textbf{Ressource} & \textbf{Licence} & \textbf{Usage KORA} &
+\textbf{Redistribution}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Ressource} & \textbf{Licence} & \textbf{Usage KORA} &
+\textbf{Redistribution}\\
+\midrule
+\endhead
+Common Voice 27 \code{fub} &
+CC0 &
+1\,067 phrases pour orthographe et modèle de fluidité &
+Pas de corpus brut dans l’extension.\\
+Tourneux \& Konaï, vocabulaire mobile &
+CC BY 4.0 &
+Terminologie camerounaise des communications et transferts &
+Attribution conservée.\\
+Ressources SIL \code{fub} &
+Conditions propres &
+Consultation et contrôle, sans extraction automatisée &
+Non redistribuées.\\
+Deux inventaires financiers fournis &
+Licence non déclarée &
+Inventaire de concepts et définitions françaises &
+Fichiers conservés dans le dépôt; pas présentés comme corpus parallèle.\\
+PanLex \code{fub} &
+Ambiguïté de licence / restriction non commerciale &
+Évalué, non intégré &
+Non redistribué.\\
+Google Translate vers \code{ff} &
+Service externe de comparaison &
+Cinq réponses publiques comparées; aucune importation automatique &
+Résultats archivés séparément.\\
+Code KORA &
+MIT &
+Extension, moteur, modèles et tests &
+Distribué sous MIT.\\
+\bottomrule
+\end{longtable}
+
+\subsection{Inventaires financiers et statuts}
+
+Les deux volumes fournis totalisent 2\,859 lignes et 512 libellés, ramenés à
+504 concepts après déduplication de huit chevauchements. Ils décrivent les
+concepts en français, mais ne constituent pas une vérité parallèle
+FR/EN$\rightarrow$\code{fub}. La matrice synthétique finale du volume 2 est
+exclue : elle contient notamment des associations contradictoires entre
+réussites et causes d’échec.
+
+\begin{tabularx}{\linewidth}{@{}L{47mm}C{22mm}Y@{}}
+\toprule
+\textbf{Statut} & \textbf{Nombre} & \textbf{Interprétation}\\
+\midrule
+\code{reviewed-existing} & 20 &
+Formulation déjà présente dans la mémoire KORA relue.\\
+\code{compositional-candidate} & 340 &
+Composition transparente mais encore à confirmer par revue native.\\
+\code{local-loan-candidate} & 31 &
+Emprunt technique cohérent avec l’usage local, à confirmer.\\
+\code{preserved-code} & 113 &
+Code ou identifiant qui reste strictement identique.\\
+\midrule
+\textbf{Total} & \textbf{504} & 391 clés françaises et 390 clés anglaises.\\
+\bottomrule
+\end{tabularx}
+
+Les candidats élargissent la reconnaissance de l’interface et alimentent le
+modèle à poids réduit, mais leur statut demeure visible. Ils ne remplacent pas
+une attestation indépendante.
+
+\subsection{Corrections morphologiques intégrées}
+
+La revue du 14 novembre 2026 a corrigé des faux-sens et harmonisé les noms
+d’action. Les concepts emploient préférentiellement la forme nominale
+\texttt{-ugol}; une commande peut garder la forme verbale Adamawa en
+\texttt{-ugo}.
+
+\begin{tabularx}{\linewidth}{@{}L{38mm}L{49mm}Y@{}}
+\toprule
+\textbf{Concept} & \textbf{Forme retenue} & \textbf{Décision}\\
+\midrule
+Compte bloqué & \texttt{Konte uddaaɗo} &
+Participe passé adjectival, pas verbe conjugué.\\
+Date de valeur & \texttt{Ñalngu kiisaangu} &
+Écarte le faux-sens «\,ancien/usé\,».\\
+Découvert autorisé & \texttt{Kaalisi ɓeydaaɗi yamiraaɗi} &
+Accord avec la classe de \texttt{kaalisi}.\\
+Paiement récurrent & \texttt{Yoɓugol lortotoongol} &
+Écarte le sens «\,défaire/résilier\,».\\
+Paiement sans contact & \texttt{Yoɓugol tawa meemaaka} &
+Voyelle longue de \texttt{meemugo}.\\
+Remboursement de prêt & \texttt{Yoɓugol nyamaande} &
+Sens dette/prêt explicite.\\
+Remboursement marchand & \texttt{Ruttinangol kaalisi} &
+Restitution d’argent distincte du prêt.\\
+Rétrofacturation & \texttt{Ruttinangol kaalisi yoɓaaɗi} &
+Nom d’action et objet financier explicites.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Pourquoi plusieurs couches plutôt qu’un traducteur génératif}
+
+Deux modèles téléchargeables ont été évalués sur cinq actions critiques :
+Flagship \code{francais-fufulde} et DS4H \code{linguo\_mt\_en\_fub}. Les
+sorties observées comportaient répétitions, omissions ou contresens; leurs
+empreintes dépassaient aussi la limite de 10 Mio. NLLB-200 et M2M-100 sont
+beaucoup plus volumineux et ne ciblent pas précisément \code{fub}.
+
+KORA sépare donc le \textbf{sens} de la \textbf{fluidité}. Le moteur
+déterministe choisit un concept et protège ses valeurs. Les modèles
+linguistiques embarqués ne voient ensuite que des formulations \code{fub}
+déjà sûres, qu’ils peuvent classer mais jamais autoriser seuls.
+
+\subsection{Architecture du modèle neuronal}
+
+\begin{figure}[H]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+  node distance=6mm,
+  b/.style={draw=Line,fill=Paper,rounded corners=1.5mm,text width=30mm,
+    minimum height=12mm,align=center,font=\small},
+  m/.style={b,draw=Teal,fill=Mint},
+  arrow/.style={-{Latex[length=2mm]},thick,color=TealDark}
+]
+\node[b] (ctx) {Trois mots précédents};
+\node[m,right=of ctx] (emb) {Embeddings\\24 dimensions};
+\node[m,right=of emb] (hid) {Couche tanh\\96 neurones};
+\node[m,right=of hid] (out) {Distribution du mot suivant\\vocabulaire 1\,472};
+\node[b,below=9mm of hid] (ng) {Trigrammes, bigrammes et unigrammes};
+\node[m,right=of out] (rank) {Prédiction et score de fluidité};
+\draw[arrow] (ctx)--(emb);
+\draw[arrow] (emb)--(hid);
+\draw[arrow] (hid)--(out);
+\draw[arrow] (out)--(rank);
+\draw[arrow] (ng)-|(rank);
+\end{tikzpicture}}
+\caption{Réseau KORA quantifié et repli n-gramme déterministe.}
+\end{figure}
+
+\begin{tabularx}{\linewidth}{@{}L{50mm}Y@{}}
+\toprule
+\textbf{Caractéristique} & \textbf{Valeur reproductible}\\
+\midrule
+Architecture & Contexte 3, embedding 24, tanh 96\\
+Paramètres & 185\,120\\
+Quantification & Poids int8; biais float32\\
+Vocabulaire neuronal & 1\,472 unités\\
+Données d’entraînement &
+1\,067 phrases Common Voice; 9\,368 tokens; 262 formulations KORA;
+386 formulations terminologiques à poids réduit\\
+Repli n-gramme & 1\,199 mots fréquents; 1\,561 contextes\\
+Validation tenue à part & 107 phrases Common Voice\\
+Résultat int8 & top-1 14,8\,\%; top-5 35,0\,\%\\
+Entraînement & Graine 2026; meilleur état époque 2; arrêt après 8/40\\
+Taille générée & Environ 262 Kio avec vocabulaire et métadonnées\\
+\bottomrule
+\end{tabularx}
+
+La configuration retenue maximise la top-5 parmi les variantes évaluées,
+métrique cohérente avec un rôle de classement de plusieurs candidats. Le
+score du mot suivant fusionne 85\,\% de réseau et 15\,\% de n-gramme; le score
+de phrase combine ensuite 80\,\% de score neuronal et 20\,\% de score
+n-gramme. Un cache borné garde les 1\,000 derniers scores.
+
+\begin{warningbox}[Ce que le modèle ne fait pas]
+Le modèle de langue n’est pas un traducteur FR/EN autonome. Il ne connaît pas
+les règles de conservation financière et ne doit pas être appelé seul pour
+produire un message bancaire. La fonction \code{translateText} orchestre la
+mémoire, le correcteur, les gabarits, le modèle et le verrou d’intégrité.
+\end{warningbox}
+
+\subsection{Preuve d’usage dans l’extension}
+
+\begin{enumerate}
+  \item \code{translateText} obtient un candidat dont le sens et les valeurs
+        sont déjà contrôlés;
+  \item \code{scoreFubFluency} appelle \code{scoreNeuralFub};
+  \item l’inférence JavaScript décode les poids int8 et calcule les
+        probabilités;
+  \item le n-gramme complète les séquences peu vues;
+  \item \code{rankFubCandidates} trie uniquement ces candidats sûrs;
+  \item le contrôle d’intégrité peut encore rejeter le résultat.
+\end{enumerate}
+
+Le fichier \code{src/fub-neural-model.js} est regroupé dans
+\code{content.js} au build. Il n’est ni téléchargé au premier démarrage, ni
+simulé par une métadonnée. \code{npm run model:demo} et les tests unitaires
+appellent les mêmes poids que le bundle Chrome.

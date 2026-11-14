@@ -58,11 +58,19 @@ async function screenshot(page, name) {
   });
 }
 
+async function replaceInput(page, field, value) {
+  await field.click();
+  await page.keyboard.down("Control");
+  await page.keyboard.press("A");
+  await page.keyboard.up("Control");
+  await field.type(value);
+}
+
 try {
   await browser.installExtension(extensionPath);
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
-  await page.goto("https://safinum.cm/hackathon-test?jury=1", {
+  await page.goto("https://safinum.cm/hackathon-test", {
     waitUntil: "networkidle2",
     timeout: 90_000
   });
@@ -74,57 +82,40 @@ try {
   await page.evaluate(() => scrollTo(0, 0));
   await screenshot(page, "pitch-dashboard.png");
 
-  const sourceFieldFound = await page.evaluate(() => {
-    const field = [...document.querySelectorAll("textarea, input")].find((candidate) =>
-      /message|inject|inédit|unseen/i.test(
-        [
-          candidate.id,
-          candidate.name,
-          candidate.getAttribute("placeholder"),
-          candidate.getAttribute("aria-label")
-        ].join(" ")
-      )
-    );
-    if (!field) return false;
-    const prototype =
-      field instanceof HTMLTextAreaElement
-        ? HTMLTextAreaElement.prototype
-        : HTMLInputElement.prototype;
-    Object.getOwnPropertyDescriptor(prototype, "value")?.set?.call(
-      field,
-      "sodle insufisant"
-    );
-    field.dispatchEvent(new Event("input", { bubbles: true }));
-    field.dispatchEvent(new Event("change", { bubbles: true }));
-    field.scrollIntoView({ block: "center" });
-    return true;
-  });
-  if (!sourceFieldFound) throw new Error("Champ d’injection introuvable");
-  await clickOriginal(page, "Injecter");
-  await page.waitForFunction(
-    () =>
-      [...document.querySelectorAll("[data-kora-original]")].some(
-        (node) =>
-          node.dataset.koraOriginal === "sodle insufisant" &&
-          node.textContent.includes("Kaalisi yonaa")
-      ),
-    { timeout: 15_000 }
-  );
-  await page.evaluate(() => {
-    const translated = [...document.querySelectorAll("[data-kora-original]")].find(
-      (node) => node.dataset.koraOriginal === "sodle insufisant"
-    );
-    translated?.scrollIntoView({ block: "center" });
-  });
-  await screenshot(page, "pitch-injection.png");
-
   await clickOriginal(page, "Effectuer un transfert");
   await page.waitForFunction(
-    () => document.body.innerText.toLowerCase().includes("musakaaji transfeer"),
+    () => document.querySelector('input[type="number"]'),
+    { timeout: 15_000 }
+  );
+  await page.select("select", "other_bank");
+  const amount = await page.$('input[type="number"]');
+  await replaceInput(page, amount, "300000");
+  await clickOriginal(page, "Continuer");
+  await page.waitForFunction(
+    () => document.body.innerText.includes("AMOUNT_002"),
     { timeout: 15_000 }
   );
   await page.evaluate(() => scrollTo(0, 0));
   await screenshot(page, "pitch-fees.png");
+
+  const correctedAmount = await page.$('input[type="number"]');
+  await replaceInput(page, correctedAmount, "25000");
+  await clickOriginal(page, "Continuer");
+  await page.waitForFunction(
+    () => document.querySelectorAll('input[type="text"], input[type="tel"]').length >= 3,
+    { timeout: 15_000 }
+  );
+  const fields = await page.$$('input[type="text"], input[type="tel"]');
+  await replaceInput(page, fields[0], "Jean-Paul Mbarga");
+  await replaceInput(page, fields[1], "+237 6 99 12 34 56");
+  await replaceInput(page, fields[2], "Paiement de services");
+  await clickOriginal(page, "Continuer");
+  await page.waitForFunction(
+    () => document.body.innerText.includes("SECURITY_001"),
+    { timeout: 15_000 }
+  );
+  await page.evaluate(() => scrollTo(0, 0));
+  await screenshot(page, "pitch-security.png");
 
   console.log(`Captured submission assets in ${path.relative(root, output)}`);
 } finally {

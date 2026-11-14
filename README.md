@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="#installation">Installer</a> ·
-  <a href="release/KORA_Demo_Pitch_SAFINUM_2026.webm">Voir la démo réelle</a> ·
+  <a href="release/KORA_Demo_Pitch_SAFINUM_2026.mp4">Voir la démo réelle</a> ·
   <a href="release/KORA-Documentation-SAFINUM.pdf">Lire le dossier technique</a> ·
   <a href="docs/ARCHITECTURE.md">Explorer l’architecture</a>
 </p>
@@ -42,9 +42,11 @@ Une traduction financière ne doit jamais transformer `25 000 FCFA`, inverser «
 
 ### Livrables SAFINUM
 
-- [Vidéo pitch-démo réelle — 2 min 20 s, 6,93 Mio](release/KORA_Demo_Pitch_SAFINUM_2026.webm)
-- [Documentation technique complète — 10 pages A4, 740 Kio](release/KORA-Documentation-SAFINUM.pdf)
-- [Extension Chrome prête à remettre — 254,3 Kio](release/kora-extension.zip)
+- [Vidéo pitch-démo réelle — 2 min 54 s, 1920 × 1080, MP4](release/KORA_Demo_Pitch_SAFINUM_2026.mp4)
+- [Dossier technique complet — 25 pages A4, PDF](release/KORA-Documentation-SAFINUM.pdf)
+- [Source LaTeX autonome pour Overleaf](submission/overleaf-kora/)
+- [Extension Chrome prête à remettre — 254,4 Kio](release/kora-extension.zip)
+- [Archive Overleaf autonome](release/KORA-Dossier-Technique-Overleaf.zip)
 - [Guide de démonstration](docs/DEMO.md)
 - [Validation et résultats](docs/VALIDATION.md)
 - [Checklist et valeurs du formulaire](submission/SUBMISSION_CHECKLIST.md)
@@ -99,16 +101,13 @@ Les valeurs de champs financiers ou personnels restent intactes. Un champ explic
 
 Les Shadow DOM fermés, le texte dessiné dans un `<canvas>`, les images et les pages protégées comme `chrome://` ou le Chrome Web Store ne sont pas accessibles aux extensions.
 
-### Pourquoi la page jury ou une page d’administration est traduite
+### Portée générale
 
-KORA ne contient aucune règle « jury » ou « admin ». Lorsque Fulfulde est
-activé, le content script traduit tout texte visible et accessible de la page,
-qu’il appartienne à un client, un administrateur ou un outil d’évaluation.
-C’est le comportement normal d’une extension de traduction générale et cela
-permet au jury de vérifier les ajouts dynamiques. Les valeurs saisies, codes et
-identifiants restent protégés. Pour conserver une interface administrative
-dans sa langue source, il suffit de désactiver KORA ou de choisir Français /
-English dans la popup.
+KORA ne dépend pas d’un site ou d’un rôle particulier. Lorsque Fulfulde est
+activé, le content script traite tout texte visible et accessible de la page
+avec le même pipeline. Les valeurs saisies, codes et identifiants restent
+protégés. Pour conserver une interface dans sa langue source, il suffit de
+désactiver KORA ou de choisir Français / English dans la popup.
 
 ## Architecture et rôle des composants
 
@@ -423,8 +422,8 @@ npm run submission:video
 La construction échoue automatiquement si le ZIP dépasse 10 Mio.
 
 Les commandes `submission:*` reproduisent les captures, le dossier PDF et la
-vidéo remis au jury. La vidéo charge réellement KORA dans un profil Chrome
-propre et parcourt la page Safinum normale, sans panneau jury ni injection.
+vidéo de remise. La vidéo charge réellement KORA dans un profil Chrome propre
+et parcourt le parcours client normal de Safinum.
 Sa narration utilise la voix ElevenLabs Lucie avec une clé locale
 `ELEVENLABS_API_KEY`; ce service de production n’est jamais utilisé par
 l’extension et ne reçoit aucun contenu de page.

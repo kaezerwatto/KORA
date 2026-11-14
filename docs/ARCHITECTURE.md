@@ -190,10 +190,9 @@ flowchart LR
 
 Les mutations produites par `append`, `innerHTML`, `DocumentFragment`, remplacement de `textContent` et rendu de framework suivent le même pipeline. Les Shadow DOM fermés, le contenu d’un canvas, les pixels d’une image et les pages internes protégées par Chrome ne sont pas exposés à une extension et restent donc hors périmètre technique.
 
-Le pipeline n’identifie pas un rôle « jury » ou « administrateur ». Une page
-administrative est traduite comme toute autre page lorsque KORA est active.
-Cette neutralité évite un couplage au site de soumission et permet de démontrer
-les mutations sur l’environnement jury sans règle dédiée.
+Le pipeline n’identifie aucun rôle particulier. Toute page accessible suit le
+même traitement lorsque KORA est active. Cette neutralité évite un couplage à
+un service donné et permet de traiter les mutations sans règle dédiée.
 
 Un garde global versionné empêche l’initialisation multiple. Si une ancienne version du content script est encore attachée à l’onglet, la popup recharge la page une fois pour installer le protocole courant.
 

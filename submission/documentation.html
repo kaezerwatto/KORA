@@ -377,7 +377,7 @@
     <div class="grid-2">
       <div class="card">
         <h3>Ce qui est traduit</h3>
-        <p>Libellés, boutons, explications, alertes, attributs accessibles, options visibles et textes injectés.</p>
+        <p>Libellés, boutons, explications, alertes, attributs accessibles, options visibles et messages apparus après chargement.</p>
       </div>
       <div class="card">
         <h3>Ce qui reste intact</h3>
@@ -388,20 +388,20 @@
 
   <section class="page" data-page="04">
     <div class="topline"></div>
-    <div class="label">03 · Contenu dynamique et robustesse</div>
-    <h2>Traduire après le chargement, même avec une faute</h2>
-    <img class="shot" src="assets/pitch-injection.png" alt="Message injecté et traduit par KORA">
-    <p class="shot-caption">Preuve réelle : « sodle insufisant » injecté après chargement est rapproché d’un sens financier unique puis rendu « Kaalisi yonaa ».</p>
+    <div class="label">03 · Erreurs et robustesse</div>
+    <h2>Conserver une alerte claire sans toucher aux saisies</h2>
+    <img class="shot" src="assets/pitch-security.png" alt="Alerte de sécurité Safinum traduite par KORA">
+    <p class="shot-caption">Preuve réelle : Safinum refuse la poursuite sans vérification du bénéficiaire. KORA traduit l’alerte `SECURITY_001`, tandis que le nom, le téléphone et le motif restent intacts.</p>
 
     <div class="grid-2" style="margin-top:5mm">
       <div class="card">
-        <h3>Surfaces observées</h3>
+        <h3>Deux erreurs démontrées</h3>
         <ul>
-          <li>nœuds texte ajoutés ou remplacés;</li>
-          <li>`placeholder`, `aria-label` et `title`;</li>
-          <li>options de sélection, sans toucher à leur valeur;</li>
-          <li>Shadow DOM ouvert;</li>
-          <li>iframes autorisées par Chrome.</li>
+          <li>`AMOUNT_002` pour un montant supérieur au solde;</li>
+          <li>`SECURITY_001` sans confirmation du bénéficiaire;</li>
+          <li>codes techniques conservés;</li>
+          <li>instructions rendues en foufouldé;</li>
+          <li>retour possible après correction.</li>
         </ul>
       </div>
       <div class="card">
@@ -416,7 +416,7 @@
       </div>
     </div>
 
-    <div class="callout"><strong>Aucune modification des entrées :</strong> le texte d’un champ reste celui de l’utilisateur. Seul le texte rendu par la page après injection est traduit.</div>
+    <div class="callout"><strong>Aucune modification des entrées :</strong> le texte d’un champ reste celui de l’utilisateur. KORA traduit les consignes et alertes rendues par le service, jamais les valeurs saisies.</div>
   </section>
 
   <section class="page" data-page="05">
@@ -526,7 +526,7 @@ npm run model:train    # réentraîne après préparation de .venv</div>
     </div>
 
     <img class="shot" style="margin-top:6mm" src="assets/pitch-fees.png" alt="Calcul des frais intact dans Safinum">
-    <p class="shot-caption">Le calcul reste celui de Safinum : 25 000 FCFA, 0 FCFA de frais et 25 000 FCFA de total. KORA ne modifie que les libellés.</p>
+    <p class="shot-caption">Le calcul reste celui de Safinum : une saisie de 300 000 FCFA déclenche `AMOUNT_002`; après correction à 25 000 FCFA, les frais sont de 500 FCFA et le total de 25 500 FCFA. KORA ne modifie que les libellés.</p>
 
     <h3>Accessibilité</h3>
     <p>La popup est navigable au clavier, expose des libellés compréhensibles, conserve un contraste élevé et rend le focus à la page après l’action. KORA traduit `aria-label`, `title` et `placeholder` lorsque cela améliore la compréhension, sans remplacer les valeurs techniques.</p>
@@ -637,7 +637,7 @@ npm run package        # ZIP installable + modèle exporté</div>
       <p><strong>Fichiers :</strong><br>
       `release/kora-extension.zip`<br>
       `release/KORA-Documentation-SAFINUM.pdf`<br>
-      `release/KORA_Demo_Pitch_SAFINUM_2026.webm`</p>
+      `release/KORA_Demo_Pitch_SAFINUM_2026.mp4`</p>
     </div>
 
     <div class="callout" style="margin-top:8mm">

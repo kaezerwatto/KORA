@@ -1,0 +1,230 @@
+\documentclass[10pt,a4paper]{article}
+
+\input{config.tex}
+
+\usepackage{fontspec}
+\usepackage[french]{babel}
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont[
+  Path=assets/fonts/,
+  Extension=.ttf,
+  UprightFont=NotoSans-Regular,
+  BoldFont=NotoSans-Bold,
+  ItalicFont=NotoSans-Italic,
+  BoldItalicFont=NotoSans-BoldItalic
+]{Noto Sans}
+\setsansfont[
+  Path=assets/fonts/,
+  Extension=.ttf,
+  UprightFont=NotoSans-Regular,
+  BoldFont=NotoSans-Bold,
+  ItalicFont=NotoSans-Italic,
+  BoldItalicFont=NotoSans-BoldItalic
+]{Noto Sans}
+\setmonofont[
+  Path=assets/fonts/,
+  Extension=.ttf,
+  UprightFont=NotoSansMono-Regular
+]{Noto Sans Mono}
+\usepackage{microtype}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[a4paper,top=20mm,bottom=21mm,left=20mm,right=20mm,headheight=16pt]{geometry}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{ragged2e}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,backgrounds,calc,fit,positioning,shapes.geometric}
+\usepackage[most]{tcolorbox}
+\usepackage{listings}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{lastpage}
+
+\definecolor{Ink}{HTML}{101A24}
+\definecolor{InkSoft}{HTML}{243442}
+\definecolor{Teal}{HTML}{0E9F85}
+\definecolor{TealDark}{HTML}{087663}
+\definecolor{Mint}{HTML}{DDF4EF}
+\definecolor{Gold}{HTML}{F1B93B}
+\definecolor{Warm}{HTML}{F7F3EA}
+\definecolor{Paper}{HTML}{FAFBFC}
+\definecolor{Slate}{HTML}{5C6D78}
+\definecolor{Line}{HTML}{D8E0E5}
+\definecolor{Risk}{HTML}{B4463B}
+\definecolor{Success}{HTML}{247A5A}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=TealDark,
+  urlcolor=TealDark,
+  citecolor=TealDark,
+  pdfauthor={\TeamName},
+  pdftitle={KORA — Dossier technique SAFINUM Innovate Challenge 2026},
+  pdfsubject={Extension Chrome locale FR/EN vers fulfulde de l’Adamaoua},
+  pdfkeywords={KORA, SAFINUM, Fulfulde, fub, finance, inclusion}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4.5pt}
+\setlist[itemize]{leftmargin=5mm,itemsep=2pt,topsep=3pt}
+\setlist[enumerate]{leftmargin=6mm,itemsep=2pt,topsep=3pt}
+\renewcommand{\arraystretch}{1.18}
+
+\titleformat{\section}
+  {\Large\bfseries\color{Ink}}
+  {\colorbox{Teal}{\color{white}\strut\thesection}}
+  {0.65em}{}
+  [\vspace{-0.35em}{\color{Gold}\rule{\linewidth}{0.7pt}}]
+\titleformat{\subsection}{\large\bfseries\color{InkSoft}}{\thesubsection}{0.55em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{TealDark}}{\thesubsubsection}{0.5em}{}
+\titlespacing*{\section}{0pt}{1.2em}{0.65em}
+\titlespacing*{\subsection}{0pt}{0.9em}{0.35em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{Slate}\textbf{KORA} · Dossier technique}
+\fancyhead[R]{\small\color{Slate}\ChallengeName}
+\fancyfoot[L]{\small\color{Slate}\TeamName}
+\fancyfoot[R]{\small\color{Slate}\thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\Centering\arraybackslash}p{#1}}
+
+\newtcolorbox{keybox}[1][]{
+  enhanced,breakable,colback=Mint,colframe=Teal,
+  boxrule=0.6pt,arc=2.5mm,left=3.2mm,right=3.2mm,top=2.6mm,bottom=2.6mm,
+  fonttitle=\bfseries\color{Ink},title=#1
+}
+\newtcolorbox{warningbox}[1][]{
+  enhanced,breakable,colback=Warm,colframe=Gold,
+  boxrule=0.6pt,arc=2.5mm,left=3.2mm,right=3.2mm,top=2.6mm,bottom=2.6mm,
+  fonttitle=\bfseries\color{Ink},title=#1
+}
+\newtcolorbox{evidencebox}[1][]{
+  enhanced,breakable,colback=Paper,colframe=Line,
+  boxrule=0.6pt,arc=2.5mm,left=3.2mm,right=3.2mm,top=2.6mm,bottom=2.6mm,
+  fonttitle=\bfseries\color{Ink},title=#1
+}
+
+\newcommand{\pill}[1]{%
+  \tikz[baseline=(n.base)]\node[rounded corners=3pt,fill=Mint,text=TealDark,
+  inner xsep=5pt,inner ysep=2pt,font=\scriptsize\bfseries] (n) {#1};}
+\newcommand{\pass}{\textcolor{Success}{\textbf{Couvert}}}
+\newcommand{\partialpass}{\textcolor{Gold!70!black}{\textbf{Couvert avec limites}}}
+\newcommand{\code}[1]{\texttt{\small #1}}
+
+\lstdefinestyle{kora}{
+  basicstyle=\ttfamily\footnotesize,
+  backgroundcolor=\color{Paper},
+  frame=single,
+  rulecolor=\color{Line},
+  framerule=0.4pt,
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  keywordstyle=\bfseries\color{TealDark},
+  commentstyle=\itshape\color{Slate},
+  stringstyle=\color{Risk},
+  xleftmargin=2mm,
+  xrightmargin=2mm,
+  aboveskip=5pt,
+  belowskip=5pt
+}
+\lstset{style=kora}
+
+\begin{document}
+
+% ---------------------------------------------------------------------------
+% Couverture éditoriale
+% ---------------------------------------------------------------------------
+\begin{titlepage}
+\pagecolor{Ink}
+\color{white}
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[Teal] ($(current page.north east)+(-49mm,0)$) rectangle (current page.south east);
+  \fill[Gold] ($(current page.north west)+(0,-20mm)$) rectangle
+              ($(current page.north east)+(0,-21.2mm)$);
+  \draw[white,opacity=.12,line width=0.6pt]
+    ($(current page.north west)+(16mm,-34mm)$) --
+    ($(current page.south east)+(-16mm,25mm)$);
+  \draw[white,opacity=.07,line width=14mm]
+    ($(current page.north east)+(-22mm,-40mm)$) --
+    ($(current page.south east)+(-22mm,25mm)$);
+  \node[opacity=.08,scale=9,text=white] at ($(current page.south east)+(-32mm,38mm)$) {K};
+\end{tikzpicture}
+
+\vspace*{2mm}
+\begin{minipage}[t]{0.62\textwidth}
+  \includegraphics[width=23mm]{assets/kora-logo.png}\hspace{4mm}
+  \begin{minipage}[b]{0.55\linewidth}
+    {\fontsize{22}{24}\selectfont\bfseries KORA}\\[-1mm]
+    {\small Traduction financière privée et locale}
+  \end{minipage}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.28\textwidth}
+  \raggedleft
+  \includegraphics[width=31mm]{assets/safinum-logo.png}
+\end{minipage}
+
+\vspace{25mm}
+{\color{Gold}\rule{18mm}{1.4pt}}\\[5mm]
+{\fontsize{15}{18}\selectfont\bfseries\MakeUppercase{Dossier technique}}\\[3mm]
+{\fontsize{33}{37}\selectfont\bfseries
+Comprendre.\\Vérifier.\\Confirmer.}
+
+\vspace{8mm}
+{\Large Une interface financière française ou anglaise,\\
+rendue compréhensible en fulfulde de l’Adamaoua.}
+
+\vfill
+\begin{minipage}[b]{0.66\textwidth}
+  \small
+  \textbf{\ChallengeName}\\
+  Prototype Chrome Manifest V3 · FR/EN $\rightarrow$ \texttt{fub}\\[2mm]
+  \textbf{\TeamName} · Yaoundé, Cameroun\\
+  \DocumentDate
+\end{minipage}
+\hfill
+\begin{minipage}[b]{0.25\textwidth}
+  \raggedleft\small
+  \pill{HORS LIGNE}\\[2mm]
+  \pill{INTÉGRITÉ FINANCIÈRE}\\[2mm]
+  \pill{CONTENU DYNAMIQUE}
+\end{minipage}
+\end{titlepage}
+\nopagecolor
+\color{Ink}
+
+\pagenumbering{roman}
+\input{sections/00-frontmatter.tex}
+\clearpage
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+\input{sections/01-solution.tex}
+\input{sections/02-architecture.tex}
+\input{sections/03-integrity.tex}
+\input{sections/04-model-language.tex}
+\input{sections/05-validation-tests.tex}
+\input{sections/06-install-integration.tex}
+\input{sections/07-compliance-team.tex}
+
+\end{document}

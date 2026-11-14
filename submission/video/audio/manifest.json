@@ -6,79 +6,97 @@
     "id": "YxrwjAKoUKULGd0g8K9Y",
     "model": "eleven_multilingual_v2"
   },
-  "generatedAt": "2026-11-14T16:05:37.049Z",
+  "generatedAt": "2026-11-14T17:24:06.670Z",
   "segments": [
     {
-      "id": "01-introduction",
+      "id": "01-ouverture",
       "scene": "intro",
-      "chapter": "Le besoin",
+      "chapter": "KORA × SAFINUM",
       "caption": "Comprendre, vérifier et confirmer dans sa langue",
-      "text": "Au Cameroun, un service financier peut être disponible sans être réellement accessible dans la langue de son utilisateur. KORA traduit localement les interfaces françaises et anglaises vers le foufouldé de l’Adamaoua. Voici une démonstration réelle, sur le parcours normal de Safinum, sans modifier le code du service.",
-      "file": "01-introduction.mp3",
-      "bytes": 271716
+      "text": "KORA rend la finance numérique plus accessible en foufouldé de l’Adamaoua. Voici notre pitch-démo réel pour le SAFINUM Innovate Challenge 2026.",
+      "file": "01-ouverture.mp3",
+      "bytes": 131700
     },
     {
-      "id": "02-installation",
+      "id": "02-probleme-solution",
+      "scene": "concept",
+      "chapter": "Problème, solution, usage",
+      "caption": "Une traduction locale qui protège les valeurs",
+      "text": "Le problème est simple : une interface bancaire existe, mais le français ou l’anglais peut empêcher l’utilisateur de comprendre une action sensible. KORA apporte le foufouldé directement dans la page, sans modifier le service. Le cas d’usage est concret : consulter son compte, calculer des frais, vérifier un bénéficiaire et confirmer un transfert simulé, tout en gardant noms, numéros et montants strictement intacts.",
+      "file": "02-probleme-solution.mp3",
+      "bytes": 371190
+    },
+    {
+      "id": "03-installation",
       "scene": "extensions",
-      "chapter": "Installation réelle",
+      "chapter": "Préparation · Installation",
       "caption": "",
-      "text": "Nous partons d’un profil Chrome propre. Dans la page des extensions, le mode développeur permet de charger le dossier release, puis kora-unpacked. La carte KORA apparaît réellement. Le moteur linguistique, ses mémoires et ses modèles sont embarqués : aucun texte financier n’est envoyé à un serveur.",
-      "file": "02-installation.mp3",
+      "text": "Commençons par la préparation. Dans Chrome, nous activons réellement le mode développeur, puis nous chargeons le dossier release, kora-unpacked. La carte KORA apparaît. Son moteur, ses mémoires et ses modèles sont embarqués ; aucun texte financier n’est envoyé à un serveur.",
+      "file": "03-installation.mp3",
+      "bytes": 262521
+    },
+    {
+      "id": "04-langue-compte",
+      "scene": "language",
+      "chapter": "Étape 1 sur 5 · Langue et compte",
+      "caption": "",
+      "text": "Première étape : la langue et le compte. Safinum s’ouvre d’abord en français dans la barre du navigateur. J’ouvre la vraie popup KORA et je choisis foufouldé. La page se traduit immédiatement. Le solde reste à deux cent cinquante mille francs C F A ; le numéro de compte, le nom d’Amina et chaque montant restent inchangés. Nous lançons ensuite le transfert simulé.",
+      "file": "04-langue-compte.mp3",
+      "bytes": 318945
+    },
+    {
+      "id": "05-frais-erreur",
+      "scene": "fees",
+      "chapter": "Étape 2 sur 5 · Frais et montant",
+      "caption": "",
+      "text": "Deuxième étape : le type d’opération, le montant et les frais. Nous sélectionnons une autre banque, puis saisissons progressivement trois cent mille francs. Premier comportement d’erreur : Safinum refuse ce montant supérieur au solde. KORA traduit le message de solde insuffisant, mais conserve le code AMOUNT zéro zéro deux et toutes les valeurs. Nous corrigeons à vingt-cinq mille francs ; les frais deviennent cinq cents francs et le total vingt-cinq mille cinq cents.",
+      "file": "05-frais-erreur.mp3",
+      "bytes": 408807
+    },
+    {
+      "id": "06-beneficiaire-securite",
+      "scene": "beneficiary",
+      "chapter": "Étape 3 sur 5 · Bénéficiaire",
+      "caption": "",
+      "text": "Troisième étape : le bénéficiaire. Nous saisissons visiblement Jean-Paul Mbarga, son téléphone, le motif Paiement de services et une note fictive. Ces saisies restent exactement dans leur forme originale. Deuxième comportement d’erreur : si nous continuons sans confirmer la vérification, Safinum affiche l’alerte de sécurité SECURITY zéro zéro un, traduite en foufouldé. Nous vérifions alors le bénéficiaire, cochons la case et poursuivons.",
+      "file": "06-beneficiaire-securite.mp3",
+      "bytes": 369518
+    },
+    {
+      "id": "07-recapitulatif",
+      "scene": "summary",
+      "chapter": "Étape 4 sur 5 · Récapitulatif",
+      "caption": "",
+      "text": "Quatrième étape : le récapitulatif. Nous retrouvons vingt-cinq mille francs, cinq cents francs de frais, le total de vingt-cinq mille cinq cents, le bénéficiaire, son téléphone et la référence. Rien n’a été altéré entre les champs saisis et ce contrôle final. Nous cochons la confirmation, puis validons.",
+      "file": "07-recapitulatif.mp3",
       "bytes": 278403
     },
     {
-      "id": "03-popup",
-      "scene": "popup",
-      "chapter": "Contrôle simple",
+      "id": "08-recu-retour",
+      "scene": "receipt",
+      "chapter": "Étape 5 sur 5 · Reçu et retour",
       "caption": "",
-      "text": "Sur Safinum, j’ouvre maintenant la vraie popup KORA. Elle indique clairement la page active, la langue d’affichage et l’état de la traduction. Un seul contrôle suffit pour activer ou désactiver KORA, et les boutons permettent de revenir au français ou à l’anglais.",
-      "file": "03-popup.mp3",
-      "bytes": 225323
+      "text": "Cinquième étape : le reçu et le retour. Safinum génère la confirmation simulée avec la même référence et les mêmes valeurs. Nous ouvrons ensuite un nouveau transfert, puis utilisons Retour pour retrouver le tableau de bord. Le site de test réinitialise volontairement chaque simulation à deux cent cinquante mille francs ; KORA respecte ce comportement et n’invente jamais un solde.",
+      "file": "08-recu-retour.mp3",
+      "bytes": 372444
     },
     {
-      "id": "04-dashboard",
-      "scene": "dashboard",
-      "chapter": "Compte et solde",
-      "caption": "",
-      "text": "La page est traduite en foufouldé, tout en restant entièrement lisible. Le solde demeure exactement à deux cent cinquante mille francs C F A. Le numéro de compte, le nom d’Amina et les montants des opérations récentes restent intacts. Nous lançons maintenant un transfert simulé.",
-      "file": "04-dashboard.mp3",
-      "bytes": 250818
-    },
-    {
-      "id": "05-fees-error",
-      "scene": "fees",
-      "chapter": "Frais et imprévu",
-      "caption": "",
-      "text": "Testons les frais et un imprévu réel. Nous saisissons trois cent mille francs, au-delà du solde disponible. Safinum bloque l’étape ; KORA traduit l’erreur de solde insuffisant sans altérer le code ni le montant. Nous corrigeons à vingt-cinq mille francs. Les frais et le total sont recalculés, puis nous poursuivons.",
-      "file": "05-fees-error.mp3",
-      "bytes": 298883
-    },
-    {
-      "id": "06-beneficiary",
-      "scene": "beneficiary",
-      "chapter": "Bénéficiaire",
-      "caption": "",
-      "text": "À l’étape du bénéficiaire, nous utilisons uniquement des données fictives. KORA traduit les consignes et l’alerte de sécurité, mais ne touche jamais aux saisies : Jean-Paul Mbarga, son téléphone, le motif et la note restent exactement tels qu’ils ont été entrés. Après vérification, nous confirmons et continuons.",
-      "file": "06-beneficiary.mp3",
-      "bytes": 249146
-    },
-    {
-      "id": "07-summary-receipt",
-      "scene": "summary",
-      "chapter": "Contrôle, reçu et retour",
-      "caption": "",
-      "text": "Le récapitulatif présente le montant, les frais, le total, le bénéficiaire et son numéro. Après la dernière confirmation, Safinum génère le reçu simulé avec sa référence. Toutes les valeurs correspondent au formulaire. Nous revenons enfin au tableau de bord : le parcours est complet, cohérent et toujours traduit.",
-      "file": "07-summary-receipt.mp3",
-      "bytes": 295122
-    },
-    {
-      "id": "08-validation",
-      "scene": "outro",
+      "id": "09-validation",
+      "scene": "validation",
       "chapter": "Validation linguistique",
-      "caption": "Local · privé · fidèle aux valeurs financières",
-      "text": "Monsieur Jean-Ernest SOUROUMBAI a relu les traductions du parcours et vérifié leur fidélité selon le contexte, la sémantique et la terminologie financière. Réalisé à Yaoundé par KORA Team, ce prototype protège les données, préserve les valeurs et rend la finance numérique plus accessible. KORA : comprendre, vérifier et confirmer en foufouldé.",
-      "file": "08-validation.mp3",
-      "bytes": 296794
+      "caption": "Contexte · sémantique · terminologie financière",
+      "text": "Avant de conclure, parlons qualité. Monsieur Jean-Ernest SOUROUMBAI a relu les traductions du parcours et vérifié leur fidélité selon le contexte, la sémantique et la terminologie financière. KORA associe cette mémoire contrôlée à des modèles embarqués, tout en conservant le texte original lorsqu’un sens sûr n’est pas disponible.",
+      "file": "09-validation.mp3",
+      "bytes": 271716
+    },
+    {
+      "id": "10-conclusion",
+      "scene": "outro",
+      "chapter": "KORA Team · Yaoundé",
+      "caption": "Local · privé · valeurs préservées",
+      "text": "KORA : comprendre, vérifier et confirmer en foufouldé. Une solution locale, privée et prête à être étendue aux services financiers camerounais.",
+      "file": "10-conclusion.mp3",
+      "bytes": 127520
     }
   ]
 }

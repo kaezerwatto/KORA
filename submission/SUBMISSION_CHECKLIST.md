@@ -30,7 +30,7 @@ linguistique du projet; il n’est pas compté parmi les trois membres déclaré
 ## Champs « Présentation du prototype »
 
 - **Lien de la vidéo :**  
-  https://raw.githubusercontent.com/kaezerwatto/KORA/master/release/KORA_Demo_Pitch_SAFINUM_2026.webm
+  https://raw.githubusercontent.com/kaezerwatto/KORA/master/release/KORA_Demo_Pitch_SAFINUM_2026.mp4
 - **Documentation à importer :**  
   `release/KORA-Documentation-SAFINUM.pdf`
 - **Lien du dépôt GitHub :**  
@@ -41,9 +41,9 @@ linguistique du projet; il n’est pas compté parmi les trois membres déclaré
 ## Contrôles avant envoi
 
 - [x] Le lien vidéo s’ouvre sans authentification.
-- [x] La vidéo finale dure 2 min 20 s : WebM VP9/Opus, 1280×720, 6,93 Mio.
-- [x] Le PDF s’ouvre et pèse moins de 10 Mo : 10 pages A4, 740 Kio.
-- [x] Le ZIP pèse moins de 10 Mo : 254,3 Kio.
+- [x] La vidéo finale dure 2 min 54,429 s : MP4 H.264/AAC, 1920 × 1080.
+- [x] Le PDF s’ouvre et pèse moins de 10 Mo : 25 pages A4.
+- [x] Le ZIP pèse moins de 10 Mo : 254,4 Kio.
 - [x] Le ZIP contient `manifest.json` à sa racine.
 - [x] Le dépôt GitHub est public et son README affiche les livrables.
 - [x] Les fichiers remis ne contiennent aucune donnée bancaire réelle.
@@ -54,19 +54,19 @@ linguistique du projet; il n’est pas compté parmi les trois membres déclaré
 Empreintes SHA-256 des fichiers remis :
 
 ```text
-cbb0f493443e778a121a4fb499d4d28e0868e8fa42ba6da61ca54bf23846cda6  kora-extension.zip
-264f54a1e0ac7b0f9c13522fe30790373ff7e2a2abc002e48cfbc66a7277dc22  KORA-Documentation-SAFINUM.pdf
-185cd19d0094324b24363e17c0cad9b09065ff7ca32338e3d9f1d341c9c9aaa3  KORA_Demo_Pitch_SAFINUM_2026.webm
+4141c02f50069f57c88caf7b7eaeddc3b3925f003cafc8507f120089e367e488  kora-extension.zip
+e15bc2e2c253d495872e8847f0361832598a3ad450800aa881d4f264d971d35f  KORA-Documentation-SAFINUM.pdf
+1f1261a45aec4d6d7400a872d1ba4d5dfe552a4aed6697d431cc8633ef137f11  KORA_Demo_Pitch_SAFINUM_2026.mp4
 ```
 
 ## Correspondance avec les exigences officielles
 
-- **Description du problème et de la solution :** README et pages 2–3 du PDF.
+- **Description du problème et de la solution :** README et section 1 du PDF.
 - **Prototype fonctionnel :** ZIP installable et dépôt reproductible.
-- **Vidéo de démonstration :** WebM narré de moins de 3 minutes.
-- **Architecture, intégration, dépendances et limites :** pages 5–9 du PDF.
-- **Langue et méthode de validation :** pages 6 et 9 du PDF.
-- **Confidentialité et intégrité financière :** pages 4 et 7 du PDF.
+- **Vidéo de démonstration :** MP4 narré de moins de 3 minutes.
+- **Architecture, intégration, dépendances et limites :** sections 2, 6 et 7 du PDF.
+- **Langue et méthode de validation :** sections 4 et 5 du PDF.
+- **Confidentialité et intégrité financière :** sections 2 et 3 du PDF.
 
 ## Date limite
 

@@ -1,0 +1,233 @@
+\section{Conformité SAFINUM, équipe et remise}
+
+\subsection{Lecture orientée sur les 100 points}
+
+\begin{longtable}{@{}L{40mm}C{14mm}L{49mm}L{40mm}@{}}
+\toprule
+\textbf{Critère officiel} & \textbf{Pts} & \textbf{Éléments démontrés} &
+\textbf{Preuves}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Critère officiel} & \textbf{Pts} & \textbf{Éléments démontrés} &
+\textbf{Preuves}\\
+\midrule
+\endhead
+Fonctionnement du prototype &
+25 &
+Parcours complet, activation/restauration, frais, erreurs, récapitulatif,
+reçu. &
+\code{test:live}, \code{test:popup}, vidéo.\\
+Intégration et indépendance &
+20 &
+Page existante, DOM générique, aucun hook Safinum, aucune modification du
+service. &
+Manifest, architecture, tests navigateur.\\
+Sécurité et intégrité &
+20 &
+Valeurs masquées/restaurées, formulaires intacts, aucun transfert réseau. &
+Tests moteur, modèle de menace, code.\\
+Accessibilité et UX &
+15 &
+Clavier, focus, contraste, ARIA, réversibilité, popup simple. &
+Tests popup/pages, matrice manuelle.\\
+Contenu inédit &
+10 &
+Mutations détectées; fautes, gabarits et glossaire; abstention explicite. &
+\code{test:pages}, \code{test:live}, 1\,252 variantes.\\
+Faisabilité et documentation &
+10 &
+Archive de 254,4 Kio, build reproductible, modèle local, limites et licences. &
+ZIP, ce dossier, dépôt source.\\
+\midrule
+\textbf{Total} & \textbf{100} & \multicolumn{2}{l}{Documentation reliée à des artefacts et commandes vérifiables.}\\
+\bottomrule
+\end{longtable}
+
+\subsection{Traçabilité des exigences officielles}
+
+\begin{tabularx}{\linewidth}{@{}L{18mm}L{47mm}Y@{}}
+\toprule
+\textbf{Section} & \textbf{Obligation} & \textbf{Réponse documentaire}\\
+\midrule
+§2--3 & Problème d’inclusion; service existant; langue nationale &
+Sections 1 et 2; FR/EN vers Adamawa Fulfulde \code{fub}.\\
+§4.1 & Adapter textes, instructions et messages &
+Parcours, popup, mémoires, pipeline et erreurs.\\
+§4.2 & Solde, frais, préparation de transfert &
+Cas d’usage et matrice de test.\\
+§4.3 & Préserver montants, frais, bénéficiaires, conditions, alertes &
+Section 3; invariant formel et scénarios.\\
+§4.4 & Fonctionner sans modifier le code source &
+Architecture content script et permissions.\\
+§4.5 & Traiter un message introduit pendant la démonstration &
+MutationObserver, gabarits, glossaire et politique d’abstention.\\
+§5 & Déclarer technologies et contribution propre &
+Composants, dépendances, modèles évalués et exclus.\\
+§6 & Description, prototype, vidéo, note technique, langue et validation &
+Ce dossier, artefacts, liens et section linguistique.\\
+§7 & Environnement commun et parcours d’essai &
+Test live Safinum et commandes.\\
+§8 & Six critères sur 100 et qualité linguistique &
+Matrice de score et méthode de validation.\\
+§9 & Simulation, confidentialité, intégrité, outils, droits &
+Sections 3, 4 et 6; tableau des licences.\\
+§11 & Propriété intellectuelle &
+Code MIT; droits tiers conservés; ressources non autorisées exclues.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Questions probables du jury}
+
+\begin{description}[style=nextline,leftmargin=0pt,labelindent=0pt,
+  font=\bfseries\color{TealDark}]
+  \item[Le modèle est-il réellement embarqué ?]
+  Oui. Les poids int8 de \code{src/fub-neural-model.js} et l’inférence
+  JavaScript sont regroupés dans le content script. Aucun téléchargement
+  n’intervient à l’exécution.
+
+  \item[Pourquoi un modèle de langue et non un grand traducteur ?]
+  Les modèles généraux évalués sont trop volumineux ou instables sur des
+  actions financières \code{fub}. KORA conserve un sens déterministe et
+  utilise le réseau uniquement pour la fluidité.
+
+  \item[Que se passe-t-il avec une phrase inconnue ?]
+  Elle est détectée si le DOM l’expose. Elle est traduite si une mémoire, une
+  correction unique, un gabarit ou une composition sûre la couvre; sinon
+  l’original est conservé.
+
+  \item[Comment prouvez-vous qu’un montant n’a pas changé ?]
+  Chaque valeur est extraite, masquée, restaurée puis recomptée exactement.
+  Un écart rejette toute la traduction. Les tests couvrent espaces,
+  séparateurs, signes et devises.
+
+  \item[Pourquoi la page d’administration peut-elle aussi être traduite ?]
+  Le moteur ne connaît aucun rôle «\,jury\,» ou «\,admin\,». Toute surface
+  DOM accessible est traitée de la même façon lorsque KORA est active; les
+  champs et codes restent protégés.
+
+  \item[KORA collecte-t-il le contenu consulté ?]
+  Non. Le traitement est local et volatile; seules les préférences
+  d’activation et de langue sont persistées.
+
+  \item[La terminologie complète est-elle validée ?]
+  Les formulations relues sont distinguées des 371 candidats
+  compositionnels ou emprunts. Le document déclare cette limite et propose
+  une double validation avant production.
+\end{description}
+
+\subsection{Équipe KORA}
+
+\begin{tcolorbox}[
+  enhanced,colback=Ink,colframe=Ink,arc=3mm,boxrule=0pt,
+  left=5mm,right=5mm,top=4mm,bottom=4mm
+]
+\color{white}
+\begin{tabularx}{\linewidth}{@{}L{65mm}Y@{}}
+\textbf{\TeamLead} &
+Responsable d’équipe · Yaoundé\\
+&
+\href{mailto:\TeamLeadEmail}{\color{white}\TeamLeadEmail}\par
+\TeamLeadPhone\\[2mm]
+\textbf{\MemberTwo} &
+\href{mailto:\MemberTwoEmail}{\color{white}\MemberTwoEmail}\\[2mm]
+\textbf{\MemberThree} &
+\href{mailto:\MemberThreeEmail}{\color{white}\MemberThreeEmail}\\[3mm]
+\textbf{\LinguisticValidator} &
+Responsable de la validation linguistique\\
+\end{tabularx}
+\end{tcolorbox}
+
+\subsection{Propriété, licences et déclaration}
+
+L’équipe conserve la propriété de ses créations conformément au règlement.
+Le code KORA est publié sous licence MIT; chaque ressource tierce conserve ses
+conditions. Common Voice est utilisé sous CC0 et Tourneux--Konaï sous CC BY
+4.0. Les contenus dont la licence ne permet pas une incorporation claire
+(dictionnaire SIL complet, PanLex, corpus protégés) ne sont pas redistribués.
+
+Les services et outils déclarés sont : Node.js, esbuild, Puppeteer, Python,
+PyTorch/NumPy pour l’entraînement optionnel, Google Chrome pour les tests et
+ElevenLabs/Web Audio uniquement pour la production vidéo. Aucun de ces
+services externes ne reçoit de données de page pendant l’utilisation de
+l’extension.
+
+\subsection{Checklist de remise}
+
+\begin{tabularx}{\linewidth}{@{}C{9mm}Y L{53mm}@{}}
+\toprule
+\textbf{OK} & \textbf{Livrable / contrôle} & \textbf{Emplacement}\\
+\midrule
+\(\square\) & Lien vidéo public, durée inférieure ou égale à 3 min &
+\href{\DemoVideoURL}{Voir la vidéo MP4}\\
+\(\square\) & Documentation PDF inférieure à 10 Mo &
+PDF final dans \texttt{release/}\\
+\(\square\) & Extension ZIP inférieure à 10 Mo &
+\code{release/kora-extension.zip}\\
+\(\square\) & Dépôt GitHub accessible au jury &
+\href{\RepoURL}{Ouvrir le dépôt GitHub}\\
+\(\square\) & Test du ZIP dans un profil Chrome propre &
+\code{release/kora-unpacked/}\\
+\(\square\) & Lien vidéo accessible sans authentification &
+Vérification depuis une fenêtre privée\\
+\(\square\) & Aucune clé, donnée réelle ou fichier \code{.env} dans le dépôt &
+\code{git status} et inspection ZIP\\
+\bottomrule
+\end{tabularx}
+
+\begin{warningbox}[À faire juste avant le formulaire]
+Ouvrir le lien MP4 et les autres liens en navigation privée, installer le ZIP dans un profil
+Chrome vierge et effectuer une dernière fois le parcours complet avec des
+données fictives.
+\end{warningbox}
+
+\subsection{Références essentielles}
+
+\begin{enumerate}
+  \item SAFINUM Innovate Challenge, \textit{Épreuve de présélection du
+        hackathon}, versions française et anglaise, 2026.
+  \item H. Tourneux et G. H. Konaï, \textit{L’impact de la téléphonie mobile
+        sur le fulfulde du Cameroun septentrional}, CC BY 4.0.
+  \item Mozilla, \textit{Common Voice Corpus 27.0 — Adamawa Fulfulde
+        (\code{fub})}, CC0.
+  \item SIL, \textit{English--Fulfulde Dictionary} et
+        \textit{Vocabulaire de base en quatre langues}, consultés selon leurs
+        conditions, non redistribués.
+  \item Chrome for Developers, documentation Manifest V3 et content scripts.
+\end{enumerate}
+
+\clearpage
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[Ink] (current page.south west) rectangle (current page.north east);
+  \fill[Teal] ($(current page.south west)+(0,0)$) rectangle
+              ($(current page.south east)+(0,17mm)$);
+  \draw[Gold,line width=1.3pt]
+    ($(current page.north west)+(20mm,-34mm)$) --
+    ($(current page.north east)+(-20mm,-34mm)$);
+\end{tikzpicture}
+\color{white}
+\vspace*{18mm}
+\begin{center}
+\includegraphics[width=24mm]{assets/kora-logo.png}
+\hspace{10mm}
+\includegraphics[width=31mm]{assets/safinum-logo.png}\\[20mm]
+{\fontsize{28}{32}\selectfont\bfseries
+Une traduction utile\\
+est une traduction vérifiable.}\\[7mm]
+{\Large KORA · Comprendre, vérifier, confirmer en fulfulde}\\[16mm]
+\begin{minipage}{0.72\linewidth}
+\centering
+\small
+\textbf{\TeamName}\\
+Yaoundé, Cameroun\\[3mm]
+\href{\RepoURL}{\color{white}\RepoURL}\\
+\href{\DemoVideoURL}{\color{white}Vidéo de démonstration}
+\end{minipage}
+\end{center}
+\vfill
+\begin{center}
+\small
+Prototype fonctionnel · Traitement local · Données financières intactes
+\end{center}
+\color{Ink}

@@ -1,0 +1,179 @@
+\section{Sécurité, intégrité et accessibilité}
+
+\subsection{Modèle de menace}
+
+Le risque principal n’est pas l’interception d’une requête de traduction :
+KORA n’en émet aucune. Le risque est une modification silencieuse du sens ou
+d’une valeur canonique pendant le rendu. La conception traite donc la
+traduction comme une transformation non fiable qui doit prouver qu’elle a
+conservé les données.
+
+\begin{tabularx}{\linewidth}{@{}L{40mm}Y Y@{}}
+\toprule
+\textbf{Risque} & \textbf{Impact possible} & \textbf{Mesure KORA}\\
+\midrule
+Montant ou devise altéré &
+Décision financière erronée &
+Masquage, restauration exacte, comptage des occurrences, rejet.\\
+Bénéficiaire traduit &
+Confusion sur le destinataire &
+Noms et valeurs saisies ajoutés au jeu protégé en mémoire d’onglet.\\
+Action inversée &
+Confirmer au lieu d’annuler, créditer au lieu de débiter &
+Actions critiques en mémoire exacte; négation inconnue = abstention.\\
+Alerte affaiblie &
+Utilisateur insuffisamment averti &
+Messages complets, seuil de couverture critique à 100\,\%.\\
+Fuite de contenu &
+Exposition de données personnelles &
+Pas de transport réseau, télémétrie ou stockage persistant de page.\\
+Régression d’interface &
+Clavier ou formulaire inutilisable &
+Modification des nœuds textuels, pas des composants ou de leur ordre.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Invariant d’intégrité}
+
+Soit \(P(s)\) le multiensemble des valeurs protégées extraites d’un segment
+source \(s\), et \(t\) une traduction candidate. KORA accepte \(t\) seulement
+si :
+
+\[
+  \forall v \in P(s),\quad
+  \operatorname{occ}(v,s)=\operatorname{occ}(v,t)
+  \quad\text{et}\quad
+  \operatorname{bytes}(v_s)=\operatorname{bytes}(v_t).
+\]
+
+En pratique, les valeurs sont remplacées temporairement par des jetons
+internes, par exemple \code{<<KORA\_0>>}, puis remises caractère pour caractère.
+Le contrôle final protège aussi les répétitions : une valeur ne doit ni
+disparaître, ni être dupliquée.
+
+\begin{keybox}[Exemple de transformation sûre]
+\textbf{Source :} Votre transfert de \texttt{25 000 FCFA} est en attente.\\
+\textbf{Interne :} Votre transfert de \texttt{<<KORA\_0>>} est en attente.\\
+\textbf{Candidat :} Transfeer maa \texttt{<<KORA\_0>>} ɗon e fadde.\\
+\textbf{Rendu :} Transfeer maa \texttt{25 000 FCFA} ɗon e fadde.
+\end{keybox}
+
+\subsection{Données protégées}
+
+\begin{multicols}{2}
+\begin{itemize}
+  \item montants, signes et séparateurs;
+  \item monnaies et pourcentages;
+  \item comptes et numéros de téléphone;
+  \item références et codes d’erreur;
+  \item dates, heures, URL et courriels;
+  \item noms complets et valeurs utilisateur.
+\end{itemize}
+
+\columnbreak
+\begin{itemize}
+  \item \code{input.value} et \code{textarea.value};
+  \item \code{select.value} et valeur technique d’une option;
+  \item \code{checked}, \code{selected}, \code{name}, \code{id};
+  \item \code{type}, \code{min}, \code{step};
+  \item contenu \code{contenteditable};
+  \item identifiants opaques comme \code{DSAFDF}.
+\end{itemize}
+\end{multicols}
+
+Dans un \code{select}, seul le libellé visible d’une option peut changer.
+Sa valeur technique reste intacte. Le texte saisi
+\texttt{Payment for services} reste lui aussi intact, même si le label du
+champ est traduit.
+
+\subsection{Cycle de vie des données}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  node distance=6mm and 12mm,
+  b/.style={draw=Line,fill=Paper,rounded corners=1.5mm,
+    text width=31mm,minimum height=11mm,align=center,font=\small},
+  ok/.style={b,draw=Teal,fill=Mint},
+  no/.style={b,draw=Gold,fill=Warm},
+  arrow/.style={-{Latex[length=2mm]},thick,color=TealDark}
+]
+\node[b] (read) {Lecture temporaire du segment visible};
+\node[b,right=of read] (protect) {Extraction des valeurs et masquage};
+\node[b,right=of protect] (translate) {Traitement local en mémoire};
+\node[ok,right=of translate] (render) {Rendu du texte ou original};
+\node[no,below=9mm of protect] (store) {Jamais écrit dans le stockage};
+\node[no,below=9mm of translate] (network) {Jamais envoyé sur le réseau};
+\draw[arrow] (read)--(protect);
+\draw[arrow] (protect)--(translate);
+\draw[arrow] (translate)--(render);
+\draw[-{Latex[length=2mm]},thick,color=Risk] (protect)--(store);
+\draw[-{Latex[length=2mm]},thick,color=Risk] (translate)--(network);
+\end{tikzpicture}
+\caption{Le contenu financier reste dans la mémoire volatile de l’onglet.}
+\end{figure}
+
+\code{chrome.storage.local} conserve uniquement la préférence d’activation et
+la langue d’affichage. Le jeu de valeurs utilisateur, utilisé pour reconnaître
+le même nom ou la même note au récapitulatif, existe uniquement en mémoire du
+content script et disparaît avec l’onglet.
+
+\subsection{Permissions et indépendance}
+
+\begin{lstlisting}[language={},caption={Permissions déclarées dans manifest.json}]
+"permissions": ["storage", "activeTab", "scripting"]
+\end{lstlisting}
+
+\begin{itemize}
+  \item \code{storage} conserve les préférences non sensibles.
+  \item \code{activeTab} relie la popup à l’onglet explicitement utilisé.
+  \item \code{scripting} charge le moteur local si l’onglet ne possède pas
+        encore le protocole courant.
+\end{itemize}
+
+Le content script est déclaré pour les pages ordinaires HTTP, HTTPS et fichiers
+locaux. Cette portée démontre l’indépendance par rapport à Safinum, mais KORA
+ne contourne ni politique de contenu, ni iframe interdite, ni page interne
+Chrome.
+
+\subsection{Accessibilité et expérience utilisateur}
+
+\begin{tabularx}{\linewidth}{@{}L{43mm}Y@{}}
+\toprule
+\textbf{Principe} & \textbf{Application}\\
+\midrule
+Navigation clavier &
+Aucun gestionnaire global ne bloque \code{Ctrl+A}; tabulation et commandes du
+site sont conservées.\\
+Focus &
+La popup possède des styles de focus visibles et se ferme après action pour
+rendre le focus à la page.\\
+Sémantique &
+Les éléments ne sont ni clonés ni remplacés; rôles, labels et ordre DOM
+restent ceux du site.\\
+Lecteurs d’écran &
+\code{aria-label}, \code{title} et \code{placeholder} peuvent être traduits;
+les sorties portent \code{lang="fub"}.\\
+Lisibilité &
+Popup sombre, contrastes élevés, contrôles dimensionnés et états explicites.\\
+Réversibilité &
+Chaque nœud conserve sa forme source; l’utilisateur peut restaurer la page
+instantanément.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Cadre de démonstration}
+
+Toutes les opérations sont simulées. Les comptes, noms, numéros, montants et
+références du parcours servent uniquement à vérifier l’intégrité; KORA ne
+déclenche aucun transfert et ne doit recevoir aucune donnée bancaire réelle.
+La démonstration respecte la page fournie : elle charge l’extension comme une
+extension utilisateur, sans modifier le code source ni contourner les étapes.
+
+\begin{warningbox}[Limite réglementaire]
+KORA est un prototype d’accessibilité, pas un dispositif bancaire certifié,
+un outil d’autorisation de transaction ou un conseil financier. Un déploiement
+réel exigerait une revue de sécurité indépendante, une double validation
+linguistique, des essais utilisateurs et la gouvernance versionnée du
+glossaire.
+\end{warningbox}

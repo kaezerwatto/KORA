@@ -31,9 +31,9 @@ conserver l’original plutôt que produire un contresens.
 - popup accessible qui restitue immédiatement le focus et les raccourcis clavier;
 - tests automatisés sur Safinum, une page UBA réelle et les corpus financiers.
 
-L’environnement jury n’est pas traité spécialement : son texte est traduit
-par le même analyseur DOM et le même observateur de mutations que toute page
-administrative ou bancaire.
+Le moteur ne dépend pas d’une URL ou d’un rôle particulier : tout texte
+visible et accessible suit le même analyseur DOM et le même observateur de
+mutations.
 
 ## Confidentialité
 
@@ -53,7 +53,7 @@ source.
 ## Livrables
 
 - vidéo narrée de moins de trois minutes :
-  [`../release/KORA_Demo_Pitch_SAFINUM_2026.webm`](../release/KORA_Demo_Pitch_SAFINUM_2026.webm);
+  [`../release/KORA_Demo_Pitch_SAFINUM_2026.mp4`](../release/KORA_Demo_Pitch_SAFINUM_2026.mp4);
 - documentation technique A4 :
   [`../release/KORA-Documentation-SAFINUM.pdf`](../release/KORA-Documentation-SAFINUM.pdf);
 - extension Chrome :

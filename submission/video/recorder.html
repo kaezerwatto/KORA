@@ -18,8 +18,14 @@
     const height = canvas.height;
     const logo = new Image();
     const safinumLogo = new Image();
+    const problemIllustration = new Image();
+    const solutionIllustration = new Image();
+    const validationIllustration = new Image();
     logo.src = "../../src/icons/icon-128.png";
     safinumLogo.src = "assets/logo-safinum.png";
+    problemIllustration.src = "assets/kora-problem-illustration.webp";
+    solutionIllustration.src = "assets/kora-solution-illustration.webp";
+    validationIllustration.src = "assets/kora-validation-illustration.webp";
 
     const noise = document.createElement("canvas");
     noise.width = 320;
@@ -50,8 +56,11 @@
       click: { startedAt: 0 },
       transitionStartedAt: performance.now(),
       sceneIndex: 0,
-      sceneCount: 8,
+      sceneCount: 10,
+      browserUrl: "https://safinum.cm/hackathon-test",
+      browserTitle: "Safinum Pay",
       audio: null,
+      audioBuffers: new Map(),
       audioEnded: true,
       audioContext: null,
       audioDestination: null,
@@ -108,77 +117,188 @@
       ctx.globalAlpha = 1;
     }
 
+    function drawEditorialBackground() {
+      ctx.fillStyle = "#fbfcf7";
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = "rgba(200, 255, 47, .42)";
+      ctx.beginPath();
+      ctx.ellipse(1110, 78, 260, 170, -0.18, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "rgba(25, 196, 191, .18)";
+      ctx.beginPath();
+      ctx.ellipse(1192, 612, 330, 205, 0.12, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "rgba(255, 196, 62, .22)";
+      ctx.beginPath();
+      ctx.ellipse(80, 690, 210, 130, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 0.035;
+      ctx.drawImage(noise, 0, 0, width, height);
+      ctx.globalAlpha = 1;
+    }
+
+    function drawImageCard(image, x, y, cardWidth, cardHeight, radius = 26) {
+      ctx.save();
+      ctx.shadowColor = "rgba(24, 30, 67, .14)";
+      ctx.shadowBlur = 30;
+      ctx.shadowOffsetY = 12;
+      roundRect(x, y, cardWidth, cardHeight, radius);
+      ctx.fillStyle = "#ffffff";
+      ctx.fill();
+      ctx.restore();
+      ctx.save();
+      roundRect(x, y, cardWidth, cardHeight, radius);
+      ctx.clip();
+      ctx.drawImage(image, x, y, cardWidth, cardHeight);
+      ctx.restore();
+      ctx.strokeStyle = "rgba(30, 29, 72, .12)";
+      ctx.lineWidth = 1;
+      roundRect(x, y, cardWidth, cardHeight, radius);
+      ctx.stroke();
+    }
+
+    function drawSafinumMark() {
+      ctx.fillStyle = "#1f1d48";
+      roundRect(1042, 24, 174, 132, 24);
+      ctx.fill();
+      ctx.drawImage(safinumLogo, 1063, 26, 130, 130);
+    }
+
     function drawBrand() {
-      drawBackdrop();
+      drawEditorialBackground();
       const elapsed = performance.now() - state.transitionStartedAt;
       const reveal = Math.min(1, elapsed / 520);
       const eased = 1 - Math.pow(1 - reveal, 3);
       ctx.save();
       ctx.globalAlpha = eased;
-      ctx.translate((1 - eased) * 36, 0);
+      ctx.translate((1 - eased) * 34, 0);
+      ctx.fillStyle = "#1f1d48";
 
-      if (state.mode === "outro") {
-        ctx.drawImage(logo, 74, 72, 92, 92);
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "800 52px DejaVu Sans, Arial";
-        ctx.fillText("KORA", 194, 132);
-        ctx.fillStyle = "#7fdcc4";
-        ctx.font = "700 18px DejaVu Sans, Arial";
-        ctx.fillText("COMPRENDRE · VÉRIFIER · CONFIRMER", 76, 218);
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "700 30px DejaVu Sans, Arial";
-        ctx.fillText("Une finance numérique accessible", 76, 278);
-        ctx.fillText("en foufouldé.", 76, 318);
+      if (state.mode === "concept") {
+        ctx.drawImage(logo, 66, 50, 58, 58);
+        ctx.font = "800 18px DejaVu Sans, Arial";
+        ctx.fillText("KORA", 142, 86);
+        ctx.fillStyle = "#0b8f83";
+        ctx.font = "800 14px DejaVu Sans, Arial";
+        ctx.fillText("PROBLÈME → SOLUTION → CAS D’USAGE", 66, 152);
+        ctx.fillStyle = "#1f1d48";
+        ctx.font = "800 39px DejaVu Sans, Arial";
+        wrap("Comprendre avant de confirmer.", 66, 212, 550, 48, 2);
 
-        ctx.fillStyle = "#a7b8b1";
-        ctx.font = "400 17px DejaVu Sans, Arial";
-        ctx.fillText("Validation linguistique", 76, 402);
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "700 21px DejaVu Sans, Arial";
-        ctx.fillText("Jean-Ernest SOUROUMBAI", 76, 434);
-        ctx.fillStyle = "#a7b8b1";
-        ctx.font = "400 16px DejaVu Sans, Arial";
-        ctx.fillText("AZAB A RANGA FRANCK MIGUEL · BELL AQIL", 76, 515);
-        ctx.fillText("SIMO SIGEU NKOUAMKAM MENELIK", 76, 545);
-        ctx.fillStyle = "#e9b949";
-        ctx.font = "700 16px DejaVu Sans, Arial";
-        ctx.fillText("github.com/kaezerwatto/KORA", 76, 625);
+        ctx.fillStyle = "#e9fbc2";
+        roundRect(66, 318, 542, 82, 20);
+        ctx.fill();
+        ctx.fillStyle = "#1f1d48";
+        ctx.font = "800 14px DejaVu Sans, Arial";
+        ctx.fillText("PROBLÈME", 90, 348);
+        ctx.font = "500 16px DejaVu Sans, Arial";
+        ctx.fillText("Une action financière reste opaque hors de sa langue.", 90, 377);
 
-        ctx.drawImage(safinumLogo, 914, 116, 250, 250);
-        ctx.fillStyle = "#d9e3df";
-        ctx.textAlign = "center";
+        ctx.fillStyle = "#dff7f5";
+        roundRect(66, 416, 542, 82, 20);
+        ctx.fill();
+        ctx.fillStyle = "#1f1d48";
+        ctx.font = "800 14px DejaVu Sans, Arial";
+        ctx.fillText("RÉPONSE KORA", 90, 446);
+        ctx.font = "500 16px DejaVu Sans, Arial";
+        ctx.fillText("FR / EN → foufouldé, localement et sans fuite.", 90, 475);
+
+        ctx.fillStyle = "#fff0c7";
+        roundRect(66, 514, 542, 96, 20);
+        ctx.fill();
+        ctx.fillStyle = "#1f1d48";
+        ctx.font = "800 14px DejaVu Sans, Arial";
+        ctx.fillText("USAGE", 90, 544);
+        ctx.font = "500 16px DejaVu Sans, Arial";
+        ctx.fillText("Compte · frais · bénéficiaire · confirmation", 90, 573);
+        ctx.fillText("Montants, identités et références protégés.", 90, 597);
+
+        drawImageCard(problemIllustration, 674, 74, 536, 302, 30);
+        drawImageCard(solutionIllustration, 792, 405, 418, 235, 26);
+      } else if (state.mode === "validation") {
+        ctx.drawImage(logo, 66, 48, 58, 58);
+        ctx.font = "800 18px DejaVu Sans, Arial";
+        ctx.fillText("KORA", 142, 84);
+        ctx.fillStyle = "#0b8f83";
+        ctx.font = "800 14px DejaVu Sans, Arial";
+        ctx.fillText("VALIDATION LINGUISTIQUE", 66, 158);
+        ctx.fillStyle = "#1f1d48";
+        ctx.font = "800 41px DejaVu Sans, Arial";
+        wrap("Le sens avant la substitution.", 66, 220, 535, 50, 2);
+        ctx.fillStyle = "#5c6079";
+        ctx.font = "500 18px DejaVu Sans, Arial";
+        wrap(
+          "Chaque formulation du parcours a été relue dans son contexte financier.",
+          66,
+          332,
+          530,
+          29,
+          3
+        );
+        ctx.fillStyle = "#1f1d48";
+        ctx.font = "800 13px DejaVu Sans, Arial";
+        ctx.fillText("VALIDATEUR LINGUISTIQUE", 66, 442);
+        ctx.font = "800 24px DejaVu Sans, Arial";
+        ctx.fillText("Jean-Ernest SOUROUMBAI", 66, 478);
+        ctx.fillStyle = "#0b8f83";
+        ctx.font = "700 15px DejaVu Sans, Arial";
+        ctx.fillText("CONTEXTE", 66, 558);
+        ctx.fillText("SÉMANTIQUE", 224, 558);
+        ctx.fillText("TERMINOLOGIE FINANCIÈRE", 396, 558);
+        drawImageCard(validationIllustration, 650, 108, 570, 321, 30);
+        ctx.fillStyle = "#ffffff";
+        roundRect(744, 470, 382, 98, 24);
+        ctx.fill();
+        ctx.fillStyle = "#1f1d48";
         ctx.font = "700 17px DejaVu Sans, Arial";
-        ctx.fillText("SAFINUM INNOVATE CHALLENGE 2026", 1039, 415);
-        ctx.fillStyle = "#91a39c";
-        ctx.font = "400 15px DejaVu Sans, Arial";
-        ctx.fillText("Local · privé · valeurs préservées", 1039, 448);
-        ctx.textAlign = "left";
+        ctx.fillText("Si le sens n’est pas sûr,", 778, 510);
+        ctx.fillText("KORA conserve le texte original.", 778, 540);
+      } else if (state.mode === "outro") {
+        ctx.drawImage(logo, 66, 48, 72, 72);
+        ctx.fillStyle = "#1f1d48";
+        ctx.font = "800 27px DejaVu Sans, Arial";
+        ctx.fillText("KORA", 158, 93);
+        drawSafinumMark();
+        ctx.fillStyle = "#0b8f83";
+        ctx.font = "800 15px DejaVu Sans, Arial";
+        ctx.fillText("COMPRENDRE · VÉRIFIER · CONFIRMER", 66, 208);
+        ctx.fillStyle = "#1f1d48";
+        ctx.font = "800 48px DejaVu Sans, Arial";
+        wrap("La finance numérique accessible en foufouldé.", 66, 278, 735, 57, 3);
+        ctx.fillStyle = "#5c6079";
+        ctx.font = "500 19px DejaVu Sans, Arial";
+        ctx.fillText("Local · privé · valeurs financières préservées", 68, 474);
+        ctx.fillStyle = "#1f1d48";
+        ctx.font = "700 15px DejaVu Sans, Arial";
+        ctx.fillText("KORA TEAM · YAOUNDÉ, CAMEROUN", 68, 544);
+        ctx.font = "500 14px DejaVu Sans, Arial";
+        ctx.fillText("AZAB A RANGA FRANCK MIGUEL · BELL AQIL", 68, 580);
+        ctx.fillText("SIMO SIGEU NKOUAMKAM MENELIK", 68, 606);
+        ctx.fillStyle = "#d79000";
+        ctx.font = "800 15px DejaVu Sans, Arial";
+        ctx.fillText("github.com/kaezerwatto/KORA", 68, 655);
+        ctx.globalAlpha = 0.92;
+        drawImageCard(solutionIllustration, 820, 204, 392, 221, 26);
+        ctx.globalAlpha = 1;
       } else {
-        ctx.drawImage(logo, 76, 70, 102, 102);
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "800 28px DejaVu Sans, Arial";
-        ctx.fillText("KORA", 204, 132);
-        ctx.drawImage(safinumLogo, 1052, 52, 126, 126);
-        ctx.fillStyle = "#e9b949";
-        ctx.font = "700 15px DejaVu Sans, Arial";
-        ctx.fillText("PITCH-DÉMO RÉEL · SAFINUM 2026", 76, 242);
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "800 57px DejaVu Sans, Arial";
-        const bottom = wrap(state.title, 76, 318, 930, 65, 2);
-        ctx.fillStyle = "#a7b8b1";
-        ctx.font = "400 24px DejaVu Sans, Arial";
-        wrap(state.caption, 78, bottom + 26, 850, 36, 2);
-
-        ctx.strokeStyle = "rgba(126, 220, 196, .28)";
-        ctx.beginPath();
-        ctx.moveTo(76, 565);
-        ctx.lineTo(1180, 565);
-        ctx.stroke();
-        ctx.font = "700 15px DejaVu Sans, Arial";
-        ctx.fillStyle = "#7fdcc4";
-        ctx.fillText("100 % LOCAL", 76, 615);
-        ctx.fillText("FR / EN → FOUFOULDÉ", 376, 615);
-        ctx.fillText("MONTANTS ET IDENTITÉS INTACTS", 760, 615);
+        ctx.drawImage(logo, 66, 48, 72, 72);
+        ctx.fillStyle = "#1f1d48";
+        ctx.font = "800 27px DejaVu Sans, Arial";
+        ctx.fillText("KORA", 158, 93);
+        drawSafinumMark();
+        ctx.fillStyle = "#0b8f83";
+        ctx.font = "800 14px DejaVu Sans, Arial";
+        ctx.fillText("PITCH-DÉMO RÉEL · SAFINUM 2026", 66, 205);
+        ctx.fillStyle = "#1f1d48";
+        ctx.font = "800 49px DejaVu Sans, Arial";
+        wrap(state.title, 66, 278, 670, 58, 3);
+        ctx.fillStyle = "#5c6079";
+        ctx.font = "500 21px DejaVu Sans, Arial";
+        wrap(state.caption, 68, 450, 630, 32, 2);
+        ctx.fillStyle = "#1f1d48";
+        ctx.font = "700 14px DejaVu Sans, Arial";
+        ctx.fillText("KORA TEAM · YAOUNDÉ", 68, 606);
+        drawImageCard(solutionIllustration, 760, 190, 452, 254, 28);
       }
       ctx.restore();
     }
@@ -197,7 +317,7 @@
     }
 
     function drawCursor() {
-      if (!state.cursor.visible || state.popupVisible) return;
+      if (!state.cursor.visible) return;
       const { x, y } = state.cursor;
       const elapsed = performance.now() - state.click.startedAt;
       if (elapsed < 300) {
@@ -229,33 +349,71 @@
       ctx.restore();
     }
 
+    function drawBrowserChrome() {
+      ctx.fillStyle = "#202124";
+      ctx.fillRect(0, 0, width, 54);
+      ctx.fillStyle = "#303134";
+      roundRect(16, 5, 254, 24, 10);
+      ctx.fill();
+      ctx.fillStyle = "#e8eaed";
+      ctx.font = "600 11px DejaVu Sans, Arial";
+      ctx.fillText(state.browserTitle, 42, 21);
+      ctx.fillStyle = "#79d7be";
+      ctx.beginPath();
+      ctx.arc(29, 17, 5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#17181a";
+      roundRect(92, 30, 1095, 20, 10);
+      ctx.fill();
+      ctx.fillStyle = "#9aa0a6";
+      ctx.font = "700 11px DejaVu Sans, Arial";
+      ctx.fillText("‹", 22, 45);
+      ctx.fillText("›", 46, 45);
+      ctx.fillText("↻", 69, 45);
+      ctx.fillStyle = "#8ab4f8";
+      ctx.font = "700 9px DejaVu Sans, Arial";
+      ctx.fillText(state.browserUrl.startsWith("https://") ? "●" : "◆", 110, 44);
+      ctx.fillStyle = "#d5d8dc";
+      ctx.font = "500 11px DejaVu Sans, Arial";
+      ctx.fillText(state.browserUrl, 128, 44);
+      ctx.fillStyle = "#9aa0a6";
+      ctx.font = "700 14px DejaVu Sans, Arial";
+      ctx.fillText("⋮", 1244, 44);
+    }
+
     function drawScreen() {
       ctx.fillStyle = "#050806";
       ctx.fillRect(0, 0, width, height);
+      drawBrowserChrome();
       if (state.frame) {
-        const rect = containRect(state.sourceWidth, state.sourceHeight);
+        const rect = containRect(state.sourceWidth, state.sourceHeight, {
+          x: 0,
+          y: 54,
+          width,
+          height: height - 54
+        });
         ctx.drawImage(state.frame, rect.x, rect.y, rect.width, rect.height);
       }
 
       if (state.installPathVisible) {
-        roundRect(330, 22, 620, 64, 12);
+        roundRect(330, 72, 620, 64, 12);
         ctx.fillStyle = "rgba(10, 16, 13, .94)";
         ctx.fill();
         ctx.strokeStyle = "rgba(126, 220, 196, .45)";
         ctx.stroke();
         ctx.fillStyle = "#7fdcc4";
         ctx.font = "700 12px DejaVu Sans, Arial";
-        ctx.fillText("CHARGER L’EXTENSION NON EMPAQUETÉE", 354, 48);
+        ctx.fillText("CHARGER L’EXTENSION NON EMPAQUETÉE", 354, 98);
         ctx.fillStyle = "#ffffff";
         ctx.font = "600 16px DejaVu Sans Mono, monospace";
-        ctx.fillText("release/kora-unpacked", 354, 72);
+        ctx.fillText("release/kora-unpacked", 354, 122);
       }
 
       if (state.popupVisible && state.popupFrame) {
         const popupWidth = 360;
         const popupHeight = Math.min(520, state.popupFrame.naturalHeight);
         const x = width - popupWidth - 46;
-        const y = 64;
+        const y = 82;
         ctx.save();
         ctx.shadowColor = "rgba(0, 0, 0, .72)";
         ctx.shadowBlur = 34;
@@ -366,6 +524,19 @@
       },
       setFrame,
       setPopup,
+      assetsReady() {
+        return [
+          logo,
+          safinumLogo,
+          problemIllustration,
+          solutionIllustration,
+          validationIllustration
+        ].every((image) => image.complete && image.naturalWidth > 0);
+      },
+      setBrowser({ url, title }) {
+        state.browserUrl = url ?? state.browserUrl;
+        state.browserTitle = title ?? state.browserTitle;
+      },
       showPopup(visible) {
         state.popupVisible = Boolean(visible) && Boolean(state.popupFrame);
       },
@@ -383,10 +554,21 @@
           await state.audioContext.resume();
         }
       },
-      async startRecording() {
+      async startRecording(audioUrls = []) {
         state.audioContext = new AudioContext();
         state.audioDestination = state.audioContext.createMediaStreamDestination();
         await state.audioContext.resume();
+        state.audioBuffers = new Map();
+        for (const url of audioUrls) {
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`Narration inaccessible : ${response.status}`);
+          }
+          const buffer = await state.audioContext.decodeAudioData(
+            await response.arrayBuffer()
+          );
+          state.audioBuffers.set(url, buffer);
+        }
 
         state.master = state.audioContext.createDynamicsCompressor();
         state.master.threshold.value = -10;
@@ -469,7 +651,7 @@
         state.chunks = [];
         state.recorder = new MediaRecorder(stream, {
           mimeType,
-          videoBitsPerSecond: 470000,
+          videoBitsPerSecond: 430000,
           audioBitsPerSecond: 64000
         });
         state.recorder.addEventListener("dataavailable", (event) => {
@@ -479,9 +661,17 @@
         return mimeType;
       },
       async startAudio(url, playbackRate = 1) {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`Narration inaccessible : ${response.status}`);
-        const buffer = await state.audioContext.decodeAudioData(await response.arrayBuffer());
+        let buffer = state.audioBuffers.get(url);
+        if (!buffer) {
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`Narration inaccessible : ${response.status}`);
+          }
+          buffer = await state.audioContext.decodeAudioData(
+            await response.arrayBuffer()
+          );
+          state.audioBuffers.set(url, buffer);
+        }
         const source = state.audioContext.createBufferSource();
         source.buffer = buffer;
         source.playbackRate.value = playbackRate;

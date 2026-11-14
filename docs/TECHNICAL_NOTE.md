@@ -105,9 +105,9 @@ KORA combine :
 
 Ce mécanisme couvre les étapes montées par Vue, les calculs de frais, les erreurs et les textes ajoutés après chargement.
 
-Le mécanisme est indépendant du rôle de la page : une interface jury ou admin
-est traduite si l’utilisateur active KORA. Aucun nom de page ni sélecteur
-Safinum privé n’est nécessaire.
+Le mécanisme est indépendant du rôle de la page : tout texte visible et
+accessible est traité lorsque l’utilisateur active KORA. Aucun nom de page ni
+sélecteur Safinum privé n’est nécessaire.
 
 ## 6. Accessibilité
 

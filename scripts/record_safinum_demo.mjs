@@ -9,7 +9,7 @@ const narrationPath = path.join(root, "submission", "video", "narration-fr.json"
 const audioDirectory = path.join(root, "submission", "video", "audio");
 const recorderHtml = path.join(root, "submission", "video", "recorder.html");
 const preview = process.env.KORA_VIDEO_PREVIEW === "1";
-const playbackRate = Number(process.env.KORA_VIDEO_SPEED ?? "1");
+const playbackRate = Number(process.env.KORA_VIDEO_SPEED ?? "1.10");
 const output = path.join(
   root,
   "release",
@@ -63,10 +63,16 @@ const delay = (milliseconds) =>
 const captureClients = new WeakMap();
 let cursor = { x: 720, y: 450, visible: false };
 const sourceViewport = { width: 1440, height: 900 };
-const videoScale = Math.min(1280 / sourceViewport.width, 720 / sourceViewport.height);
+const browserChromeHeight = 54;
+const videoScale = Math.min(
+  1280 / sourceViewport.width,
+  (720 - browserChromeHeight) / sourceViewport.height
+);
 const videoOffset = {
   x: (1280 - sourceViewport.width * videoScale) / 2,
-  y: (720 - sourceViewport.height * videoScale) / 2
+  y:
+    browserChromeHeight +
+    (720 - browserChromeHeight - sourceViewport.height * videoScale) / 2
 };
 
 async function waitForKora(page) {
@@ -194,6 +200,24 @@ async function moveCursor(renderer, page, x, y, milliseconds = 220) {
   await page?.mouse.move(x, y);
 }
 
+async function moveCanvasCursor(renderer, x, y, milliseconds = 220) {
+  const start = { x: 640, y: 350 };
+  const steps = Math.max(7, Math.round(milliseconds / 16));
+  for (let step = 1; step <= steps; step += 1) {
+    const t = step / steps;
+    const eased = 1 - Math.pow(1 - t, 3);
+    await renderer.evaluate(
+      (value) => window.koraVideo.setCursor(value),
+      {
+        x: start.x + (x - start.x) * eased,
+        y: start.y + (y - start.y) * eased,
+        visible: true
+      }
+    );
+    await delay(milliseconds / steps);
+  }
+}
+
 async function waitForAudio(renderer) {
   await renderer.waitForFunction(() => window.koraVideo.audioStatus().ended, {
     timeout: 120_000
@@ -272,6 +296,15 @@ async function setFrameData(renderer, dataUrl) {
   await delay(90);
 }
 
+async function playFrameSequence(renderer, frames, milliseconds = 900) {
+  if (!frames.length) return;
+  const frameDelay = milliseconds / frames.length;
+  for (const frame of frames) {
+    await renderer.evaluate((dataUrl) => window.koraVideo.setFrame(dataUrl), frame);
+    await delay(frameDelay);
+  }
+}
+
 async function visualClick(renderer) {
   await renderer.evaluate(() => window.koraVideo.click());
   await delay(320);
@@ -286,6 +319,21 @@ async function replaceInputFast(page, element, value) {
   await page.keyboard.press("Tab");
 }
 
+async function captureTyping(page, element, chunks) {
+  await element.click();
+  await page.keyboard.down("Control");
+  await page.keyboard.press("A");
+  await page.keyboard.up("Control");
+  await page.keyboard.press("Backspace");
+  const frames = [];
+  for (const chunk of chunks) {
+    await page.keyboard.type(chunk);
+    frames.push(await captureFrame(page));
+  }
+  await page.keyboard.press("Tab");
+  return frames;
+}
+
 let renderer;
 try {
   renderer = await browser.newPage();
@@ -296,6 +344,7 @@ try {
     await writeFile(output, Buffer.from(base64, "base64"));
   });
   await renderer.waitForFunction(() => Boolean(window.koraVideo));
+  await renderer.waitForFunction(() => window.koraVideo.assetsReady());
 
   const extensionsPage = await browser.newPage();
   await extensionsPage.setViewport({ ...sourceViewport, deviceScaleFactor: 1 });
@@ -304,6 +353,23 @@ try {
     extensionsBefore: await captureFrame(extensionsPage)
   };
   const points = {};
+  points.developerMode = await extensionsPage.evaluate(() => {
+    const toggle = document
+      .querySelector("extensions-manager")
+      ?.shadowRoot?.querySelector("extensions-toolbar")
+      ?.shadowRoot?.querySelector("#devMode");
+    if (!toggle) throw new Error("Interrupteur du mode développeur introuvable.");
+    const rect = toggle.getBoundingClientRect();
+    return { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 };
+  });
+  await extensionsPage.evaluate(() =>
+    document
+      .querySelector("extensions-manager")
+      ?.shadowRoot?.querySelector("extensions-toolbar")
+      ?.shadowRoot?.querySelector("#devMode")
+      ?.click()
+  );
+  snapshots.extensionsDeveloper = await captureFrame(extensionsPage);
 
   const extensionId = await browser.installExtension(extensionPath);
   if (!extensionId) throw new Error("Chrome n’a pas chargé KORA.");
@@ -324,18 +390,66 @@ try {
   );
   snapshots.extensionsAfter = await captureFrame(extensionsPage);
 
+  const preferences = await browser.newPage();
+  await preferences.goto(`chrome-extension://${extensionId}/popup.html?standalone=1`, {
+    waitUntil: "load"
+  });
+  await preferences.evaluate(() =>
+    chrome.storage.local.set({
+      koraEnabled: false,
+      koraSource: "auto",
+      koraDisplayLanguage: "fr"
+    })
+  );
+  await preferences.close();
+
   const safinum = await browser.newPage();
   await safinum.setViewport({ ...sourceViewport, deviceScaleFactor: 1 });
   await safinum.goto(normalSafinumUrl, {
     waitUntil: "domcontentloaded",
     timeout: 60_000
   });
-  await waitForKora(safinum);
   await assertNormalSafinum(safinum);
+  await safinum.waitForFunction(
+    () => document.body.innerText.toLocaleLowerCase("fr").includes("solde disponible"),
+    { timeout: 15_000 }
+  );
+  await safinum.evaluate(() => scrollTo(0, 0));
+  snapshots.dashboardFrench = await captureFrame(safinum);
+
+  const popup = await browser.newPage();
+  await popup.setViewport({ width: 360, height: 430, deviceScaleFactor: 1 });
+  await popup.goto(`chrome-extension://${extensionId}/popup.html?standalone=1`, {
+    waitUntil: "load"
+  });
+  await popup.waitForFunction(
+    () => document.querySelector("#status-title")?.textContent === "Page en français",
+    { timeout: 10_000 }
+  );
+  const popupHeight = await popup.evaluate(() =>
+    Math.min(520, Math.max(document.body.scrollHeight, 360))
+  );
+  const popupLanguagePoint = await popup.$eval(
+    'input[name="display-language"][value="fub"] + span',
+    (span) => {
+      const rect = span.getBoundingClientRect();
+      return { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 };
+    }
+  );
+  const popupImage = await popup.screenshot({
+    type: "png",
+    clip: { x: 0, y: 0, width: 360, height: popupHeight }
+  });
+  await popup.$eval(
+    'input[name="display-language"][value="fub"]',
+    (input) => input.click()
+  );
+  await waitForKora(safinum);
   await safinum.waitForFunction(
     () => document.body.innerText.includes("Kaalisi gonɗi e konte"),
     { timeout: 15_000 }
   );
+  if (!popup.isClosed()) await popup.close();
   await safinum.evaluate(() => scrollTo(0, 0));
   snapshots.dashboard = await captureFrame(safinum);
   points.dashboard = {
@@ -348,24 +462,6 @@ try {
       await visibleOriginal(safinum, "Effectuer un transfert")
     )
   };
-
-  const popup = await browser.newPage();
-  await popup.setViewport({ width: 360, height: 430, deviceScaleFactor: 1 });
-  await popup.goto(`chrome-extension://${extensionId}/popup.html?standalone=1`, {
-    waitUntil: "load"
-  });
-  await popup.waitForFunction(
-    () => document.querySelector("#status-title")?.textContent === "Traduction activée",
-    { timeout: 10_000 }
-  );
-  const popupHeight = await popup.evaluate(() =>
-    Math.min(520, Math.max(document.body.scrollHeight, 360))
-  );
-  const popupImage = await popup.screenshot({
-    type: "png",
-    clip: { x: 0, y: 0, width: 360, height: popupHeight }
-  });
-  await popup.close();
 
   await (await visibleOriginal(safinum, "Effectuer un transfert")).click();
   await safinum.waitForSelector('input[type="number"]', { timeout: 10_000 });
@@ -387,16 +483,31 @@ try {
     return option?.value ?? select.options[0]?.value;
   });
   await operation.select(otherBankValue);
-  await replaceInputFast(safinum, amount, "300000");
-  snapshots.feesHigh = await captureFrame(safinum);
+  snapshots.feesSelected = await captureFrame(safinum);
+  snapshots.feesHighTyping = await captureTyping(
+    safinum,
+    amount,
+    ["3", "0", "0", "0", "0", "0"]
+  );
+  snapshots.feesHigh = snapshots.feesHighTyping.at(-1);
   await (await visibleOriginal(safinum, "Continuer")).click();
   await safinum.waitForFunction(
     () => document.body.innerText.includes("AMOUNT_002"),
     { timeout: 10_000 }
   );
   snapshots.feesError = await captureFrame(safinum);
-  await replaceInputFast(safinum, (await safinum.$$('input[type="number"]'))[0], "25000");
-  snapshots.feesCorrected = await captureFrame(safinum);
+  points.fees.amountAfterError = await elementPoint(
+    (await safinum.$$('input[type="number"]'))[0]
+  );
+  points.fees.continueAfterError = await elementPoint(
+    await visibleOriginal(safinum, "Continuer")
+  );
+  snapshots.feesCorrectedTyping = await captureTyping(
+    safinum,
+    (await safinum.$$('input[type="number"]'))[0],
+    ["2", "5", "0", "0", "0"]
+  );
+  snapshots.feesCorrected = snapshots.feesCorrectedTyping.at(-1);
   await (await visibleOriginal(safinum, "Continuer")).click();
   await safinum.waitForFunction(
     () => document.body.innerText.toLowerCase().includes("innde jaɓoowo"),
@@ -418,12 +529,40 @@ try {
     checkbox: await elementPoint(await safinum.$('input[type="checkbox"]')),
     continue: await elementPoint(await visibleOriginal(safinum, "Continuer"))
   };
-  await replaceInputFast(safinum, textInputs[0], "Jean-Paul Mbarga");
-  await replaceInputFast(safinum, phone, "+237 6 99 12 34 56");
-  snapshots.beneficiaryIdentity = await captureFrame(safinum);
-  await replaceInputFast(safinum, textInputs[1], "Paiement de services");
-  await replaceInputFast(safinum, note, "Démonstration KORA");
-  snapshots.beneficiaryFilled = await captureFrame(safinum);
+  snapshots.beneficiaryNameTyping = await captureTyping(
+    safinum,
+    textInputs[0],
+    ["Jean", "-Paul", " Mbarga"]
+  );
+  snapshots.beneficiaryPhoneTyping = await captureTyping(
+    safinum,
+    phone,
+    ["+237 ", "6 99 ", "12 34 56"]
+  );
+  snapshots.beneficiaryIdentity = snapshots.beneficiaryPhoneTyping.at(-1);
+  snapshots.beneficiaryReasonTyping = await captureTyping(
+    safinum,
+    textInputs[1],
+    ["Paiement ", "de ", "services"]
+  );
+  snapshots.beneficiaryNoteTyping = await captureTyping(
+    safinum,
+    note,
+    ["Démonstration ", "KORA"]
+  );
+  snapshots.beneficiaryFilled = snapshots.beneficiaryNoteTyping.at(-1);
+  await (await visibleOriginal(safinum, "Continuer")).click();
+  await safinum.waitForFunction(
+    () => document.body.innerText.includes("SECURITY_001"),
+    { timeout: 10_000 }
+  );
+  snapshots.beneficiarySecurityError = await captureFrame(safinum);
+  points.beneficiary.checkboxAfterError = await elementPoint(
+    await safinum.$('input[type="checkbox"]')
+  );
+  points.beneficiary.continueAfterError = await elementPoint(
+    await visibleOriginal(safinum, "Continuer")
+  );
   await (await safinum.$('input[type="checkbox"]')).click();
   snapshots.beneficiaryChecked = await captureFrame(safinum);
   await (await visibleOriginal(safinum, "Continuer")).click();
@@ -455,12 +594,24 @@ try {
     if (!receipt.includes(value)) throw new Error(`Valeur absente du reçu : ${value}`);
   }
   snapshots.receipt = await captureFrame(safinum);
-  points.receiptBrand = await elementPoint(await visibleText(safinum, "Safinum Pay"));
-  await safinum.goto(normalSafinumUrl, {
-    waitUntil: "domcontentloaded",
-    timeout: 60_000
-  });
-  await waitForKora(safinum);
+  points.receiptNewTransfer = await elementPoint(
+    await visibleOriginal(safinum, "Nouveau transfert")
+  );
+  await (await visibleOriginal(safinum, "Nouveau transfert")).click();
+  await delay(650);
+  if (!(await safinum.$('input[type="number"]'))) {
+    const transferFromDashboard = await visibleOriginal(
+      safinum,
+      "Effectuer un transfert"
+    );
+    snapshots.postReceiptDashboard = await captureFrame(safinum);
+    points.postReceiptTransfer = await elementPoint(transferFromDashboard);
+    await transferFromDashboard.click();
+  }
+  await safinum.waitForSelector('input[type="number"]', { timeout: 10_000 });
+  snapshots.postReceiptFees = await captureFrame(safinum);
+  points.postReceiptBack = await elementPoint(await visibleOriginal(safinum, "Retour"));
+  await (await visibleOriginal(safinum, "Retour")).click();
   await safinum.waitForFunction(
     () =>
       [...document.querySelectorAll("[data-kora-original]")].some(
@@ -470,50 +621,100 @@ try {
   );
   await safinum.evaluate(() => scrollTo(0, 0));
   snapshots.dashboardReturn = await captureFrame(safinum);
+  const returnedBalance = await safinum.evaluate(() => {
+    const label = [...document.querySelectorAll("[data-kora-original]")].find(
+      (node) => node.dataset.koraOriginal === "Solde disponible"
+    );
+    return label?.parentElement?.textContent?.trim() ?? "";
+  });
+  console.log(`Solde affiché après retour réel : ${returnedBalance}`);
 
   await extensionsPage.close();
   await safinum.close();
   await renderer.bringToFront();
   await setFrameData(renderer, snapshots.extensionsBefore);
+  await renderer.evaluate(
+    (scene) => window.koraVideo.setScene(scene),
+    {
+      mode: "intro",
+      title: narration.title,
+      chapter: narration.segments[0].chapter,
+      caption: narration.segments[0].caption,
+      index: 0,
+      count: narration.segments.length
+    }
+  );
 
-  const mimeType = await renderer.evaluate(() => window.koraVideo.startRecording());
+  const mimeType = await renderer.evaluate(
+    (urls) => window.koraVideo.startRecording(urls),
+    audioFiles
+  );
   await delay(350);
 
   await playScene(renderer, 0, "intro");
+  await playScene(renderer, 1, "concept");
 
   await setFrameData(renderer, snapshots.extensionsBefore);
-  await playScene(renderer, 1, "screen", async (duration) => {
+  await renderer.evaluate(() =>
+    window.koraVideo.setBrowser({
+      url: "chrome://extensions",
+      title: "Extensions"
+    })
+  );
+  await playScene(renderer, 2, "screen", async (duration) => {
     await atAudio(renderer, duration, 0.08, async () => {
+      await moveCursor(
+        renderer,
+        null,
+        points.developerMode.x,
+        points.developerMode.y
+      );
+      await visualClick(renderer);
+      await setFrameData(renderer, snapshots.extensionsDeveloper);
+    });
+    await atAudio(renderer, duration, 0.34, async () => {
       await renderer.evaluate(() => window.koraVideo.showInstallPath(true));
     });
-    await atAudio(renderer, duration, 0.28, async () => {
+    await atAudio(renderer, duration, 0.52, async () => {
       await setFrameData(renderer, snapshots.extensionsAfter);
     });
-    await atAudio(renderer, duration, 0.72, async () => {
+    await atAudio(renderer, duration, 0.80, async () => {
       await renderer.evaluate(() => window.koraVideo.showInstallPath(false));
     });
   });
 
-  await setFrameData(renderer, snapshots.dashboard);
+  await renderer.evaluate(() =>
+    window.koraVideo.setBrowser({
+      url: "https://safinum.cm/hackathon-test",
+      title: "Safinum Pay"
+    })
+  );
+  await setFrameData(renderer, snapshots.dashboardFrench);
   await renderer.evaluate(
     (dataUrl) => window.koraVideo.setPopup(dataUrl),
     `data:image/png;base64,${popupImage.toString("base64")}`
   );
 
-  await playScene(renderer, 2, "screen", async (duration) => {
+  await playScene(renderer, 3, "screen", async (duration) => {
     await atAudio(renderer, duration, 0.08, async () => {
       await renderer.evaluate(() => {
         window.koraVideo.showPopup(true);
         window.koraVideo.setCursor({ visible: false });
       });
     });
-    await atAudio(renderer, duration, 0.82, async () => {
-      await renderer.evaluate(() => window.koraVideo.showPopup(false));
+    await atAudio(renderer, duration, 0.23, async () => {
+      await moveCanvasCursor(
+        renderer,
+        1280 - 360 - 46 + popupLanguagePoint.x,
+        82 + popupLanguagePoint.y
+      );
+      await visualClick(renderer);
     });
-  });
-
-  await playScene(renderer, 3, "screen", async (duration) => {
-    await atAudio(renderer, duration, 0.12, async () => {
+    await atAudio(renderer, duration, 0.36, async () => {
+      await renderer.evaluate(() => window.koraVideo.showPopup(false));
+      await setFrameData(renderer, snapshots.dashboard);
+    });
+    await atAudio(renderer, duration, 0.52, async () => {
       await moveCursor(
         renderer,
         null,
@@ -521,7 +722,7 @@ try {
         points.dashboard.balance.y
       );
     });
-    await atAudio(renderer, duration, 0.34, async () => {
+    await atAudio(renderer, duration, 0.66, async () => {
       await moveCursor(
         renderer,
         null,
@@ -529,7 +730,7 @@ try {
         points.dashboard.account.y
       );
     });
-    await atAudio(renderer, duration, 0.57, async () => {
+    await atAudio(renderer, duration, 0.78, async () => {
       await moveCursor(
         renderer,
         null,
@@ -537,7 +738,7 @@ try {
         points.dashboard.transactions.y
       );
     });
-    await atAudio(renderer, duration, 0.82, async () => {
+    await atAudio(renderer, duration, 0.90, async () => {
       await moveCursor(
         renderer,
         null,
@@ -558,13 +759,14 @@ try {
         points.fees.operation.y
       );
       await visualClick(renderer);
+      await setFrameData(renderer, snapshots.feesSelected);
     });
-    await atAudio(renderer, duration, 0.18, async () => {
+    await atAudio(renderer, duration, 0.20, async () => {
       await moveCursor(renderer, null, points.fees.amount.x, points.fees.amount.y);
       await visualClick(renderer);
-      await setFrameData(renderer, snapshots.feesHigh);
+      await playFrameSequence(renderer, snapshots.feesHighTyping, 1_250);
     });
-    await atAudio(renderer, duration, 0.36, async () => {
+    await atAudio(renderer, duration, 0.43, async () => {
       await moveCursor(
         renderer,
         null,
@@ -574,17 +776,22 @@ try {
       await visualClick(renderer);
       await setFrameData(renderer, snapshots.feesError);
     });
-    await atAudio(renderer, duration, 0.64, async () => {
-      await moveCursor(renderer, null, points.fees.amount.x, points.fees.amount.y);
-      await visualClick(renderer);
-      await setFrameData(renderer, snapshots.feesCorrected);
-    });
-    await atAudio(renderer, duration, 0.85, async () => {
+    await atAudio(renderer, duration, 0.67, async () => {
       await moveCursor(
         renderer,
         null,
-        points.fees.continue.x,
-        points.fees.continue.y
+        points.fees.amountAfterError.x,
+        points.fees.amountAfterError.y
+      );
+      await visualClick(renderer);
+      await playFrameSequence(renderer, snapshots.feesCorrectedTyping, 1_050);
+    });
+    await atAudio(renderer, duration, 0.90, async () => {
+      await moveCursor(
+        renderer,
+        null,
+        points.fees.continueAfterError.x,
+        points.fees.continueAfterError.y
       );
       await visualClick(renderer);
       await setFrameData(renderer, snapshots.beneficiaryEmpty);
@@ -592,7 +799,7 @@ try {
   });
 
   await playScene(renderer, 5, "screen", async (duration) => {
-    await atAudio(renderer, duration, 0.08, async () => {
+    await atAudio(renderer, duration, 0.06, async () => {
       await moveCursor(
         renderer,
         null,
@@ -600,8 +807,9 @@ try {
         points.beneficiary.name.y
       );
       await visualClick(renderer);
+      await playFrameSequence(renderer, snapshots.beneficiaryNameTyping, 850);
     });
-    await atAudio(renderer, duration, 0.25, async () => {
+    await atAudio(renderer, duration, 0.23, async () => {
       await moveCursor(
         renderer,
         null,
@@ -609,9 +817,9 @@ try {
         points.beneficiary.phone.y
       );
       await visualClick(renderer);
-      await setFrameData(renderer, snapshots.beneficiaryIdentity);
+      await playFrameSequence(renderer, snapshots.beneficiaryPhoneTyping, 850);
     });
-    await atAudio(renderer, duration, 0.42, async () => {
+    await atAudio(renderer, duration, 0.40, async () => {
       await moveCursor(
         renderer,
         null,
@@ -619,8 +827,9 @@ try {
         points.beneficiary.reason.y
       );
       await visualClick(renderer);
+      await playFrameSequence(renderer, snapshots.beneficiaryReasonTyping, 850);
     });
-    await atAudio(renderer, duration, 0.58, async () => {
+    await atAudio(renderer, duration, 0.55, async () => {
       await moveCursor(
         renderer,
         null,
@@ -628,24 +837,34 @@ try {
         points.beneficiary.note.y
       );
       await visualClick(renderer);
-      await setFrameData(renderer, snapshots.beneficiaryFilled);
+      await playFrameSequence(renderer, snapshots.beneficiaryNoteTyping, 650);
     });
-    await atAudio(renderer, duration, 0.73, async () => {
-      await moveCursor(
-        renderer,
-        null,
-        points.beneficiary.checkbox.x,
-        points.beneficiary.checkbox.y
-      );
-      await visualClick(renderer);
-      await setFrameData(renderer, snapshots.beneficiaryChecked);
-    });
-    await atAudio(renderer, duration, 0.87, async () => {
+    await atAudio(renderer, duration, 0.69, async () => {
       await moveCursor(
         renderer,
         null,
         points.beneficiary.continue.x,
         points.beneficiary.continue.y
+      );
+      await visualClick(renderer);
+      await setFrameData(renderer, snapshots.beneficiarySecurityError);
+    });
+    await atAudio(renderer, duration, 0.82, async () => {
+      await moveCursor(
+        renderer,
+        null,
+        points.beneficiary.checkboxAfterError.x,
+        points.beneficiary.checkboxAfterError.y
+      );
+      await visualClick(renderer);
+      await setFrameData(renderer, snapshots.beneficiaryChecked);
+    });
+    await atAudio(renderer, duration, 0.93, async () => {
+      await moveCursor(
+        renderer,
+        null,
+        points.beneficiary.continueAfterError.x,
+        points.beneficiary.continueAfterError.y
       );
       await visualClick(renderer);
       await setFrameData(renderer, snapshots.summary);
@@ -681,19 +900,47 @@ try {
       await visualClick(renderer);
       await setFrameData(renderer, snapshots.receipt);
     });
-    await atAudio(renderer, duration, 0.80, async () => {
+  });
+
+  await playScene(renderer, 7, "screen", async (duration) => {
+    await atAudio(renderer, duration, 0.12, async () => {
       await moveCursor(
         renderer,
         null,
-        points.receiptBrand.x,
-        points.receiptBrand.y
+        points.receiptNewTransfer.x,
+        points.receiptNewTransfer.y
+      );
+      await visualClick(renderer);
+      await setFrameData(
+        renderer,
+        snapshots.postReceiptDashboard ?? snapshots.postReceiptFees
+      );
+    });
+    await atAudio(renderer, duration, 0.34, async () => {
+      if (!snapshots.postReceiptDashboard) return;
+      await moveCursor(
+        renderer,
+        null,
+        points.postReceiptTransfer.x,
+        points.postReceiptTransfer.y
+      );
+      await visualClick(renderer);
+      await setFrameData(renderer, snapshots.postReceiptFees);
+    });
+    await atAudio(renderer, duration, 0.62, async () => {
+      await moveCursor(
+        renderer,
+        null,
+        points.postReceiptBack.x,
+        points.postReceiptBack.y
       );
       await visualClick(renderer);
       await setFrameData(renderer, snapshots.dashboardReturn);
     });
   });
 
-  await playScene(renderer, 7, "outro");
+  await playScene(renderer, 8, "validation");
+  await playScene(renderer, 9, "outro");
 
   const result = await renderer.evaluate(() => window.koraVideo.stopRecording());
   console.log(

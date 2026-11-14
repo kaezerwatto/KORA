@@ -45,9 +45,15 @@ Ces dépendances ne sont pas placées dans l’archive Chrome.
   lumineuse et grain); les modèles Apple Motion et leurs médias stock ne sont
   ni exécutés ni redistribués;
 - musique : synthèse originale locale avec Web Audio API, sans piste stock;
+- illustrations : trois compositions éditoriales originales produites pour
+  les slides problème/solution et validation, conservées en WebP dans
+  `submission/video/assets`;
 - capture : vrai Chrome, vraie extension et vrai parcours Safinum; les états
   sont contrôlés avant d’être montés sur la narration pour supprimer les
-  délais réseau sans fabriquer d’écran.
+  délais réseau sans fabriquer d’écran;
+- scénario visible : quatre slides éditoriales et six séquences de capture,
+  dont l’activation réelle du mode développeur, la popup KORA, les cinq étapes
+  Safinum, `AMOUNT_002`, `SECURITY_001` et le retour réel au tableau de bord.
 
 ## Modèles évalués, non distribués
 

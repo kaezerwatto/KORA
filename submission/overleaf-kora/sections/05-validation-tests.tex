@@ -1,0 +1,197 @@
+\section{Validation, tests et preuves}
+
+\subsection{Stratégie de preuve}
+
+La validation suit le risque : les unités vérifient chaque invariant; les
+tests de page reproduisent le DOM, les mutations et la popup; les tests live
+chargent réellement l’extension dans Chrome et parcourent une interface
+distante. Une vérification manuelle complète les aspects difficiles à
+automatiser, notamment zoom, contraste et lecture d’écran.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  level/.style={trapezium,trapezium left angle=75,trapezium right angle=105,
+    draw=Line,minimum height=11mm,align=center,font=\small},
+]
+\node[level,fill=Mint,minimum width=56mm] (l1) at (0,0)
+  {\textbf{Tests live}\\Safinum + UBA dans Chrome};
+\node[level,fill=Paper,minimum width=89mm] (l2) at (0,-12mm)
+  {\textbf{Tests navigateur}\\popup · mutations · iframe · Shadow DOM};
+\node[level,fill=Warm,minimum width=124mm] (l3) at (0,-24mm)
+  {\textbf{Tests unitaires et corpus}\\moteur · intégrité · orthographe · modèles · export};
+\end{tikzpicture}
+\caption{Pyramide de test KORA : précision en bas, parcours réel en haut.}
+\end{figure}
+
+\subsection{Résultat automatisé de référence}
+
+Le 14 novembre 2026, la suite cœur a reconstruit les index puis exécuté
+27 tests :
+
+\begin{keybox}[Résultat observé]
+\texttt{tests 27 · pass 27 · fail 0 · skipped 0}\\
+Durée du runner : environ 9,53 s; durée avec précompilation : 15,60 s.\\
+Index généré : 504 entrées, 391 clés FR, 390 clés EN.
+\end{keybox}
+
+Cette suite couvre notamment les sept erreurs publiques, la parité FR/EN, les
+valeurs canoniques, les phrases inédites compositionnelles, l’abstention, les
+corrections morphologiques, l’export du modèle et une faute générée pour chaque
+libellé éligible.
+
+\subsection{Commandes reproductibles}
+
+\begin{lstlisting}[language=bash]
+npm install
+npm test                 # moteur, corpus, modèles, export, orthographe
+npm run test:spelling    # 1 252 libellés fautifs FR/EN
+npm run test:popup       # protocole, thème, activation, restauration
+npm run test:pages       # DOM dynamique, attributs, iframe, Shadow DOM
+npm run test:live        # parcours Safinum réel dans Chrome
+npm run test:uba         # page UBA réelle et Ctrl+A
+npm run test:all         # chaîne complète
+npm run package          # rebuild, modèle exporté, ZIP < 10 Mio
+\end{lstlisting}
+
+\subsection{Matrice des scénarios critiques}
+
+\begin{longtable}{@{}L{43mm}L{55mm}L{57mm}@{}}
+\toprule
+\textbf{Scénario} & \textbf{Oracle} & \textbf{Couverture}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Scénario} & \textbf{Oracle} & \textbf{Couverture}\\
+\midrule
+\endhead
+Source française / anglaise &
+Même intention source, même sortie \code{fub}. &
+Tests moteur et bascule live.\\
+Solde et historique &
+Montants, signes, dates et devise identiques. &
+Tests moteur + tableau de bord live.\\
+Calcul des frais &
+Montant, frais et total identiques avant/après traduction. &
+Tests valeurs + étape frais live.\\
+Données bénéficiaire &
+Nom, téléphone, motif et note inchangés. &
+Tests formulaire, récapitulatif et reçu.\\
+Libellé d’un \code{select} &
+Texte visible traduit; valeur technique inchangée. &
+Test navigateur dédié.\\
+Message ajouté après chargement &
+Détecté par l’observateur et traité sans hook. &
+Ajout, \code{innerHTML}, fragment, remplacement, attribut.\\
+Fautes d’orthographe &
+Même sortie uniquement si un meilleur sens est unique. &
+1\,252 libellés : 628 FR et 624 EN.\\
+Texte libre inconnu &
+Source conservée; aucune phrase inventée. &
+Test de faible confiance.\\
+Négation financière inconnue &
+Source conservée. &
+\texttt{Le transfert n'a pas échoué.}\\
+Code technique &
+Code conservé; explication visible traduisible. &
+HTTP, événements, API et erreurs Safinum.\\
+Sélection clavier &
+\code{Ctrl+A} sélectionne la page et un champ normalement. &
+Tests popup, pages et UBA.\\
+Restauration &
+Tous les nœuds reviennent à leur texte original. &
+Test protocole popup/content script.\\
+\bottomrule
+\end{longtable}
+
+\subsection{Test live Safinum}
+
+Le scénario automatisé ouvre Chrome avec \code{kora-unpacked}, puis :
+
+\begin{enumerate}
+  \item active KORA sur l’environnement Safinum;
+  \item vérifie le tableau de bord et les valeurs canoniques;
+  \item ajoute après chargement des messages connus, fautifs et variables;
+  \item consulte les frais et choisit le type d’opération;
+  \item saisit des données fictives de bénéficiaire;
+  \item vérifie le récapitulatif et confirme;
+  \item contrôle le reçu, la référence et le retour au tableau de bord;
+  \item ouvre une seconde page, bascule Safinum en anglais et confirme la
+        même sortie \code{fub}.
+\end{enumerate}
+
+Le résultat de référence documenté est :
+
+\begin{lstlisting}[language={}]
+LIVE PASS: French journey, dynamic content, form values and receipt integrity.
+LIVE PASS: English source switched and translated to the same fub interface.
+\end{lstlisting}
+
+Le contrôle UBA est facultatif et dépend d’un site tiers. Une exécution
+antérieure a vérifié la sélection de page et de champ; lors de la vérification
+finale du 14 novembre, la navigation vers ce site a expiré après 90 secondes.
+Ce résultat n’est donc pas présenté comme une réussite reconfirmée.
+
+\subsection{Tests du correcteur orthographique}
+
+Le correcteur normalise accents et ponctuation puis autorise de une à quatre
+opérations selon la longueur : insertion, suppression, substitution ou
+inversion adjacente. Les tests génèrent une variante fautive pour chaque clé
+textuelle éligible et exigent exactement la traduction de la clé d’origine.
+
+\begin{tabularx}{\linewidth}{@{}L{39mm}L{50mm}Y@{}}
+\toprule
+\textbf{Entrée} & \textbf{Sortie attendue} & \textbf{Règle}\\
+\midrule
+\texttt{sodle insufisant} &
+\texttt{Kaalisi yonaa} &
+Deux fautes, rapprochement unique.\\
+\texttt{insuficient balnce} &
+\texttt{Kaalisi yonaa} &
+Source anglaise fautive, intention connue.\\
+Deux clés également proches &
+Texte source &
+Ambiguïté = abstention.\\
+\texttt{NETWORK\_001} &
+\texttt{NETWORK\_001} &
+Code protégé, jamais corrigé approximativement.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Évaluation du modèle de langue}
+
+La validation neuronale est séparée par phrase : 107 phrases Common Voice ne
+participent pas à l’entraînement. Les 262 formulations KORA et 386 candidats
+terminologiques enrichissent l’entraînement mais ne gonflent pas cette
+métrique. \code{npm run model:demo} vérifie directement les poids livrés :
+
+\begin{lstlisting}[language={}]
+transfeer maa -> yettaama, neldaama
+kaalisi       -> gondi, yonaa
+Votre paiement de 25 000 FCFA a ete refuse.
+-> Yobugol maa 25 000 FCFA salaama.
+Le transfert n'a pas echoue.
+-> original conserve
+\end{lstlisting}
+
+Les caractères ASCII de cet extrait simplifient l’affichage du terminal;
+l’exécution réelle et les fichiers utilisent l’orthographe UTF-8 complète.
+
+\subsection{Contrôles manuels avant remise}
+
+\begin{itemize}
+  \item types d’opération : compte Safinum, Mobile Money, autre banque;
+  \item montants : zéro, 25\,000, supérieur au solde, seuils de frais;
+  \item erreurs : montant, bénéficiaire, sécurité, réseau et confirmation;
+  \item clavier seul, focus visible, zoom 200\,\%, contraste et lecteur d’écran;
+  \item activation, suspension, restauration, rechargement et changement
+        FR/EN;
+  \item vérification visuelle du reçu puis retour au tableau de bord.
+\end{itemize}
+
+\begin{warningbox}[Interprétation des preuves]
+Les tests établissent l’intégrité du logiciel sur les cas couverts. Ils ne
+transforment pas automatiquement chaque proposition terminologique en forme
+native validée. La preuve technique et la preuve linguistique restent
+séparées et sont toutes deux nécessaires avant production.
+\end{warningbox}

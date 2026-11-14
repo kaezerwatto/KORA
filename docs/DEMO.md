@@ -1,18 +1,22 @@
 # Démonstration KORA — parcours réel Safinum
 
 Le livrable final est
-[`../release/KORA_Demo_Pitch_SAFINUM_2026.webm`](../release/KORA_Demo_Pitch_SAFINUM_2026.webm).
+[`../release/KORA_Demo_Pitch_SAFINUM_2026.mp4`](../release/KORA_Demo_Pitch_SAFINUM_2026.mp4).
 Il enregistre un vrai profil Chrome, l’installation de l’extension et les cinq
-étapes du parcours normal Safinum. Aucun panneau jury, texte injecté ou écran
-simulé n’est utilisé. Le script exécute d’abord le parcours complet et contrôle
-ses valeurs, puis monte les états réellement capturés sur la narration pour
-supprimer les temps de chargement. Chrome applique un rendu sombre réel; le
-montage ajoute une musique d’ambiance originale audible, un curseur fluide,
-des clics brefs et des transitions de 360 ms inspirées du pack Slick
-Slideshow. Aucun bandeau ne masque l’interface.
+étapes du parcours client Safinum. Le script exécute d’abord le parcours
+complet et contrôle ses valeurs, puis monte uniquement les états réellement
+capturés sur la narration pour supprimer les temps de chargement.
 
-Le fichier final dure **2 min 20 s**, mesure **6,93 Mio**, utilise WebM
-VP9/Opus en 1280×720 et reste sous la limite de 10 Mo.
+Quatre slides éditoriales encadrent la démonstration : ouverture KORA ×
+SAFINUM, problème/solution/cas d’usage, validation linguistique et conclusion.
+Les écrans de démonstration conservent la barre d’adresse Chrome et affichent
+la page entière. Le rendu sombre, la musique d’ambiance originale, les
+déplacements de souris, les clics et les transitions courtes restent
+synchronisés avec la voix.
+
+Le fichier remis dure **2 min 54,429 s**, utilise MP4 H.264/AAC en
+1920 × 1080 et respecte la limite de trois minutes. Le formulaire demande
+un lien vers la vidéo; la limite de 10 Mo concerne les fichiers importés.
 
 ## Reproduire la vidéo
 
@@ -27,30 +31,37 @@ La commande :
 
 1. reconstruit et empaquette l’extension;
 2. génère la narration française avec la voix Lucie;
-3. démarre un profil Chrome propre;
-4. charge réellement `release/kora-unpacked`;
-5. vérifie et capture le parcours `https://safinum.cm/hackathon-test`;
-6. synchronise chaque état sur la narration et produit le WebM final.
+3. démarre un profil Chrome propre et active réellement le mode développeur;
+4. charge `release/kora-unpacked`;
+5. ouvre Safinum en français, utilise la vraie popup pour choisir foufouldé;
+6. vérifie et capture les cinq étapes, deux erreurs et le retour au tableau de
+   bord;
+7. synchronise chaque état sur la narration et produit la version WebM de travail.
+
+La version MP4 remise dans `release/` est celle fournie après ce montage.
 
 La clé n’est jamais enregistrée dans le dépôt. ElevenLabs reçoit uniquement
 le texte public de narration, jamais le contenu d’une page.
 
 ## Parcours visible
 
-1. chemin `release/kora-unpacked` et vraie carte KORA dans
-   `chrome://extensions`;
-2. vraie popup KORA avec état, langues et interrupteur;
-3. solde, compte et transactions sur la page Safinum entière;
-4. type « autre banque », `300 000 FCFA`, frais et erreur `AMOUNT_002`;
-5. correction à `25 000 FCFA` avec `500 FCFA` de frais;
-6. bénéficiaire, téléphone, motif et note fictifs laissés intacts;
-7. récapitulatif, confirmation et reçu simulé avec référence `SAF-2026-*`;
-8. retour visible au tableau de bord;
-9. générique KORA–SAFINUM avec l’équipe et Jean-Ernest SOUROUMBAI.
+1. slide d’ouverture avec les logos KORA et SAFINUM;
+2. problème, réponse KORA et cas d’usage financier;
+3. mode développeur réellement activé, chemin `release/kora-unpacked` et
+   carte KORA dans `chrome://extensions`;
+4. Safinum en français, vraie popup KORA et sélection visible de `Fulfulde`;
+5. étape 1/5 : solde, compte, nom et transactions préservés;
+6. étape 2/5 : sélection, saisie progressive de `300000`, erreur
+   `AMOUNT_002`, correction à `25000` et `500 FCFA` de frais;
+7. étape 3/5 : saisie progressive des données fictives, erreur
+   `SECURITY_001`, vérification et poursuite;
+8. étape 4/5 : récapitulatif et confirmation des valeurs;
+9. étape 5/5 : reçu, nouveau transfert, `Retour` et tableau de bord;
+10. validation par Jean-Ernest SOUROUMBAI et conclusion KORA × SAFINUM.
 
 Le script mot à mot et les timecodes sont dans
 [`DEMO_SCRIPT.md`](DEMO_SCRIPT.md). La captation automatisée se trouve dans
 [`../scripts/record_safinum_demo.mjs`](../scripts/record_safinum_demo.mjs).
 
-Empreinte SHA-256 :
-`185cd19d0094324b24363e17c0cad9b09065ff7ca32338e3d9f1d341c9c9aaa3`.
+Empreinte SHA-256 du MP4 remis :
+`1f1261a45aec4d6d7400a872d1ba4d5dfe552a4aed6697d431cc8633ef137f11`.

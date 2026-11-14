@@ -184,9 +184,9 @@ npm run package
 ## Contenu dynamique et pages administratives
 
 `MutationObserver` repasse chaque ajout accessible dans le même moteur. Le
-comportement ne dépend pas de l’URL Safinum, d’un identifiant jury ou d’un
-attribut privé. Une page administrative est donc traduite si KORA est active.
-Les champs saisis restent inchangés; seul leur libellé visible peut changer.
+comportement ne dépend pas de l’URL Safinum ni d’un attribut privé. Toute page
+accessible suit donc le même pipeline si KORA est active. Les champs saisis
+restent inchangés; seul leur libellé visible peut changer.
 
 Les surfaces non accessibles restent hors périmètre : Shadow DOM fermé,
 canvas, texte dans une image, Chrome Web Store et pages `chrome://`.

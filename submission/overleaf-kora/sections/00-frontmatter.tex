@@ -1,0 +1,155 @@
+\section*{Note de lecture}
+\addcontentsline{toc}{section}{Note de lecture}
+
+Ce dossier répond aux versions française et anglaise de l’épreuve de
+présélection du \ChallengeName. Il décrit le prototype réellement livré, ses
+preuves de fonctionnement et ses limites. Les termes «\,traduire\,» et
+«\,contenu inédit\,» n’impliquent pas une génération libre : lorsqu’un sens
+financier n’est pas suffisamment couvert, KORA conserve le texte source plutôt
+que d’inventer une formulation.
+
+\begin{keybox}[Décision d’ingénierie]
+KORA est une extension Chrome autonome qui traduit les textes accessibles du
+français ou de l’anglais vers le fulfulde de l’Adamaoua
+(\texttt{ISO 639-3 : fub}). Elle ne modifie ni le code source du service
+financier, ni les valeurs de ses formulaires. Le moteur, les mémoires, le
+correcteur et les modèles linguistiques sont embarqués dans l’extension :
+aucun contenu de page ne quitte l’appareil.
+\end{keybox}
+
+\subsection*{Accès direct aux livrables}
+
+\begin{tabularx}{\linewidth}{@{}L{32mm}Y@{}}
+\toprule
+\textbf{Dépôt source} &
+\href{\RepoURL}{\RepoURL}\\
+\textbf{Vidéo de démonstration} &
+\href{\DemoVideoURL}{Voir la vidéo MP4 (2 min 54 s)}\\
+\textbf{Extension} &
+\code{release/kora-extension.zip} et \code{release/kora-unpacked/}\\
+\textbf{Modèle exportable} &
+\code{release/kora-fub-neural-model.json}\\
+\textbf{Environnement} &
+\href{\ChallengeURL}{\ChallengeURL}\\
+\bottomrule
+\end{tabularx}
+
+\vspace{3mm}
+\subsection*{Résumé exécutif}
+
+Les interfaces financières restent souvent proposées uniquement en français
+ou en anglais. Cette barrière linguistique devient critique lorsque
+l’utilisateur doit distinguer un solde, des frais, un bénéficiaire, une
+confirmation ou une alerte de sécurité. KORA apporte une couche de traduction
+locale au-dessus d’une page existante, sans hook propriétaire et sans contrat
+\code{data-i18n}.
+
+\begin{multicols}{2}
+\textbf{Ce que fait KORA}
+\begin{itemize}
+  \item traduit les libellés FR/EN vers l’Adamawa Fulfulde;
+  \item suit les mutations d’une application web après chargement;
+  \item couvre un parcours simulé : solde, frais, bénéficiaire,
+        récapitulatif, confirmation et reçu;
+  \item restaure immédiatement la page source;
+  \item conserve les raccourcis, le focus et la structure interactive.
+\end{itemize}
+
+\columnbreak
+\textbf{Ce que KORA refuse de faire}
+\begin{itemize}
+  \item modifier un montant, une devise, un nom ou une référence;
+  \item traduire la valeur saisie dans un champ ou un \code{select};
+  \item appeler une API distante de traduction;
+  \item inventer une phrase financière insuffisamment comprise;
+  \item prétendre remplacer une certification bancaire ou une validation
+        native à grande échelle.
+\end{itemize}
+\end{multicols}
+
+\subsection*{Fiche d’identité vérifiable}
+
+\begin{tabularx}{\linewidth}{@{}L{46mm}Y@{}}
+\toprule
+\textbf{Forme du prototype} & Extension Chrome Manifest V3\\
+\textbf{Sources prises en charge} & Français et anglais\\
+\textbf{Langue nationale cible} & Fulfulde de l’Adamaoua, \code{fub}\\
+\textbf{Exécution} & Locale, CPU, sans serveur de traduction\\
+\textbf{Permissions} & \code{storage}, \code{activeTab}, \code{scripting}\\
+\textbf{Archive courante} & 260\,523 octets, soit environ 254,4 Kio\\
+\textbf{Surface terminologique} &
+504 concepts financiers dédupliqués; 391 clés FR, 390 clés EN,
+113 codes préservés\\
+\textbf{Modèle neuronal} &
+185\,120 paramètres; contexte 3; embeddings 24; couche tanh 96;
+poids int8\\
+\textbf{Validation du modèle} &
+107 phrases Common Voice tenues hors entraînement;
+top-1 14,8\,\%; top-5 35,0\,\%\\
+\textbf{Validation linguistique} &
+\LinguisticValidator; provenance et statut enregistrés par entrée\\
+\bottomrule
+\end{tabularx}
+
+\begin{warningbox}[Portée des chiffres]
+Les métriques top-1/top-5 mesurent la prédiction du mot suivant en
+\texttt{fub}; elles ne sont pas présentées comme un score de traduction.
+Le sens FR/EN est déterminé en amont par les mémoires, les gabarits et le
+verrou sémantique. Le modèle sert à classer la fluidité de candidats déjà
+jugés sûrs.
+\end{warningbox}
+
+\clearpage
+\section*{Réponse synthétique au cahier des charges}
+\addcontentsline{toc}{section}{Réponse synthétique au cahier des charges}
+
+\begin{longtable}{@{}L{40mm}L{34mm}L{78mm}@{}}
+\toprule
+\textbf{Exigence SAFINUM} & \textbf{Réponse} & \textbf{Preuve dans le prototype}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Exigence SAFINUM} & \textbf{Réponse} & \textbf{Preuve dans le prototype}\\
+\midrule
+\endhead
+Adaptation linguistique & \pass &
+Mémoires bilingues FR/EN vers une sortie commune \code{fub}; popup Fulfulde,
+Français et English.\\
+Parcours financier & \pass &
+Tableau de bord, frais, bénéficiaire, récapitulatif, confirmation, reçu,
+erreurs et alertes.\\
+Préservation des données & \pass &
+Masquage temporaire, restauration caractère pour caractère, contrôle du
+nombre d’occurrences et abstention en cas d’échec.\\
+Indépendance du service & \pass &
+Content script générique sur une page HTTP(S), sans modification du code du
+site ni hook dédié.\\
+Contenu inédit & \partialpass &
+\code{MutationObserver} couvre les nouvelles surfaces DOM; gabarits et
+glossaire couvrent les messages dont le sens est connu. Une phrase libre
+inconnue reste source par sécurité.\\
+Opérations simulées & \pass &
+Les tests utilisent des identités, comptes, références et transferts fictifs;
+KORA n’initie aucune transaction.\\
+Confidentialité & \pass &
+Aucun \code{fetch}, WebSocket, télémétrie ou stockage de contenu de page.\\
+Accessibilité & \pass &
+DOM interactif conservé, focus visible, clavier natif, attribut
+\code{lang="fub"}, libellés ARIA traduisibles.\\
+Contribution technique propre & \pass &
+Moteur, verrou d’intégrité, correction orthographique, modèles linguistiques,
+pipeline DOM et suite de tests produits par l’équipe.\\
+Documentation et reproductibilité & \pass &
+Sources, commandes, architecture, dépendances, limites, licences et matrice de
+conformité réunies dans ce dossier et le dépôt.\\
+\bottomrule
+\end{longtable}
+
+\begin{evidencebox}[Positionnement honnête]
+L’exigence «\,adaptation à un contenu inédit\,» possède deux dimensions :
+\textit{détecter} tout nouveau texte accessible et \textit{comprendre} son
+sens. KORA automatise la première pour les surfaces DOM exposées. Pour la
+seconde, il traite les intentions couvertes, les fautes non ambiguës et les
+phrases variables; il s’abstient sur un sens absent. Cette politique évite
+qu’un gain artificiel de couverture ne crée un défaut majeur financier.
+\end{evidencebox}

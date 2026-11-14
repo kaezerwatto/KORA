@@ -1,0 +1,195 @@
+\section{Installation, intégration et reproduction}
+
+\subsection{Installer le prototype livré}
+
+Chrome ne charge pas directement une archive ZIP. La procédure reproductible
+est :
+
+\begin{enumerate}
+  \item décompresser \code{release/kora-extension.zip}, ou utiliser directement
+        \code{release/kora-unpacked};
+  \item ouvrir \code{chrome://extensions};
+  \item activer \textbf{Mode développeur};
+  \item cliquer \textbf{Charger l’extension non empaquetée};
+  \item sélectionner le dossier qui contient directement
+        \code{manifest.json};
+  \item ouvrir ou actualiser la page financière;
+  \item épingler KORA, ouvrir sa popup et choisir \textbf{Fulfulde}.
+\end{enumerate}
+
+\begin{keybox}[Démonstration minimale en moins d’une minute]
+Vérifier d’abord un montant et un compte sur la page source. Activer Fulfulde,
+constater que les libellés changent mais que les valeurs restent identiques.
+Changer d’étape, provoquer une erreur simulée, puis choisir Français ou
+English pour restaurer la page.
+\end{keybox}
+
+\subsection{Construire depuis les sources}
+
+\textbf{Prérequis :} Node.js 20 ou supérieur, npm, Python 3 et Google Chrome.
+PyTorch et NumPy sont nécessaires uniquement pour réentraîner le réseau; les
+poids versionnés suffisent pour construire et tester l’extension.
+
+\begin{lstlisting}[language=bash]
+git clone https://github.com/kaezerwatto/KORA.git
+cd KORA
+npm install
+npm run build
+npm test
+npm run package
+\end{lstlisting}
+
+\code{npm run package} reconstruit la terminologie, regroupe le bundle,
+exporte le modèle JSON, produit le dossier unpacked et crée le ZIP. Le script
+interrompt la livraison au-delà de 10 Mio.
+
+\subsection{Régénérer les ressources linguistiques}
+
+\begin{lstlisting}[language=bash]
+npm run build:corpora       # inventaire et empreintes des deux volumes
+npm run build:terminology   # index FR/EN -> fub et codes proteges
+npm run build:model         # modele n-gramme
+npm run model:train         # reseau, early stopping, int8
+npm run model:export        # JSON portable + empreinte SHA-256
+npm run model:demo          # predictions et cas d'abstention
+\end{lstlisting}
+
+L’entraînement écrit \code{src/fub-neural-model.js}; le build l’embarque dans
+\code{content.js}. L’export indépendant est
+\code{release/kora-fub-neural-model.json}. Il contient architecture,
+vocabulaire, tenseurs int8 encodés, échelles et empreinte de contrôle, mais
+aucun contenu utilisateur.
+
+\subsection{Utiliser le moteur complet séparément}
+
+Dans un projet JavaScript ESM, importer \code{translateText}. Cette API porte
+la protection des valeurs et convient à une traduction contrôlée :
+
+\begin{lstlisting}[language={}]
+import { translateText } from "./src/engine.js";
+
+const result = translateText("sodle insufisant", {
+  sourceHint: "fr",
+  domainHint: "financial",
+  protectedValues: []
+});
+
+console.log(result.text);    // Kaalisi yonaa
+console.log(result.method);  // spelling-memory
+\end{lstlisting}
+
+\begin{tabularx}{\linewidth}{@{}L{38mm}Y@{}}
+\toprule
+\textbf{Option/résultat} & \textbf{Signification}\\
+\midrule
+\code{sourceHint} & \code{auto}, \code{fr} ou \code{en}.\\
+\code{domainHint} & \code{general} ou \code{financial}.\\
+\code{protectedValues} & Chaînes à conserver strictement.\\
+\code{text} & Traduction acceptée ou texte original.\\
+\code{changed} & Indique si le rendu a changé.\\
+\code{method} &
+\code{memory}, \code{spelling-memory}, \code{template},
+\code{glossary}, \code{protected}, \code{integrity-fallback} ou
+\code{original}.\\
+\code{fluency} & Score du modèle lorsque pertinent.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Utiliser uniquement les modèles de langue}
+
+\begin{lstlisting}[language={}]
+import {
+  predictNextFub,
+  rankFubCandidates,
+  scoreFubFluency
+} from "./src/language-model.js";
+
+predictNextFub("transfeer maa", 5);
+scoreFubFluency("Kaalisi yonaa");
+rankFubCandidates([
+  "Transfeer maa neldaama.",
+  "Transfeer maa yettaama."
+]);
+\end{lstlisting}
+
+L’API expose trois fonctions : \code{predictNextFub} propose des mots
+suivants, \code{scoreFubFluency} évalue une séquence \code{fub} et
+\code{rankFubCandidates} classe des formulations. Elles ne connaissent ni
+la source française ou anglaise, ni les règles financières : elles ne doivent
+pas être utilisées comme traducteur autonome.
+
+Pour un runtime non JavaScript, le JSON exporté permet de reproduire
+l’inférence : décoder les tenseurs int8, récupérer les embeddings des trois
+mots, calculer la couche tanh, projeter sur le vocabulaire et appliquer le
+softmax. \code{src/neural-language-model.js} est l’implémentation de référence.
+
+\subsection{Ajouter une langue ou un domaine}
+
+Pour une autre langue, l’architecture reste réutilisable. Il faut cependant
+plus qu’un simple remplacement de chaînes :
+
+\begin{enumerate}
+  \item définir le code, l’écriture et les variantes cibles;
+  \item constituer une mémoire source$\rightarrow$cible avec provenance;
+  \item adapter les patrons morphologiques et la détection;
+  \item entraîner ou remplacer le modèle de fluidité;
+  \item créer des tests d’intégrité et de parité FR/EN;
+  \item faire relire les actions critiques et alertes;
+  \item versionner les décisions et publier les limites.
+\end{enumerate}
+
+\subsection{Dépendances et services déclarés}
+
+\begin{longtable}{@{}L{43mm}L{35mm}L{50mm}L{28mm}@{}}
+\toprule
+\textbf{Composant} & \textbf{Version/forme} & \textbf{Rôle} &
+\textbf{Dans le ZIP}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Composant} & \textbf{Version/forme} & \textbf{Rôle} &
+\textbf{Dans le ZIP}\\
+\midrule
+\endhead
+esbuild & 0.28.2 & Bundle local du content script & Non\\
+puppeteer-core & 25.17.0 & Tests navigateur et capture & Non\\
+Node test runner & Node.js & Tests unitaires & Non\\
+PyTorch + NumPy & Environnement Python optionnel & Réentraînement & Non\\
+Chrome MV3 & API native & Exécution de l’extension & Oui, contrat\\
+ElevenLabs & API de production vidéo & Narration du pitch public & Non\\
+Web Audio API & API navigateur & Musique originale du montage & Non\\
+Modèles KORA & JavaScript int8 + n-gramme & Fluidité locale & Oui\\
+\bottomrule
+\end{longtable}
+
+ElevenLabs n’appartient pas au runtime KORA. Seul le script public de la vidéo
+est transmis lors de la production; aucune page, saisie ou donnée financière
+n’est envoyée. Les clés restent dans un fichier local non distribué.
+
+\subsection{Limites connues et évolution}
+
+\begin{tabularx}{\linewidth}{@{}L{48mm}Y@{}}
+\toprule
+\textbf{Limite} & \textbf{Traitement / prochaine étape}\\
+\midrule
+Phrase libre totalement inconnue &
+Conserver la source; enrichir ensuite par une entrée sourcée et revue.\\
+Terminologie candidate &
+Double revue à l’aveugle par locuteurs \code{fub} et test de compréhension.\\
+Variations régionales &
+Échantillonner Ngaoundéré, Garoua et Maroua; versionner les variantes.\\
+Image, canvas, Shadow DOM fermé &
+Hors accès standard; envisager un module OCR séparé avec consentement.\\
+Certification bancaire &
+Audit externe, gouvernance des versions, essais sécurité et conformité.\\
+Déploiement navigateur &
+Signature, politique de mises à jour et publication sur un canal contrôlé.\\
+\bottomrule
+\end{tabularx}
+
+\begin{warningbox}[Priorité de feuille de route]
+La prochaine amélioration n’est pas d’augmenter la génération libre, mais de
+faire valider davantage de concepts et de mesurer le taux d’abstention sur un
+jeu inédit. Cette approche augmente la surface utile sans dégrader la sûreté
+financière.
+\end{warningbox}
