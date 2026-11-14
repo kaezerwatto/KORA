@@ -19,21 +19,29 @@
         </div>
       </header>
 
-      <section class="language-flow" aria-label="Direction de traduction">
-        <div>
-          <span>Source</span>
-          <strong>Langue détectée</strong>
+      <section class="language-panel">
+        <div class="language-heading">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 5 8 0M8 3v2M6 5c0 4 3 7 7 8M11 5c0 3-3 6-7 8M14 19l3-8 3 8M15 16h4"/></svg>
+          <div>
+            <span>Langue d’affichage</span>
+            <strong>Choisir la langue de la page</strong>
+          </div>
         </div>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5"/></svg>
-        <div>
-          <span>Destination</span>
-          <strong>Fulfulde <small>fub</small></strong>
-        </div>
+        <fieldset>
+          <legend>Langue de la page</legend>
+          <div class="segments">
+            <label><input type="radio" name="display-language" value="fub" checked><span>Fulfulde</span></label>
+            <label><input type="radio" name="display-language" value="fr"><span>Français</span></label>
+            <label><input type="radio" name="display-language" value="en"><span>English</span></label>
+          </div>
+        </fieldset>
       </section>
 
       <section class="activation" aria-live="polite">
         <div class="activation-copy">
-          <span class="status-dot" id="status-dot" aria-hidden="true"></span>
+          <span class="status-icon" id="status-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M7 3h8l4 4v14H7zM15 3v5h4M10 13h6M10 17h4"/></svg>
+          </span>
           <div>
             <h2 id="status-title">Traduction de la page</h2>
             <p id="status-detail">Connexion à l’onglet actif…</p>
@@ -47,7 +55,7 @@
 
       <footer>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
-        <p>Noms, montants et références restent intacts. Aucune donnée n’est envoyée.</p>
+        <p>KORA traduit sur cet appareil. Vos données et valeurs sensibles ne quittent jamais la page.</p>
       </footer>
     </main>
     <script src="popup.js"></script>

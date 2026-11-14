@@ -45,4 +45,4 @@ LIVE PASS: English source switched and translated to the same fub interface.
 
 ## Taille
 
-`npm run package` produit aussi `release/kora-unpacked`, directement chargeable dans Chrome, et échoue au-delà de 10 Mio. Le ZIP actuel mesure environ 42 Kio.
+`npm run package` produit aussi `release/kora-unpacked`, directement chargeable dans Chrome, et échoue au-delà de 10 Mio. Le ZIP actuel mesure environ 45 Kio.

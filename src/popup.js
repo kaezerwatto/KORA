@@ -1,7 +1,8 @@
 const enabled = document.querySelector("#enabled");
 const statusTitle = document.querySelector("#status-title");
 const statusDetail = document.querySelector("#status-detail");
-const statusDot = document.querySelector("#status-dot");
+const statusIcon = document.querySelector("#status-icon");
+const languageInputs = [...document.querySelectorAll('input[name="display-language"]')];
 
 async function activeTab() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -55,21 +56,35 @@ async function sendToPage(message) {
 function renderAvailable(status, tab) {
   enabled.disabled = false;
   enabled.checked = Boolean(status.enabled);
-  statusTitle.textContent = status.enabled ? "Traduction activée" : "Traduction désactivée";
-  statusDetail.textContent = status.enabled
-    ? `${pageLabel(tab)} · mise à jour automatique`
-    : `${pageLabel(tab)} · texte original`;
-  statusDot.className = `status-dot ${status.enabled ? "active" : ""}`;
+  for (const input of languageInputs) {
+    input.disabled = false;
+    input.checked = input.value === status.displayLanguage;
+  }
+  if (status.enabled) {
+    statusTitle.textContent = "Traduction activée";
+    statusDetail.textContent = `${pageLabel(tab)} · Fulfulde automatique`;
+  } else if (status.displayLanguage === "fr") {
+    statusTitle.textContent = "Page en français";
+    statusDetail.textContent = `${pageLabel(tab)} · texte original ou langue du site`;
+  } else if (status.displayLanguage === "en") {
+    statusTitle.textContent = "Page in English";
+    statusDetail.textContent = `${pageLabel(tab)} · original or website language`;
+  } else {
+    statusTitle.textContent = "Traduction désactivée";
+    statusDetail.textContent = `${pageLabel(tab)} · texte original`;
+  }
+  statusIcon.className = `status-icon ${status.enabled ? "active" : ""}`;
 }
 
 function renderUnavailable(tab) {
   enabled.checked = false;
   enabled.disabled = true;
+  for (const input of languageInputs) input.disabled = true;
   statusTitle.textContent = supportsPage(tab) ? "Actualisez cette page" : "Page non accessible";
   statusDetail.textContent = supportsPage(tab)
     ? "KORA se reconnectera après actualisation."
     : "Ouvrez un site web normal pour traduire.";
-  statusDot.className = "status-dot error";
+  statusIcon.className = "status-icon error";
 }
 
 async function refresh() {
@@ -97,6 +112,26 @@ enabled.addEventListener("change", () => {
     renderUnavailable(await activeTab());
   });
 });
+
+for (const input of languageInputs) {
+  input.addEventListener("change", () => {
+    if (!input.checked) return;
+    void (async () => {
+      for (const control of languageInputs) control.disabled = true;
+      const { response, tab } = await sendToPage({
+        type: "KORA_DISPLAY_LANGUAGE",
+        language: input.value
+      });
+      if (!response) {
+        renderUnavailable(tab);
+        return;
+      }
+      renderAvailable(response, tab);
+    })().catch(async () => {
+      renderUnavailable(await activeTab());
+    });
+  });
+}
 
 void refresh().catch(async () => {
   renderUnavailable(await activeTab());

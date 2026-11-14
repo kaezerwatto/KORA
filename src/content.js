@@ -10,6 +10,7 @@ const ephemeralProtectedValues = new Set(["Safinum Pay", "FCFA"]);
 let observer;
 let enabled = true;
 let sourceHint = "auto";
+let displayLanguage = "fub";
 let scanTimer;
 let safetyTimer;
 let stats = freshStats();
@@ -229,23 +230,96 @@ function hideOriginal(event) {
   if (originalTooltip) originalTooltip.hidden = true;
 }
 
+function normalizeUiLabel(value) {
+  return String(value ?? "")
+    .normalize("NFKC")
+    .trim()
+    .toLocaleLowerCase("fr");
+}
+
+function switchNativeLanguage(language) {
+  const aliases = language === "fr"
+    ? new Set(["fr", "français", "french"])
+    : new Set(["en", "english", "anglais"]);
+
+  for (const select of document.querySelectorAll("select")) {
+    const option = [...select.options].find((item) =>
+      aliases.has(normalizeUiLabel(item.textContent)) ||
+      aliases.has(normalizeUiLabel(item.value))
+    );
+    if (!option) continue;
+    select.value = option.value;
+    select.dispatchEvent(new Event("input", { bubbles: true }));
+    select.dispatchEvent(new Event("change", { bubbles: true }));
+    return true;
+  }
+
+  for (const control of document.querySelectorAll("button, a, [role='button']")) {
+    const labels = [
+      control.textContent,
+      control.getAttribute("aria-label"),
+      control.getAttribute("title")
+    ].map(normalizeUiLabel);
+    if (!labels.some((label) => aliases.has(label))) continue;
+    const style = getComputedStyle(control);
+    if (style.display === "none" || style.visibility === "hidden") continue;
+    control.click();
+    return true;
+  }
+  return false;
+}
+
 async function loadPreferences() {
-  const stored = await chrome.storage.local.get({ koraEnabled: true, koraSource: "auto" });
+  const stored = await chrome.storage.local.get({
+    koraEnabled: true,
+    koraSource: "auto",
+    koraDisplayLanguage: "fub"
+  });
   enabled = stored.koraEnabled;
   sourceHint = stored.koraSource;
+  displayLanguage = ["fub", "fr", "en", "original"].includes(stored.koraDisplayLanguage)
+    ? stored.koraDisplayLanguage
+    : "fub";
+  if (displayLanguage !== "fub") enabled = false;
 }
 
 function registerMessageListener() {
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message?.type === "KORA_STATUS") {
-    sendResponse({ enabled, sourceHint, stats, language: "fub", offline: true });
+    sendResponse({ enabled, sourceHint, displayLanguage, stats, language: "fub", offline: true });
     return;
   }
   if (message?.type === "KORA_TOGGLE") {
     enabled = Boolean(message.enabled);
-    chrome.storage.local.set({ koraEnabled: enabled });
+    displayLanguage = enabled ? "fub" : "original";
+    chrome.storage.local.set({
+      koraEnabled: enabled,
+      koraDisplayLanguage: displayLanguage
+    });
     enabled ? scan() : restore();
-    sendResponse({ ok: true, enabled });
+    sendResponse({ ok: true, enabled, displayLanguage });
+    return;
+  }
+  if (message?.type === "KORA_DISPLAY_LANGUAGE") {
+    const requested = ["fub", "fr", "en"].includes(message.language)
+      ? message.language
+      : "fub";
+    displayLanguage = requested;
+    enabled = requested === "fub";
+    sourceHint = "auto";
+    chrome.storage.local.set({
+      koraEnabled: enabled,
+      koraSource: sourceHint,
+      koraDisplayLanguage: displayLanguage
+    });
+    if (enabled) {
+      scan();
+      sendResponse({ ok: true, enabled, displayLanguage, switched: true });
+    } else {
+      restore();
+      sendResponse({ ok: true, enabled, displayLanguage });
+      setTimeout(() => switchNativeLanguage(requested), 0);
+    }
     return;
   }
   if (message?.type === "KORA_SOURCE") {

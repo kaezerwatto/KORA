@@ -31,10 +31,11 @@ Alternative : décompresser `release/kora-extension.zip`, puis sélectionner le 
 
 ## Utilisation
 
-La popup ne contient qu’un seul réglage :
+La popup reste volontairement simple :
 
-- interrupteur activé : KORA détecte automatiquement le français ou l’anglais et traduit vers `fub`;
-- interrupteur désactivé : KORA restaure immédiatement le texte original.
+- `Fulfulde` active la détection FR/EN et la traduction vers `fub`;
+- `Français` ou `English` restaure le texte original et déclenche le sélecteur natif du site lorsqu’il existe;
+- l’interrupteur active ou restaure la traduction immédiatement.
 
 Le contenu ajouté après le chargement est traduit automatiquement. Sur `chrome://`, le Chrome Web Store et les autres pages protégées par le navigateur, Chrome interdit l’injection d’extensions.
 
@@ -44,10 +45,10 @@ KORA 1.2 contient une première base d’intelligence linguistique légère :
 
 - modèle interpolé unigramme/bigramme/trigramme;
 - entraîné sur 1 067 phrases Adamawa Fulfulde de Common Voice 27, sous licence CC0;
-- 9 368 tokens, 849 mots fréquents et 625 contextes prédictifs;
+- 9 368 tokens Common Voice, 208 formulations KORA relues, 1 061 mots fréquents et 1 264 contextes prédictifs;
 - prédiction du mot suivant avec repli trigramme → bigramme → unigramme;
 - score de fluidité déterministe pour classer plusieurs formulations sûres;
-- environ 30 Kio avant minification.
+- environ 55 Kio avant minification, fortement compressé dans le ZIP.
 
 Le modèle de langue n’invente jamais le sens de la source. Il classe uniquement les traductions déjà autorisées par le moteur sémantique. Cette séparation est essentielle :
 
@@ -91,7 +92,9 @@ Prérequis : Node.js 20+, Python 3 et Google Chrome.
 
 ```bash
 npm install
+npm run build:icons
 npm run build:model
+npm run model:demo
 npm test
 npm run test:popup
 npm run test:pages
@@ -115,7 +118,7 @@ La suite vérifie :
 - noms arbitraires sans personne codée en dur;
 - valeurs sensibles restaurées octet pour octet;
 - refus des phrases financières incomplètement comprises;
-- popup sombre et activation par un seul interrupteur;
+- popup sombre, sélecteur Fulfulde/Français/English et activation immédiate;
 - pages bancaires génériques FR/EN;
 - parcours Safinum complet en navigateur réel;
 - contenu dynamique et bascule de langue.
@@ -133,6 +136,8 @@ src/
   popup.*                    interface dark à un interrupteur
 scripts/
   build_fub_language_model.py
+  generate_icons.py
+  model_demo.mjs
   build.mjs
   package.mjs
 tests/

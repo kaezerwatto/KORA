@@ -40,6 +40,6 @@ Déclencher solde insuffisant puis l’alerte de nouveau bénéficiaire. Montrer
 
 ## 2:30–3:00 — innovation
 
-« KORA est locale, déterministe, sans collecte et tient dans environ 42 Kio. Son verrou financier refuse toute traduction qui perd un montant, un numéro ou une référence. Son petit modèle `fub` prédit les mots suivants uniquement pour classer les formulations déjà sûres. »
+« KORA est locale, déterministe, sans collecte et tient dans environ 45 Kio. Son verrou financier refuse toute traduction qui perd un montant, un numéro ou une référence. Son petit modèle `fub` prédit les mots suivants uniquement pour classer les formulations déjà sûres. »
 
 Terminer sur les sources camerounaises et la feuille de route : validation communautaire, audio `fub` et ajout d’autres langues nationales.

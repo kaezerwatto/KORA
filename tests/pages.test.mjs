@@ -12,6 +12,9 @@ const pages = {
     <nav><button>Déposer de l'argent</button><button>Retirer de l'argent</button></nav>
     <p>Carte bloquée</p><p>Transaction en attente</p>
     <dl><dt>Solde disponible</dt><dd>375 400 FCFA</dd></dl>
+    <nav><a>Accueil</a><a>Développement des langues</a><a>Ressources</a><a>Actualités</a></nav>
+    <section><h2>Bibliothèque académique</h2><a>Foire aux questions</a></section>
+    <aside><button>Nouvelle discussion</button><button>Envoyer le message</button></aside>
     <input value="Mariama Bello"><p id="customer">Mariama Bello</p>
   </body></html>`,
   "/en": `<!doctype html><html lang="en"><body>
@@ -19,6 +22,9 @@ const pages = {
     <nav><button>Deposit money</button><button>Withdraw money</button></nav>
     <p>Payment declined</p><p>Account statement</p>
     <dl><dt>Available balance</dt><dd>81,250 FCFA</dd></dl>
+    <nav><a>Home</a><a>Language development</a><a>Resources</a><a>News</a></nav>
+    <section><h2>Academic library</h2><a>Frequently asked questions</a></section>
+    <aside><button>New chat</button><button>Send message</button></aside>
     <input value="Fatou Ndiaye"><p id="customer">Fatou Ndiaye</p>
   </body></html>`
 };
@@ -47,6 +53,10 @@ try {
   assert.match(french, /Naatnugo kaalisi/);
   assert.match(french, /Ittugo kaalisi/);
   assert.match(french, /Kaartu uddaama/);
+  assert.match(french, /Jaɓɓorgo/);
+  assert.match(french, /Ɓeydingo ɗemɗe/);
+  assert.match(french, /Deftereeru jaŋde/);
+  assert.match(french, /Yeewtere hesere/);
   assert.match(french, /375 400 FCFA/);
   assert.equal(await page.$eval("input", (input) => input.value), "Mariama Bello");
   assert.equal(await page.$eval("#customer", (node) => node.textContent), "Mariama Bello");
@@ -66,10 +76,14 @@ try {
   assert.match(english, /Naatnugo kaalisi/);
   assert.match(english, /Ittugo kaalisi/);
   assert.match(english, /Yoɓugol salaama/);
+  assert.match(english, /Jaɓɓorgo/);
+  assert.match(english, /Kuutorɗe/);
+  assert.match(english, /Lamɗe e jaabawuuji/);
+  assert.match(english, /Neldu ɓatakuru/);
   assert.match(english, /81,250 FCFA/);
   assert.equal(await page.$eval("#customer", (node) => node.textContent), "Fatou Ndiaye");
 
-  console.log("PAGES PASS: generic French/English banking pages, names, values and dynamic text.");
+  console.log("PAGES PASS: banking, portal and assistant UIs in FR/EN, names, values and dynamic text.");
 } finally {
   await browser.close();
   await new Promise((resolve) => server.close(resolve));

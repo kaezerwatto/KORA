@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import csv
 import json
+import re
 import sys
 import unicodedata
 from collections import Counter, defaultdict
@@ -17,6 +18,10 @@ MAX_UNIGRAMS = 1_200
 MAX_CONTEXTS = 3_000
 MAX_PREDICTIONS = 6
 MIN_COUNT = 2
+REVIEWED_SOURCES = [
+    ROOT / "src/translations.js",
+    ROOT / "src/general-translations.js",
+]
 
 
 def tokenize(text: str) -> list[str]:
@@ -40,6 +45,21 @@ def tokenize(text: str) -> list[str]:
     return tokens
 
 
+def reviewed_phrases() -> list[str]:
+    phrases: set[str] = set()
+    value_pattern = re.compile(r':\s*"((?:\\.|[^"\\])*)"')
+    for source in REVIEWED_SOURCES:
+        content = source.read_text(encoding="utf-8")
+        for match in value_pattern.finditer(content):
+            try:
+                value = json.loads(f'"{match.group(1)}"')
+            except json.JSONDecodeError:
+                continue
+            if len(tokenize(value)) >= 1:
+                phrases.add(value)
+    return sorted(phrases)
+
+
 def main() -> None:
     source = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_INPUT
     if not source.exists():
@@ -50,6 +70,17 @@ def main() -> None:
     sentence_count = 0
     token_count = 0
 
+    def consume(tokens: list[str], weight: int = 1) -> None:
+        if not tokens:
+            return
+        for token in tokens:
+            unigrams[token] += weight
+        padded = ["<s>", "<s>", *tokens, "</s>"]
+        for index in range(2, len(padded)):
+            next_word = padded[index]
+            transitions[f"1:{padded[index - 1]}"][next_word] += weight
+            transitions[f"2:{padded[index - 2]} {padded[index - 1]}"][next_word] += weight
+
     with source.open(encoding="utf-8", newline="") as stream:
         for row in csv.DictReader(stream, delimiter="\t"):
             tokens = tokenize(row.get("sentence", ""))
@@ -57,12 +88,12 @@ def main() -> None:
                 continue
             sentence_count += 1
             token_count += len(tokens)
-            unigrams.update(tokens)
-            padded = ["<s>", "<s>", *tokens, "</s>"]
-            for index in range(2, len(padded)):
-                next_word = padded[index]
-                transitions[f"1:{padded[index - 1]}"][next_word] += 1
-                transitions[f"2:{padded[index - 2]} {padded[index - 1]}"][next_word] += 1
+            consume(tokens)
+
+    reviewed = reviewed_phrases()
+    reviewed_token_count = sum(len(tokenize(phrase)) for phrase in reviewed)
+    for phrase in reviewed:
+        consume(tokenize(phrase), weight=3)
 
     compact_transitions: dict[str, list[list[str | int]]] = {}
     ranked_contexts = sorted(
@@ -87,10 +118,12 @@ def main() -> None:
     ]
     metadata = {
         "language": "fub",
-        "corpus": "Mozilla Common Voice 27.0 — Adamawa Fulfulde",
-        "license": "CC0",
+        "corpus": "Mozilla Common Voice 27.0 + KORA reviewed fub memory",
+        "license": "CC0 + MIT",
         "sentences": sentence_count,
         "tokens": token_count,
+        "reviewedPhrases": len(reviewed),
+        "reviewedTokens": reviewed_token_count,
         "contexts": len(compact_transitions),
         "vocabulary": len(compact_unigrams),
         "kind": "interpolated unigram/bigram/trigram next-word model",
@@ -106,7 +139,8 @@ def main() -> None:
     print(
         f"Generated {OUTPUT.relative_to(ROOT)}: "
         f"{sentence_count} sentences, {token_count} tokens, "
-        f"{len(compact_transitions)} contexts, {OUTPUT.stat().st_size / 1024:.1f} KiB"
+        f"{len(reviewed)} reviewed phrases, {len(compact_transitions)} contexts, "
+        f"{OUTPUT.stat().st_size / 1024:.1f} KiB"
     )
 
 
