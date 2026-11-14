@@ -40,13 +40,13 @@ linguistique du projet; il n’est pas compté parmi les trois membres déclaré
 
 ## Contrôles avant envoi
 
-- [ ] Le lien vidéo s’ouvre sans authentification.
+- [x] Le lien vidéo s’ouvre sans authentification.
 - [x] La vidéo dure moins de 3 minutes : 2 min 32 s, WebM VP9/Opus, 1280×720.
 - [x] Le PDF s’ouvre et pèse moins de 10 Mo : 10 pages A4, 740 Kio.
 - [x] Le ZIP pèse moins de 10 Mo : 254,3 Kio.
 - [x] Le ZIP contient `manifest.json` à sa racine.
-- [ ] Le dépôt GitHub est public et son README affiche les livrables.
-- [ ] Les fichiers remis ne contiennent aucune donnée bancaire réelle.
+- [x] Le dépôt GitHub est public et son README affiche les livrables.
+- [x] Les fichiers remis ne contiennent aucune donnée bancaire réelle.
 - [ ] Le formulaire affiche bien trois membres.
 - [ ] Le compte Google utilisé est `miguel.azab@facsciences-uy1.cm`.
 - [ ] Une copie ou capture de la confirmation finale du formulaire est gardée.
