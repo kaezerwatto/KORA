@@ -20,6 +20,9 @@
     "test:live": "node tests/live.test.mjs",
     "test:uba": "npm run build && node tests/uba-live.test.mjs",
     "test:all": "npm test && npm run test:popup && npm run test:pages && npm run test:live && npm run test:uba",
+    "submission:capture": "npm run build && node scripts/capture_submission_assets.mjs",
+    "submission:pdf": "node scripts/render_submission_pdf.mjs",
+    "submission:video": ".venv/bin/python scripts/generate_pitch_audio.py && node scripts/render_pitch_video.mjs",
     "package": "npm run build && npm run model:export && node scripts/package.mjs"
   },
   "keywords": [

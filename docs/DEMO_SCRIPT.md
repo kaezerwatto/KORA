@@ -8,7 +8,7 @@ Montrer Safinum Pay en français puis `chrome://extensions` avec KORA chargée.
 
 ## 0:20–0:40 — Activation
 
-Ouvrir le popup et activer **Traduire la page**.
+Ouvrir la popup et choisir **Fulfulde**.
 
 > « Tout fonctionne localement. Aucune donnée affichée ou saisie ne quitte l’appareil. »
 
@@ -53,13 +53,16 @@ Confirmer puis montrer le reçu.
 
 ## 1:55–2:20 — Contenu inédit et erreurs
 
-Déclencher une erreur ou une alerte de sécurité. Ouvrir le popup, développer **Tester un message inédit** et saisir :
+Déclencher une erreur ou une alerte de sécurité. Dans le panneau d’évaluation
+Safinum, saisir :
 
 ```text
-Votre opération est en attente.
+sodle insufisant
 ```
 
-> « Une mémoire bilingue couvre les messages critiques. Pour l’inédit, KORA applique des gabarits et un glossaire financier. Si elle ne peut pas garantir le sens, elle conserve l’original au lieu d’inventer. »
+> « KORA corrige les fautes seulement lorsqu’un sens unique est identifié.
+> Les messages critiques utilisent ensuite les mémoires et gabarits contrôlés.
+> Si le sens n’est pas garanti, l’original est conservé. »
 
 ## 2:20–2:40 — Anglais
 
@@ -67,13 +70,16 @@ Basculer Safinum Pay en anglais.
 
 > « La même extension détecte l’anglais et produit la même interface en fulfulde Adamawa. »
 
-Montrer `Make a transfer` devenu `Waɗ transfeer`.
+Montrer `Make a transfer` traduit vers la même action fulfulde.
 
 ## 2:40–3:00 — Innovation et conclusion
 
-> « KORA pèse environ 15 kilo-octets, fonctionne sans GPU, serveur ni API de traduction, respecte la confidentialité et peut être adapté à d’autres langues camerounaises avec une nouvelle mémoire validée. KORA ne traduit pas seulement les mots : elle protège l’opération financière. »
+> « KORA pèse environ 254 kilo-octets, fonctionne sans GPU, serveur ni API de
+> traduction, respecte la confidentialité et peut être adapté à d’autres
+> langues camerounaises avec une nouvelle mémoire validée. KORA ne traduit pas
+> seulement les mots : elle protège l’opération financière. »
 
-Terminer sur le popup indiquant **Local** et les compteurs de traduction.
+Terminer sur la popup sombre, le logo KORA et le dépôt GitHub.
 
 ## Checklist avant enregistrement
 

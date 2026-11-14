@@ -11,7 +11,8 @@ KORA rend une interface financière française ou anglaise compréhensible en fu
 Le content script est chargé à `document_idle` sur la page normale. Il :
 
 1. collecte temporairement les nœuds texte avant toute mutation;
-2. ignore scripts, styles, SVG, code, canvas, iframe et contenu éditable;
+2. ignore scripts, styles, SVG, code, canvas et contenu éditable; les iframes
+   autorisées sont traitées par leur propre instance du content script;
 3. classe chaque texte comme valeur protégée ou texte traduisible;
 4. applique la cascade mémoire → orthographe → gabarit → glossaire → original;
 5. ajoute `lang="fub"` et conserve l’original pour la réversibilité;
@@ -141,6 +142,7 @@ Le content script est déclaré pour les pages HTTP/HTTPS afin de démontrer la 
 - contenu inédit par gabarit et glossaire.
 - conservation exacte des codes API et identifiants techniques;
 - sélection complète de page et de champ par `Ctrl+A`.
+- correction de 1 252 libellés fautifs avec abstention en cas d’ambiguïté;
 
 ### Live
 
@@ -155,6 +157,10 @@ Le test Puppeteer charge réellement l’extension sur Safinum Pay :
 - bascule anglaise;
 - contrôle des montants, compte, téléphone, référence et nom.
 - page UBA Cameroon réelle et couverture de ses principaux libellés visibles.
+
+Les résultats, commandes reproductibles et preuves de modèle se trouvent dans
+[`TESTING.md`](TESTING.md), [`VALIDATION.md`](VALIDATION.md) et
+[`MODEL_EVALUATION.md`](MODEL_EVALUATION.md).
 
 ## 9. Faisabilité
 

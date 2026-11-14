@@ -1,18 +1,35 @@
-# KORA
-
 <p align="center">
-  <img src="src/icons/icon-128.png" width="192" height="192" alt="Logo KORA">
+  <img src="src/icons/icon-128.png" width="160" height="160" alt="Logo KORA">
 </p>
 
-**KORA** est une extension Chrome locale qui traduit les pages web du français ou de l’anglais vers le **fulfulde de l’Adamaoua (`fub`)**. Elle a été conçue pour le SAFINUM Innovate Challenge 2026, puis structurée comme une base réutilisable pour les interfaces financières camerounaises.
+<h1 align="center">KORA</h1>
 
-KORA fonctionne sans serveur de traduction, sans API distante, sans télémétrie et sans transmission du contenu des pages.
+<p align="center">
+  <strong>La traduction financière privée et locale, en fulfulde de l’Adamaoua.</strong>
+</p>
 
-Le manifest fournit des icônes optimisées en `16`, `32`, `48` et `128` pixels. La marque conserve son fond sombre original et une présence forte dans le sélecteur d’extensions, avec une marge régulière entre les bulles et le contour.
+<p align="center">
+  <a href="#installation">Installer</a> ·
+  <a href="release/kora-pitch-demo.webm">Voir la démo</a> ·
+  <a href="release/KORA-Documentation-SAFINUM.pdf">Lire le dossier technique</a> ·
+  <a href="docs/ARCHITECTURE.md">Explorer l’architecture</a>
+</p>
 
-![Popup KORA](docs/assets/kora-popup.png)
+KORA est une extension Chrome qui traduit les pages web du français ou de
+l’anglais vers le **fulfulde de l’Adamaoua (`fub`)**. Elle fonctionne sans
+serveur de traduction, sans API distante, sans télémétrie et sans transmission
+du contenu des pages.
 
-## Pourquoi KORA
+Conçue pour le SAFINUM Innovate Challenge 2026, la solution est structurée
+comme une base réutilisable pour les interfaces financières camerounaises :
+code source, corpus traçables, modèles embarqués, tests automatisés et paquet
+installable sont réunis dans ce dépôt.
+
+<p align="center">
+  <img src="docs/assets/kora-popup.png" width="430" alt="Popup sombre de KORA avec le sélecteur Fulfulde, Français et English">
+</p>
+
+## L’essentiel
 
 Une traduction financière ne doit jamais transformer `25 000 FCFA`, inverser « crédité » et « débité », traduire un nom ou affaiblir une alerte de sécurité. KORA privilégie donc une traduction vérifiable :
 
@@ -22,6 +39,15 @@ Une traduction financière ne doit jamais transformer `25 000 FCFA`, inverser «
 - sens financier critique couvert à 100 % ou texte original maintenu;
 - exécution entièrement hors ligne;
 - paquet largement inférieur à la limite de 10 Mio.
+
+### Livrables SAFINUM
+
+- [Vidéo de présentation — 2 min 32 s, 3,3 Mio](release/kora-pitch-demo.webm)
+- [Documentation technique complète — 10 pages A4, 740 Kio](release/KORA-Documentation-SAFINUM.pdf)
+- [Extension Chrome prête à remettre — 254,3 Kio](release/kora-extension.zip)
+- [Guide de démonstration](docs/DEMO.md)
+- [Validation et résultats](docs/VALIDATION.md)
+- [Checklist et valeurs du formulaire](submission/SUBMISSION_CHECKLIST.md)
 
 ## Installation
 
@@ -384,6 +410,9 @@ npm run test:live
 npm run test:uba
 npm run test:all
 npm run package
+npm run submission:capture
+npm run submission:pdf
+npm run submission:video
 ```
 
 `npm run package` produit :
@@ -392,6 +421,10 @@ npm run package
 - `release/kora-unpacked` pour l’installation directe dans Chrome.
 
 La construction échoue automatiquement si le ZIP dépasse 10 Mio.
+
+Les trois commandes `submission:*` reproduisent les captures réelles, le
+dossier PDF et la vidéo narrée remis au jury. La génération audio de la vidéo
+demande `gTTS` dans `.venv`; elle n’est jamais utilisée par l’extension.
 
 ## Validation
 

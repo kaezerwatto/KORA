@@ -19,7 +19,8 @@ Chaque traduction suit les étapes suivantes :
 6. contrôle automatique des valeurs financières;
 7. comparaison FR→FUB et EN→FUB : les deux sources doivent aboutir à la même phrase.
 
-La provenance et le statut de chaque terme sont disponibles dans [`../data/glossary.json`](../data/glossary.json).
+La provenance et le statut des 504 concepts financiers sont disponibles dans
+[`../data/corpora/financial-terminology-candidates.json`](../data/corpora/financial-terminology-candidates.json).
 
 ## Sources principales
 
@@ -34,7 +35,7 @@ Le manuel financier Peace Corps et le livret bancaire nigérian servent uniqueme
 
 | Français | Anglais | Sortie KORA |
 |---|---|---|
-| Effectuer un transfert | Make a transfer | `Waɗ transfeer` |
+| Effectuer un transfert | Make a transfer | `Waɗugo transfeer` |
 | Confirmer le transfert | Confirm transfer | `Tabitin transfeer` |
 | Annuler | Cancel | `Haaytin` |
 | Continuer | Continue | `Jokku` |
@@ -47,7 +48,8 @@ Les alertes sont traduites comme des phrases complètes. Elles ne sont jamais r�
 
 ## Contrôles automatiques
 
-- 92 paires françaises et anglaises couvertes;
+- 504 concepts financiers dédupliqués, 391 clés FR et 390 clés EN compilées;
+- 1 252 libellés textuels testés avec une faute orthographique générée;
 - sept erreurs et alertes identiques dans les deux directions;
 - nombres, devises, téléphones, comptes, noms et références inchangés;
 - rejet de toute traduction qui perd une valeur protégée;
@@ -59,7 +61,12 @@ Deux modèles téléchargeables ont été exécutés sur cinq phrases financièr
 
 ## Limite déclarée
 
-La mémoire n’a pas encore fait l’objet d’une validation finale par un comité de locuteurs de Ngaoundéré, Garoua et Maroua. Les termes `proposed` et `candidate-cross-dialect` sont donc des choix de prototype documentés, pas une norme.
+**M. Jean Ernset Souroumbai** assure la responsabilité de la validation
+linguistique du projet. La mémoire étendue n’a toutefois pas encore fait
+l’objet d’une double validation à l’aveugle par plusieurs locuteurs de
+Ngaoundéré, Garoua et Maroua. Les formes marquées
+`compositional-candidate` ou `local-loan-candidate` restent des propositions
+documentées, pas une norme.
 
 Avant un déploiement bancaire réel :
 

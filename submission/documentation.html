@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KORA — Documentation technique SAFINUM</title>
+  <style>
+    :root {
+      --ink: #17211d;
+      --muted: #5f6f68;
+      --green: #0f846b;
+      --green-dark: #075948;
+      --mint: #e7f7f1;
+      --gold: #edbd45;
+      --paper: #fbfcfa;
+      --line: #dce7e1;
+      --night: #101713;
+    }
+    * { box-sizing: border-box; }
+    @page { size: A4; margin: 0; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #dce3df;
+      color: var(--ink);
+      font-family: "DejaVu Sans", Arial, sans-serif;
+      font-size: 10.2pt;
+      line-height: 1.46;
+    }
+    .page {
+      position: relative;
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto 8mm;
+      padding: 18mm 18mm 16mm;
+      overflow: hidden;
+      background: var(--paper);
+      break-after: page;
+    }
+    .page:last-child { break-after: auto; }
+    .page::after {
+      content: attr(data-page);
+      position: absolute;
+      right: 18mm;
+      bottom: 8mm;
+      color: #87958f;
+      font-size: 8pt;
+    }
+    .topline {
+      position: absolute;
+      inset: 0 0 auto;
+      height: 4mm;
+      background: linear-gradient(90deg, var(--green), #1fa383 70%, var(--gold));
+    }
+    .cover {
+      display: flex;
+      min-height: 297mm;
+      padding: 0;
+      background:
+        radial-gradient(circle at 76% 17%, rgba(31, 163, 131, .32), transparent 28%),
+        radial-gradient(circle at 20% 86%, rgba(237, 189, 69, .13), transparent 24%),
+        var(--night);
+      color: white;
+    }
+    .cover-main {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+      padding: 24mm 20mm 20mm;
+    }
+    .brand {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .brand img {
+      width: 62px;
+      height: 62px;
+      border-radius: 17px;
+      box-shadow: 0 14px 28px rgba(0,0,0,.28);
+    }
+    .brand strong {
+      display: block;
+      font-size: 22pt;
+      letter-spacing: .18em;
+    }
+    .brand span { color: #9ab7ac; }
+    .eyebrow {
+      color: var(--gold);
+      font-size: 9pt;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    h1 {
+      max-width: 160mm;
+      margin: 6mm 0 5mm;
+      font-size: 38pt;
+      line-height: 1.05;
+      letter-spacing: -.035em;
+    }
+    .cover-lead {
+      max-width: 150mm;
+      margin: 0;
+      color: #d6e3dd;
+      font-size: 15pt;
+      line-height: 1.45;
+    }
+    .cover-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4mm;
+      margin-top: 18mm;
+    }
+    .cover-stat {
+      padding: 5mm;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 4mm;
+      background: rgba(255,255,255,.06);
+    }
+    .cover-stat b { display: block; color: #56d4b3; font-size: 15pt; }
+    .cover-stat small { color: #aac1b8; }
+    .cover-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-top: 1px solid rgba(255,255,255,.13);
+      padding-top: 6mm;
+      color: #b9cbc4;
+      font-size: 9pt;
+    }
+    h2 {
+      margin: 0 0 6mm;
+      color: var(--green-dark);
+      font-size: 23pt;
+      line-height: 1.12;
+      letter-spacing: -.02em;
+    }
+    h3 {
+      margin: 5mm 0 2mm;
+      color: var(--ink);
+      font-size: 12.5pt;
+    }
+    p { margin: 0 0 3.2mm; }
+    ul, ol { margin: 2mm 0 4mm; padding-left: 5mm; }
+    li { margin: 1.4mm 0; }
+    .lead {
+      max-width: 165mm;
+      color: var(--muted);
+      font-size: 12pt;
+    }
+    .label {
+      margin-bottom: 2mm;
+      color: var(--green);
+      font-size: 8.5pt;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5mm;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4mm;
+    }
+    .card {
+      padding: 5mm;
+      border: 1px solid var(--line);
+      border-radius: 4mm;
+      background: white;
+    }
+    .card h3 { margin-top: 0; }
+    .card p:last-child, .card ul:last-child { margin-bottom: 0; }
+    .metric {
+      padding: 4mm;
+      border-left: 1.2mm solid var(--green);
+      border-radius: 2mm;
+      background: var(--mint);
+    }
+    .metric b {
+      display: block;
+      color: var(--green-dark);
+      font-size: 16pt;
+    }
+    .metric span { color: var(--muted); font-size: 8.5pt; }
+    .callout {
+      margin: 5mm 0;
+      padding: 4.5mm 5mm;
+      border-radius: 3mm;
+      background: var(--night);
+      color: white;
+    }
+    .callout strong { color: #5cdbba; }
+    .shot {
+      display: block;
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 3mm;
+      box-shadow: 0 4mm 9mm rgba(23,33,29,.09);
+    }
+    .shot-caption {
+      margin-top: 2mm;
+      color: var(--muted);
+      font-size: 8.3pt;
+    }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2mm;
+      margin: 6mm 0;
+      text-align: center;
+    }
+    .flow div {
+      position: relative;
+      min-height: 27mm;
+      padding: 4mm 2.5mm;
+      border: 1px solid var(--line);
+      border-radius: 3mm;
+      background: white;
+    }
+    .flow div:not(:last-child)::after {
+      content: "›";
+      position: absolute;
+      z-index: 2;
+      top: 8mm;
+      right: -3.5mm;
+      color: var(--green);
+      font-size: 20pt;
+      font-weight: 700;
+    }
+    .flow b { display: block; color: var(--green-dark); font-size: 9pt; }
+    .flow span { color: var(--muted); font-size: 7.5pt; }
+    .layers {
+      margin: 5mm 0;
+      padding: 5mm;
+      border: 1px solid var(--line);
+      border-radius: 4mm;
+      background: white;
+    }
+    .layer {
+      display: grid;
+      grid-template-columns: 36mm 1fr;
+      gap: 4mm;
+      margin: 2mm 0;
+      padding: 3mm 4mm;
+      border-radius: 2.5mm;
+      background: #f2f7f4;
+    }
+    .layer b { color: var(--green-dark); }
+    .code {
+      padding: 4mm;
+      border-radius: 3mm;
+      background: #17211d;
+      color: #e2f4ec;
+      font-family: "DejaVu Sans Mono", monospace;
+      font-size: 8.3pt;
+      white-space: pre-wrap;
+    }
+    .status {
+      display: inline-block;
+      margin-right: 1.5mm;
+      padding: 1mm 2.5mm;
+      border-radius: 99px;
+      background: var(--mint);
+      color: var(--green-dark);
+      font-size: 8pt;
+      font-weight: 800;
+    }
+    .check {
+      list-style: none;
+      padding-left: 0;
+    }
+    .check li::before {
+      content: "✓";
+      margin-right: 2.5mm;
+      color: var(--green);
+      font-weight: 900;
+    }
+    .fine { color: var(--muted); font-size: 8.5pt; }
+    .team {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4mm;
+    }
+    .team div {
+      padding: 4mm 5mm;
+      border-bottom: 1px solid var(--line);
+    }
+    .team b { display: block; color: var(--green-dark); }
+    a { color: var(--green-dark); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <section class="page cover" data-page="">
+    <div class="cover-main">
+      <div class="brand">
+        <img src="../src/icons/icon-128.png" alt="Logo KORA">
+        <div><strong>KORA</strong><span>Traduction financière privée et locale</span></div>
+      </div>
+      <div>
+        <div class="eyebrow">SAFINUM Innovate Challenge 2026</div>
+        <h1>La finance numérique en fulfulde, sans sacrifier l’intégrité.</h1>
+        <p class="cover-lead">Extension Chrome locale qui traduit les interfaces françaises et anglaises vers le fulfulde de l’Adamaoua, sans modifier le service et sans transmettre les données.</p>
+        <div class="cover-grid">
+          <div class="cover-stat"><b>Hors ligne</b><small>Aucune API de traduction</small></div>
+          <div class="cover-stat"><b>504</b><small>concepts financiers</small></div>
+          <div class="cover-stat"><b>27/27</b><small>tests unitaires réussis</small></div>
+        </div>
+      </div>
+      <div class="cover-footer">
+        <div>KORA TEAM · Yaoundé, Cameroun</div>
+        <div>Documentation technique et dossier de validation</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" data-page="02">
+    <div class="topline"></div>
+    <div class="label">01 · Résumé exécutif</div>
+    <h2>Comprendre et agir dans sa langue</h2>
+    <p class="lead">KORA rend une interface financière existante accessible en fulfulde de l’Adamaoua (`fub`) directement dans Chrome. Le code du service n’est pas modifié et aucune donnée de la page ne quitte l’appareil.</p>
+
+    <div class="grid-2" style="margin-top:7mm">
+      <div class="card">
+        <h3>Problème</h3>
+        <p>Une interface uniquement en français ou en anglais peut compliquer la compréhension d’un solde, de frais, d’une confirmation ou d’une alerte de sécurité.</p>
+      </div>
+      <div class="card">
+        <h3>Réponse KORA</h3>
+        <p>Traduire le texte visible, y compris le contenu ajouté après chargement, tout en protégeant les montants, devises, références, noms et saisies.</p>
+      </div>
+    </div>
+
+    <div class="grid-3" style="margin-top:5mm">
+      <div class="metric"><b>FR + EN</b><span>détection vers fulfulde</span></div>
+      <div class="metric"><b>1 252</b><span>cas de fautes testés</span></div>
+      <div class="metric"><b>0 octet</b><span>de page transmis</span></div>
+    </div>
+
+    <div class="callout">
+      <strong>Principe de sûreté :</strong> si KORA ne peut pas garantir le sens d’un texte financier, il conserve l’original au lieu d’inventer une traduction.
+    </div>
+
+    <h3>Livrable fonctionnel</h3>
+    <ul class="check">
+      <li>Extension Chrome Manifest V3 installable en mode développeur.</li>
+      <li>Traduction français/anglais vers Adamawa Fulfulde sur une page ordinaire.</li>
+      <li>Observation du DOM dynamique sans hook fourni par Safinum.</li>
+      <li>Restauration exacte du texte original en choisissant Français ou English.</li>
+      <li>Modèle linguistique embarqué, exportable et utilisable séparément.</li>
+    </ul>
+
+    <h3>Adéquation au défi</h3>
+    <p>KORA respecte le scénario imposé : prototype simulé, aucune transaction réelle, aucun identifiant bancaire réel, aucune collecte et aucune modification du code source du service financier.</p>
+  </section>
+
+  <section class="page" data-page="03">
+    <div class="topline"></div>
+    <div class="label">02 · Démonstration</div>
+    <h2>Le parcours Safinum traduit, valeurs intactes</h2>
+    <img class="shot" src="assets/pitch-dashboard.png" alt="Tableau de bord Safinum traduit par KORA">
+    <p class="shot-caption">Capture réelle du site Safinum avec l’extension chargée. Le montant 250 000 FCFA, le compte et les transactions restent identiques.</p>
+
+    <div class="flow">
+      <div><b>1 · Solde</b><span>Consulter le compte</span></div>
+      <div><b>2 · Frais</b><span>Choisir l’opération</span></div>
+      <div><b>3 · Bénéficiaire</b><span>Préserver la saisie</span></div>
+      <div><b>4 · Contrôle</b><span>Vérifier les valeurs</span></div>
+      <div><b>5 · Reçu</b><span>Conserver la référence</span></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>Ce qui est traduit</h3>
+        <p>Libellés, boutons, explications, alertes, attributs accessibles, options visibles et textes injectés.</p>
+      </div>
+      <div class="card">
+        <h3>Ce qui reste intact</h3>
+        <p>Montants, frais, devise, numéros, dates, références, noms propres et valeurs saisies par l’utilisateur.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" data-page="04">
+    <div class="topline"></div>
+    <div class="label">03 · Contenu dynamique et robustesse</div>
+    <h2>Traduire après le chargement, même avec une faute</h2>
+    <img class="shot" src="assets/pitch-injection.png" alt="Message injecté et traduit par KORA">
+    <p class="shot-caption">Preuve réelle : « sodle insufisant » injecté après chargement est rapproché d’un sens financier unique puis rendu « Kaalisi yonaa ».</p>
+
+    <div class="grid-2" style="margin-top:5mm">
+      <div class="card">
+        <h3>Surfaces observées</h3>
+        <ul>
+          <li>nœuds texte ajoutés ou remplacés;</li>
+          <li>`placeholder`, `aria-label` et `title`;</li>
+          <li>options de sélection, sans toucher à leur valeur;</li>
+          <li>Shadow DOM ouvert;</li>
+          <li>iframes autorisées par Chrome.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Correction contrôlée</h3>
+        <ul>
+          <li>accents ou ponctuation manquants;</li>
+          <li>lettre ajoutée, supprimée ou remplacée;</li>
+          <li>lettres voisines inversées;</li>
+          <li>jusqu’à quatre opérations sur un long libellé;</li>
+          <li>abstention en cas d’ambiguïté.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout"><strong>Aucune modification des entrées :</strong> le texte d’un champ reste celui de l’utilisateur. Seul le texte rendu par la page après injection est traduit.</div>
+  </section>
+
+  <section class="page" data-page="05">
+    <div class="topline"></div>
+    <div class="label">04 · Architecture</div>
+    <h2>Une chaîne locale, explicable et testable</h2>
+
+    <div class="flow">
+      <div><b>Popup</b><span>Langue et activation</span></div>
+      <div><b>Content script</b><span>DOM et mutations</span></div>
+      <div><b>Moteur</b><span>Protection et détection</span></div>
+      <div><b>Mémoires</b><span>FR/EN → fub</span></div>
+      <div><b>Modèle</b><span>Classement de fluidité</span></div>
+    </div>
+
+    <div class="layers">
+      <div class="layer"><b>Interface</b><span>`popup.js` gère Fulfulde, Français, English et l’état local.</span></div>
+      <div class="layer"><b>Intégration</b><span>`content.js` collecte le texte accessible, protège les champs, observe les mutations et restaure l’original.</span></div>
+      <div class="layer"><b>Sûreté</b><span>`engine.js` protège les valeurs, détecte FR/EN, applique la mémoire exacte, les gabarits ou l’abstention.</span></div>
+      <div class="layer"><b>Langue</b><span>`spelling.js`, mémoires terminologiques et modèle neuronal/n-gramme local classent seulement des formulations connues.</span></div>
+      <div class="layer"><b>Données</b><span>`chrome.storage.local` conserve uniquement activation et langue; aucun texte de page n’est enregistré.</span></div>
+    </div>
+
+    <h3>Flux d’une traduction</h3>
+    <ol>
+      <li>Le nœud visible est lu; les nombres et identifiants sont remplacés par des jetons protégés.</li>
+      <li>La langue source est détectée entre français et anglais.</li>
+      <li>La mémoire cherche une expression exacte; sinon le correcteur tente un rapprochement unique.</li>
+      <li>Le modèle classe les formulations sûres, sans générer de nouveau sens financier.</li>
+      <li>Les valeurs sont réinsérées à l’identique, puis le texte visible est mis à jour.</li>
+    </ol>
+
+    <div class="code">Page Web ──texte──▶ Protection ──▶ Mémoire/Correcteur ──▶ Modèle fub
+    ▲                                                        │
+    └──────────── texte original ou traduction sûre ◀────────┘</div>
+  </section>
+
+  <section class="page" data-page="06">
+    <div class="topline"></div>
+    <div class="label">05 · Modèle linguistique embarqué</div>
+    <h2>Des modèles légers au service du sens</h2>
+    <p class="lead">Le paquet contient les mémoires, les gabarits, le correcteur, un modèle neuronal int8 et un repli n-gramme. Tout s’exécute dans le navigateur, sans GPU ni téléchargement.</p>
+
+    <div class="grid-3" style="margin-top:6mm">
+      <div class="metric"><b>185 120</b><span>paramètres int8</span></div>
+      <div class="metric"><b>1 472</b><span>unités de vocabulaire</span></div>
+      <div class="metric"><b>3 mots</b><span>de contexte neuronal</span></div>
+    </div>
+
+    <div class="grid-2" style="margin-top:5mm">
+      <div class="card">
+        <h3>Corpus et mémoire</h3>
+        <ul>
+          <li>1 067 phrases Adamawa Fulfulde Common Voice 27, CC0;</li>
+          <li>9 368 tokens Common Voice;</li>
+          <li>262 formulations KORA contrôlées;</li>
+          <li>386 formulations terminologiques candidates pondérées;</li>
+          <li>504 concepts financiers dédupliqués.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Validation du modèle</h3>
+        <ul>
+          <li>107 phrases Common Voice séparées;</li>
+          <li>top-1 : 14,8 %;</li>
+          <li>top-5 : 35,0 %;</li>
+          <li>arrêt anticipé reproductible;</li>
+          <li>aucune génération libre d’instruction critique.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Utilisation indépendante</h3>
+    <div class="code">npm run model:export   # produit release/kora-fub-neural-model.json
+npm run model:demo     # exécute un exemple de prédiction et de score
+npm run model:train    # réentraîne après préparation de .venv</div>
+
+    <p class="fine" style="margin-top:4mm">Les métriques de prédiction mesurent le mot suivant, pas la qualité de traduction. La fidélité financière est assurée séparément par les mémoires contrôlées, les règles d’intégrité et l’abstention.</p>
+  </section>
+
+  <section class="page" data-page="07">
+    <div class="topline"></div>
+    <div class="label">06 · Sécurité, confidentialité et accessibilité</div>
+    <h2>Protéger avant de traduire</h2>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>Confidentialité</h3>
+        <ul class="check">
+          <li>Aucun serveur KORA.</li>
+          <li>Aucune API distante.</li>
+          <li>Aucune télémétrie.</li>
+          <li>Aucun texte de page stocké.</li>
+          <li>Aucune permission réseau dans le manifest.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Intégrité financière</h3>
+        <ul class="check">
+          <li>Montants et devises protégés.</li>
+          <li>Comptes et téléphones protégés.</li>
+          <li>Noms et références protégés.</li>
+          <li>Valeurs des champs inchangées.</li>
+          <li>Original conservé si doute.</li>
+        </ul>
+      </div>
+    </div>
+
+    <img class="shot" style="margin-top:6mm" src="assets/pitch-fees.png" alt="Calcul des frais intact dans Safinum">
+    <p class="shot-caption">Le calcul reste celui de Safinum : 25 000 FCFA, 0 FCFA de frais et 25 000 FCFA de total. KORA ne modifie que les libellés.</p>
+
+    <h3>Accessibilité</h3>
+    <p>La popup est navigable au clavier, expose des libellés compréhensibles, conserve un contraste élevé et rend le focus à la page après l’action. KORA traduit `aria-label`, `title` et `placeholder` lorsque cela améliore la compréhension, sans remplacer les valeurs techniques.</p>
+  </section>
+
+  <section class="page" data-page="08">
+    <div class="topline"></div>
+    <div class="label">07 · Vérification et reproductibilité</div>
+    <h2>Des preuves automatisées et un parcours manuel</h2>
+
+    <div class="grid-3">
+      <div class="metric"><b>27/27</b><span>tests unitaires</span></div>
+      <div class="metric"><b>1 252</b><span>fautes générées</span></div>
+      <div class="metric"><b>5/5</b><span>étapes Safinum</span></div>
+    </div>
+
+    <h3>Commandes de vérification</h3>
+    <div class="code">npm install
+npm test               # moteur, corpus, export, orthographe
+npm run test:popup     # état, langues, navigation
+npm run test:pages     # contenu dynamique, champs, Ctrl+A
+npm run test:live      # parcours Safinum
+npm run test:uba       # page bancaire externe
+npm run package        # ZIP installable + modèle exporté</div>
+
+    <h3>Installation de l’extension</h3>
+    <ol>
+      <li>Décompresser `kora-extension.zip`.</li>
+      <li>Ouvrir `chrome://extensions` et activer le mode développeur.</li>
+      <li>Choisir « Charger l’extension non empaquetée ».</li>
+      <li>Sélectionner le dossier contenant directement `manifest.json`.</li>
+      <li>Ouvrir une page normale, puis choisir Fulfulde dans la popup KORA.</li>
+    </ol>
+
+    <h3>Limites connues</h3>
+    <ul>
+      <li>Chrome interdit l’injection dans ses pages internes et dans le Chrome Web Store.</li>
+      <li>Le texte dessiné dans une image, un canvas ou un Shadow DOM fermé n’est pas accessible.</li>
+      <li>Les termes candidats demandent encore une validation communautaire multi-régionale.</li>
+      <li>KORA privilégie la sûreté : une phrase hors mémoire peut rester dans la langue source.</li>
+    </ul>
+
+    <div class="callout"><strong>Reproductible :</strong> le dépôt contient le code source, les corpus traçables, les tests, les scripts de construction, le modèle exportable et le paquet final.</div>
+  </section>
+
+  <section class="page" data-page="09">
+    <div class="topline"></div>
+    <div class="label">08 · Linguistique, dépendances et droits</div>
+    <h2>Une base traçable, à consolider avec la communauté</h2>
+
+    <h3>Méthode de validation linguistique</h3>
+    <ol>
+      <li>Consolidation et déduplication de deux corpus terminologiques financiers.</li>
+      <li>Correction des faux sens et accords signalés : compte bloqué, date de valeur, découvert autorisé, paiement récurrent, sans contact, remboursement et rétrofacturation.</li>
+      <li>Harmonisation des noms d’action en `-ugol` pour les concepts.</li>
+      <li>Tests bidirectionnels FR/EN vers une même formulation fub.</li>
+      <li>Statuts explicites : contrôlé, candidat compositionnel ou emprunt local.</li>
+      <li>Responsabilité linguistique : M. Jean Ernset Souroumbai.</li>
+    </ol>
+
+    <p>Les 371 concepts encore marqués candidats sont inclus à poids réduit et ne sont pas présentés comme une norme. Une double validation par des locuteurs de plusieurs régions reste l’étape requise avant déploiement à grande échelle.</p>
+
+    <h3>Dépendances et composants tiers déclarés</h3>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Exécution de l’extension</h3>
+        <p>Aucune dépendance externe, aucune API et aucun service réseau. JavaScript natif Chrome Manifest V3.</p>
+      </div>
+      <div class="card">
+        <h3>Développement</h3>
+        <p>Node.js, esbuild et Puppeteer Core. Python, NumPy et PyTorch servent à la génération d’icônes et à l’entraînement. gTTS sert uniquement à narrer la vidéo de remise.</p>
+      </div>
+    </div>
+
+    <h3>Sources et licences</h3>
+    <ul>
+      <li>Mozilla Common Voice 27, sous CC0, pour le corpus fub d’entraînement.</li>
+      <li>Corpus terminologiques fournis au projet, conservés avec provenance et statut.</li>
+      <li>Google Text-to-Speech via gTTS pour la narration française publique de la vidéo; aucune donnée de page transmise.</li>
+      <li>Code KORA distribué sous licence MIT.</li>
+    </ul>
+  </section>
+
+  <section class="page" data-page="10">
+    <div class="topline"></div>
+    <div class="label">09 · Équipe et remise</div>
+    <h2>KORA TEAM</h2>
+    <p class="lead">Une solution camerounaise centrée sur l’accès linguistique, la confidentialité et la confiance dans les opérations financières numériques.</p>
+
+    <div class="team" style="margin-top:8mm">
+      <div><b>Azab A Ranga Franck Miguel</b>Responsable d’équipe</div>
+      <div><b>Bell Aqil</b>Membre</div>
+      <div><b>Simo Sigeu Nkouamkam Menelik</b>Membre</div>
+      <div><b>M. Jean Ernset Souroumbai</b>Responsabilité de validation linguistique</div>
+    </div>
+
+    <div class="card" style="margin-top:8mm">
+      <h3>Contact</h3>
+      <p><strong>E-mail :</strong> miguel.azab@facsciences-uy1.cm<br>
+      <strong>Téléphone / WhatsApp :</strong> +237 686 826 745<br>
+      <strong>Ville :</strong> Yaoundé, Cameroun</p>
+    </div>
+
+    <div class="card" style="margin-top:5mm">
+      <h3>Liens de soumission</h3>
+      <p><strong>Dépôt GitHub :</strong><br>
+      <a href="https://github.com/kaezerwatto/KORA">github.com/kaezerwatto/KORA</a></p>
+      <p><strong>Fichiers :</strong><br>
+      `release/kora-extension.zip`<br>
+      `release/KORA-Documentation-SAFINUM.pdf`<br>
+      `release/kora-pitch-demo.webm`</p>
+    </div>
+
+    <div class="callout" style="margin-top:8mm">
+      <strong>KORA traduit les mots, protège les valeurs et conserve le contrôle sur l’appareil.</strong>
+    </div>
+    <p class="fine">Document préparé pour le SAFINUM Innovate Challenge 2026. Les opérations présentées sont entièrement simulées.</p>
+  </section>
+</body>
+</html>

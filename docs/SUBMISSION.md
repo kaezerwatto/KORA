@@ -37,7 +37,10 @@ administrative ou bancaire.
 
 ## Confidentialité
 
-KORA n’utilise aucun serveur de traduction. Le paquet ne contient aucun traceur et n’envoie aucune donnée. Seules deux préférences non sensibles sont conservées localement.
+KORA n’utilise aucun serveur de traduction. Le paquet ne contient aucun
+traceur et n’envoie aucune donnée. Seules trois préférences non sensibles sont
+conservées localement : activation, langue d’affichage et indication de langue
+source.
 
 ## Faisabilité
 
@@ -46,6 +49,19 @@ KORA n’utilise aucun serveur de traduction. Le paquet ne contient aucun traceu
 - réseau : nécessaire uniquement pour ouvrir le service financier;
 - installation : extension non empaquetée en moins d’une minute;
 - adaptation : remplacement de la mémoire et du glossaire pour une autre langue nationale.
+
+## Livrables
+
+- vidéo narrée de moins de trois minutes :
+  [`../release/kora-pitch-demo.webm`](../release/kora-pitch-demo.webm);
+- documentation technique A4 :
+  [`../release/KORA-Documentation-SAFINUM.pdf`](../release/KORA-Documentation-SAFINUM.pdf);
+- extension Chrome :
+  [`../release/kora-extension.zip`](../release/kora-extension.zip);
+- dépôt public : <https://github.com/kaezerwatto/KORA>.
+
+Les valeurs exactes du formulaire et les contrôles avant envoi se trouvent
+dans [`../submission/SUBMISSION_CHECKLIST.md`](../submission/SUBMISSION_CHECKLIST.md).
 
 ## Limites
 
