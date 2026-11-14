@@ -57,12 +57,15 @@ function infer(contextWords) {
   const model = weights();
   const embeddingSize = FUB_NEURAL_META.embeddingSize;
   const hiddenSize = FUB_NEURAL_META.hiddenSize;
+  const contextSize = FUB_NEURAL_META.contextSize ?? 2;
   const vocabularySize = FUB_NEURAL_VOCAB.length;
   const start = "<s>";
-  const context = [start, start, ...contextWords].slice(-2).map(idFor);
-  const input = new Float32Array(embeddingSize * 2);
+  const context = [...Array(contextSize).fill(start), ...contextWords]
+    .slice(-contextSize)
+    .map(idFor);
+  const input = new Float32Array(embeddingSize * contextSize);
 
-  for (let slot = 0; slot < 2; slot += 1) {
+  for (let slot = 0; slot < contextSize; slot += 1) {
     const offset = context[slot] * embeddingSize;
     for (let index = 0; index < embeddingSize; index += 1) {
       input[slot * embeddingSize + index] =
@@ -71,7 +74,7 @@ function infer(contextWords) {
   }
 
   const hidden = new Float32Array(hiddenSize);
-  const hiddenWidth = embeddingSize * 2;
+  const hiddenWidth = embeddingSize * contextSize;
   for (let row = 0; row < hiddenSize; row += 1) {
     let value = model.hiddenBias.values[row];
     const rowOffset = row * hiddenWidth;
@@ -126,7 +129,7 @@ export function scoreNeuralFub(text) {
   const knownRatio =
     words.filter((word) => wordToId.has(word)).length / words.length;
   const sequence = [...words, "</s>"];
-  const context = ["<s>", "<s>"];
+  const context = Array(FUB_NEURAL_META.contextSize ?? 2).fill("<s>");
   let logProbability = 0;
 
   for (const word of sequence) {

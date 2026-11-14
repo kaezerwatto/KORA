@@ -2,7 +2,7 @@ import { translateText } from "./engine.js";
 
 const shouldInitialize = !globalThis.__KORA_CONTENT_INITIALIZED__;
 if (shouldInitialize) globalThis.__KORA_CONTENT_INITIALIZED__ = true;
-const PROTOCOL_VERSION = 7;
+const PROTOCOL_VERSION = 8;
 const SKIP_TAGS = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "CODE", "PRE", "SVG", "CANVAS", "IFRAME", "TEXTAREA"]);
 const records = new Map();
 const attributeRecords = new Map();
@@ -17,6 +17,7 @@ let safetyTimer;
 let stats = freshStats();
 let originalTooltip;
 let observedRoots = new WeakSet();
+const translationSourceFields = new WeakSet();
 
 function freshStats() {
   return { scanned: 0, translated: 0, protected: 0, fallback: 0, memory: 0, template: 0, glossary: 0 };
@@ -49,6 +50,7 @@ function parentIsEligible(node) {
 }
 
 function isTranslationSourceField(field) {
+  if (translationSourceFields.has(field)) return true;
   const labels = field.labels ? [...field.labels].map((label) => label.textContent).join(" ") : "";
   const descriptor = [
     field.id,
@@ -57,9 +59,12 @@ function isTranslationSourceField(field) {
     field.getAttribute("aria-label"),
     labels
   ].join(" ");
-  return /\b(?:inject|injected|injection|inédit|unseen)\b|message for customers|message important/iu.test(
+  const isSource =
+    /\b(?:inject|injected|injection|inédit|unseen)\b|message for customers|message important/iu.test(
     descriptor
   );
+  if (isSource) translationSourceFields.add(field);
+  return isSource;
 }
 
 function protectedValues(roots) {

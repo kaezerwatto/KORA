@@ -24,9 +24,10 @@ from build_fub_language_model import (
 OUTPUT = ROOT / "src/fub-neural-model.js"
 SEED = 2026
 VOCAB_LIMIT = 1_024
-EMBEDDING_SIZE = 12
-HIDDEN_SIZE = 24
-EPOCHS = 35
+CONTEXT_SIZE = 2
+EMBEDDING_SIZE = 24
+HIDDEN_SIZE = 48
+EPOCHS = 25
 BATCH_SIZE = 256
 REVIEWED_WEIGHT = 3
 
@@ -35,7 +36,7 @@ class TinyContextModel(nn.Module):
     def __init__(self, vocabulary_size: int) -> None:
         super().__init__()
         self.embedding = nn.Embedding(vocabulary_size, EMBEDDING_SIZE)
-        self.hidden = nn.Linear(EMBEDDING_SIZE * 2, HIDDEN_SIZE)
+        self.hidden = nn.Linear(EMBEDDING_SIZE * CONTEXT_SIZE, HIDDEN_SIZE)
         self.output = nn.Linear(HIDDEN_SIZE, vocabulary_size)
 
     def forward(self, contexts: torch.Tensor) -> torch.Tensor:
@@ -77,9 +78,9 @@ def examples(sentences: list[list[str]], word_to_id: dict[str, int]):
     end = word_to_id["</s>"]
     for sentence in sentences:
         ids = [word_to_id.get(word, unknown) for word in sentence]
-        padded = [start, start, *ids, end]
-        for index in range(2, len(padded)):
-            contexts.append([padded[index - 2], padded[index - 1]])
+        padded = [start] * CONTEXT_SIZE + ids + [end]
+        for index in range(CONTEXT_SIZE, len(padded)):
+            contexts.append(padded[index - CONTEXT_SIZE : index])
             targets.append(padded[index])
     return torch.tensor(contexts, dtype=torch.long), torch.tensor(targets, dtype=torch.long)
 
@@ -134,7 +135,7 @@ def main() -> None:
     train_data = TensorDataset(train_contexts, train_targets)
 
     model = TinyContextModel(len(vocabulary))
-    optimizer = torch.optim.AdamW(model.parameters(), lr=0.012, weight_decay=1e-4)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=0.01, weight_decay=1e-3)
     criterion = nn.CrossEntropyLoss()
     loader = DataLoader(train_data, batch_size=BATCH_SIZE, shuffle=True)
 
@@ -172,6 +173,7 @@ def main() -> None:
         "commonVoiceSentences": len(common_voice),
         "reviewedPhrases": len(reviewed),
         "vocabulary": len(vocabulary),
+        "contextSize": CONTEXT_SIZE,
         "embeddingSize": EMBEDDING_SIZE,
         "hiddenSize": HIDDEN_SIZE,
         "parameters": sum(parameter.numel() for parameter in model.parameters()),

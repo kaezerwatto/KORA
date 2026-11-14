@@ -127,11 +127,19 @@ try {
         ? HTMLTextAreaElement.prototype
         : HTMLInputElement.prototype;
     Object.getOwnPropertyDescriptor(prototype, "value")?.set?.call(field, value);
+    field.title = "Network error";
     field.dispatchEvent(new Event("input", { bubbles: true }));
     field.dispatchEvent(new Event("change", { bubbles: true }));
     return true;
   }, injectedSource);
   assert.equal(injectionFieldFound, true, "jury injection field should be available");
+  await page.waitForFunction(
+    () =>
+      [...document.querySelectorAll("textarea, input")].some(
+        (field) => field.title === "Juumre reso"
+      ),
+    { timeout: 10_000 }
+  );
   await clickOriginal(page, "Injecter");
   await page.waitForFunction(
     () => document.body.innerText.includes("Sannu musiɗɗo am, aan ko moy?"),

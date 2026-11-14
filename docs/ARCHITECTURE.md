@@ -184,8 +184,8 @@ Corpus :
 
 ```mermaid
 flowchart LR
-    A[Deux mots précédents] --> B[Embeddings 12 dimensions]
-    B --> C[Couche tanh 24 neurones]
+    A[Deux mots précédents] --> B[Embeddings 24 dimensions]
+    B --> C[Couche tanh 48 neurones]
     C --> D[Distribution du mot suivant]
     E[Trigramme, bigramme, unigramme] --> F[Repli déterministe]
     D --> G[Fusion 85 %]
@@ -194,7 +194,7 @@ flowchart LR
     H --> I[Classement de candidats déjà sûrs]
 ```
 
-Le réseau compte 38 488 paramètres. Ses poids et son vocabulaire occupent environ 64 Kio avant minification. Sur 107 phrases Common Voice tenues hors entraînement, le modèle int8 atteint 14,0 % top-1 et 31,5 % top-5. Ces métriques modestes sont publiées sans les confondre avec une qualité de traduction : le modèle complète le moteur déterministe mais ne remplace pas un modèle neuronal de traduction générale.
+Le réseau compte 77 104 paramètres. Ses poids, son vocabulaire et ses métadonnées occupent environ 114 Kio avant minification. Sur 107 phrases Common Voice tenues hors entraînement, le modèle int8 atteint 13,4 % top-1 et 32,6 % top-5. La top-5 est la métrique la plus pertinente pour son rôle de classement de plusieurs candidats. Un cache borné conserve les 1 000 derniers scores afin que les libellés répétés ne relancent pas l’inférence. Ces métriques restent distinctes d’une qualité de traduction : le modèle complète le moteur déterministe mais ne remplace pas un modèle neuronal de traduction générale.
 
 ## Modules
 

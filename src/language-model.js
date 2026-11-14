@@ -12,6 +12,7 @@ import {
 const unigramCounts = new Map(FUB_UNIGRAMS);
 const unigramTotal = FUB_UNIGRAMS.reduce((total, [, count]) => total + count, 0);
 const vocabularySize = Math.max(1, FUB_UNIGRAMS.length);
+const fluencyCache = new Map();
 
 function tokenizeFub(text) {
   return String(text ?? "")
@@ -114,9 +115,15 @@ function scoreNgramFubFluency(text) {
 }
 
 export function scoreFubFluency(text) {
+  const cacheKey = String(text ?? "").normalize("NFC");
+  if (fluencyCache.has(cacheKey)) return fluencyCache.get(cacheKey);
   const neural = Math.max(1e-9, scoreNeuralFub(text));
   const ngram = Math.max(1e-9, scoreNgramFubFluency(text));
-  return Math.round(Math.exp(0.8 * Math.log(neural) + 0.2 * Math.log(ngram)) * 1e6) / 1e6;
+  const score =
+    Math.round(Math.exp(0.8 * Math.log(neural) + 0.2 * Math.log(ngram)) * 1e6) / 1e6;
+  if (fluencyCache.size >= 1_000) fluencyCache.delete(fluencyCache.keys().next().value);
+  fluencyCache.set(cacheKey, score);
+  return score;
 }
 
 export function rankFubCandidates(candidates) {

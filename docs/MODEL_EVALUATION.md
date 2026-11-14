@@ -11,18 +11,18 @@ Le paquet Chrome doit rester inférieur à 10 Mo et le protocole interdit de col
 - NLLB-200 600M ONNX quantifié : environ 895 Mo et cible `fuv`, pas `fub`.
 - M2M-100 quantifié : environ 632 Mo et cible le macrocode `ff`.
 
-Les grands modèles neuronaux ont donc été utilisés seulement hors extension, sur cinq phrases publiques, comme outils de comparaison. KORA livré n’emploie aucun proxy ni service distant. Il embarque son propre réseau neuronal `fub` de 38 488 paramètres, limité à la prédiction du mot suivant et au classement de formulations déjà validées sémantiquement. Un n-gramme compact sert de repli.
+Les grands modèles neuronaux ont donc été utilisés seulement hors extension, sur cinq phrases publiques, comme outils de comparaison. KORA livré n’emploie aucun proxy ni service distant. Il embarque son propre réseau neuronal `fub` de 77 104 paramètres, limité à la prédiction du mot suivant et au classement de formulations déjà validées sémantiquement. Un n-gramme compact sert de repli.
 
 ## Évaluation du petit réseau KORA
 
 Le découpage est fait par phrase : 107 phrases Common Voice sont tenues hors entraînement. Les formulations produit relues sont utilisées uniquement dans l’entraînement et ne gonflent pas les métriques de validation.
 
-- architecture : contexte de deux mots, embeddings 12, couche tanh 24;
+- architecture : contexte de deux mots, embeddings 24, couche tanh 48;
 - quantification : poids int8, biais float32;
-- taille générée : 64 Kio avec vocabulaire et métadonnées;
-- exactitude top-1 int8 : 14,0 %;
-- exactitude top-5 int8 : 31,5 %;
-- paramètres : 38 488;
+- taille générée : environ 114 Kio avec vocabulaire et métadonnées;
+- exactitude top-1 int8 : 13,4 %;
+- exactitude top-5 int8 : 32,6 %;
+- paramètres : 77 104;
 - graine reproductible : 2026.
 
 Ces résultats évaluent la prédiction du prochain mot, pas la fidélité d’une traduction. Le réseau n’a pas l’autorité d’accepter une phrase et ne peut contourner ni le verrou sémantique ni la conservation des valeurs.
@@ -46,8 +46,8 @@ npm run model:demo
 Extraits observés sur les poids embarqués :
 
 ```text
-o → ɗon, wii, wi'i
-transfeer maa → neldaama, yettaama
+o → wi'i, wii, ɗon
+transfeer maa → yettaama, neldaama
 kaalisi → gonɗi, yonaa
 Votre paiement de 25 000 FCFA a été refusé.
 → Yoɓugol maa 25 000 FCFA salaama.

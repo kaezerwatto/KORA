@@ -33,7 +33,11 @@ test("ships compact neural and n-gram fub models with a deterministic scorer", (
   assert.ok(FUB_MODEL_META.contexts > 1_000);
   assert.equal(FUB_NEURAL_META.language, "fub");
   assert.match(FUB_NEURAL_META.kind, /neural/);
-  assert.ok(FUB_NEURAL_META.parameters < 50_000);
+  assert.equal(FUB_NEURAL_META.contextSize, 2);
+  assert.equal(FUB_NEURAL_META.embeddingSize, 24);
+  assert.equal(FUB_NEURAL_META.hiddenSize, 48);
+  assert.ok(FUB_NEURAL_META.parameters > 70_000);
+  assert.ok(FUB_NEURAL_META.parameters < 100_000);
   assert.ok(FUB_NEURAL_META.top5Accuracy > FUB_NEURAL_META.top1Accuracy);
   const predictions = predictNextFub("o", 5);
   assert.equal(predictions.length, 5);

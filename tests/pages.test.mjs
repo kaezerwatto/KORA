@@ -153,8 +153,7 @@ try {
       <h2>Inject unseen content</h2>
       <p>Text rendered in the page after load. The extension must translate it without a dedicated hook.</p>
       <label for="inject-source">Inject unseen content</label>
-      <textarea id="inject-source" placeholder="e.g. An important message for customers…">hello mon frere qui est tu</textarea>
-      <p id="mixed-injection">hello mon frere qui est tu</p>
+      <textarea id="inject-source" placeholder="e.g. An important message for customers…"></textarea>
       <button>Inject</button><h3>Injected content</h3>
       <p>Trigger an error / warning</p><button>Security warning</button><button>Network error</button>
       <p>Alter canonical values</p><label>Amount</label><output>25,000 FCFA</output>
@@ -185,13 +184,28 @@ try {
   ]) {
     assert.match(juryPanel, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), expected);
   }
+  await page.$eval("#inject-source", (field) => {
+    field.value = "hello mon frere qui est tu";
+    field.title = "Network error";
+    field.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+  await page.waitForFunction(
+    () => document.querySelector("#inject-source")?.title === "Juumre reso"
+  );
+  await page.evaluate(() => {
+    const message = document.createElement("p");
+    message.id = "mixed-injection";
+    message.textContent = document.querySelector("#inject-source").value;
+    document.querySelector("#jury-panel").appendChild(message);
+  });
+  await page.waitForFunction(
+    () =>
+      document.querySelector("#mixed-injection")?.textContent ===
+      "Sannu musiɗɗo am, aan ko moy?"
+  );
   assert.equal(
     await page.$eval("#inject-source", (field) => field.value),
     "hello mon frere qui est tu"
-  );
-  assert.equal(
-    await page.$eval("#mixed-injection", (node) => node.textContent),
-    "Sannu musiɗɗo am, aan ko moy?"
   );
 
   await page.evaluate(() => {

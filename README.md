@@ -58,14 +58,15 @@ Les Shadow DOM fermés, le texte dessiné dans un `<canvas>`, les images et les 
 
 KORA embarque une base d’intelligence linguistique légère et entièrement locale :
 
-- réseau neuronal à contexte de deux mots, 38 488 paramètres, poids int8;
-- couche d’embedding de 12 dimensions et couche cachée de 24 neurones;
+- réseau neuronal à contexte de deux mots, 77 104 paramètres, poids int8;
+- couche d’embedding de 24 dimensions et couche cachée de 48 neurones;
 - entraîné sur 1 067 phrases Adamawa Fulfulde de Common Voice 27, sous licence CC0;
 - 9 368 tokens Common Voice, 243 formulations KORA relues, 1 101 mots fréquents et 1 385 contextes prédictifs;
 - prédiction neuronale du mot suivant avec repli n-gramme déterministe;
 - score de fluidité déterministe pour classer plusieurs formulations sûres;
-- validation séparée sur 107 phrases Common Voice : top-1 14,0 %, top-5 31,5 %;
-- 64 Kio de poids et vocabulaire avant minification.
+- cache local des 1 000 derniers scores pour éviter de recalculer les libellés répétés;
+- validation séparée sur 107 phrases Common Voice : top-1 13,4 %, top-5 32,6 %;
+- environ 114 Kio de poids, vocabulaire et métadonnées avant minification.
 
 Le réseau neuronal est réellement exécuté dans l’extension : chaque traduction acceptée passe par `scoreFubFluency`, qui appelle l’inférence int8, et le classement de plusieurs candidats utilise sa probabilité avec un repli n-gramme. Ce réseau n’est toutefois pas un traducteur libre : il prédit la fluidité en `fub` et ne peut ni modifier un montant, ni autoriser seul une action financière.
 
@@ -105,7 +106,7 @@ Ce petit réseau ne remplace pas un grand modèle neuronal de traduction. Sous l
 
 `npm run model:demo` exécute les poids int8 utilisés par le bundle. Les sorties reproductibles vérifient notamment :
 
-- `transfeer maa` → candidats `neldaama`, `yettaama`;
+- `transfeer maa` → candidats `yettaama`, `neldaama`;
 - `kaalisi` → candidats `gonɗi`, `yonaa`;
 - `Votre paiement de 25 000 FCFA a été refusé.` → `Yoɓugol maa 25 000 FCFA salaama.`;
 - une négation inconnue comme `Le transfert n'a pas échoué.` est conservée en français.
