@@ -19,20 +19,20 @@ def build_icon() -> Image.Image:
 
     # Use almost the full canvas: Chrome renders extension marks inside a
     # fixed-size slot, so internal padding must stay small for visual presence.
-    draw.rounded_rectangle((2, 2, 1022, 1022), radius=226, fill="#0AA37F")
-    draw.rounded_rectangle((16, 16, 1008, 1008), radius=214, outline="#DDFBF2", width=12)
+    draw.rounded_rectangle((2, 2, 1022, 1022), radius=226, fill="#0B0F14")
+    draw.rounded_rectangle((16, 16, 1008, 1008), radius=214, outline="#26313A", width=12)
 
     # First voice: an open, light speech card.
-    rounded_polygon(draw, (50, 100, 750, 560), 126, "#FFF8E7")
-    draw.polygon([(120, 520), (125, 720), (330, 548)], fill="#FFF8E7")
+    rounded_polygon(draw, (50, 100, 750, 560), 126, "#F5F2E9")
+    draw.polygon([(120, 520), (125, 720), (330, 548)], fill="#F5F2E9")
     draw.rounded_rectangle((190, 260, 620, 304), radius=22, fill="#0B1720")
     draw.rounded_rectangle((190, 362, 520, 406), radius=22, fill="#0B1720")
 
     # Second voice: Adamawa Fulfulde answer, offset and visibly connected.
-    rounded_polygon(draw, (250, 380, 974, 860), 130, "#0B1720")
-    draw.polygon([(765, 820), (875, 990), (650, 848)], fill="#0B1720")
-    draw.rounded_rectangle((410, 550, 830, 596), radius=23, fill="#DDFBF2")
-    draw.rounded_rectangle((410, 656, 730, 702), radius=23, fill="#DDFBF2")
+    rounded_polygon(draw, (250, 380, 974, 860), 130, "#16B891")
+    draw.polygon([(765, 820), (875, 990), (650, 848)], fill="#16B891")
+    draw.rounded_rectangle((410, 550, 830, 596), radius=23, fill="#071B17")
+    draw.rounded_rectangle((410, 656, 730, 702), radius=23, fill="#071B17")
 
     # The overlap forms a subtle bridge between both languages.
     draw.rounded_rectangle((315, 354, 650, 404), radius=25, fill="#F5B942")

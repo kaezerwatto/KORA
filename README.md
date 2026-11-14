@@ -8,7 +8,7 @@
 
 KORA fonctionne sans serveur de traduction, sans API distante, sans télémétrie et sans transmission du contenu des pages.
 
-Le manifest fournit des icônes optimisées en `16`, `32`, `48` et `128` pixels. La marque remplit presque tout le canevas avec un fond émeraude contrasté afin de rester visible dans le sélecteur d’extensions, dont la taille d’affichage est imposée par Chrome.
+Le manifest fournit des icônes optimisées en `16`, `32`, `48` et `128` pixels. La marque conserve son fond sombre original tout en remplissant presque tout le canevas afin de rester plus visible dans le sélecteur d’extensions, dont la taille d’affichage est imposée par Chrome.
 
 ![Popup KORA](docs/assets/kora-popup.png)
 

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "KORA — Fulfulde Adamawa",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "Traduit localement les interfaces financières du français ou de l’anglais vers le fulfulde Adamawa (fub), sans altérer les données.",
   "permissions": ["storage", "activeTab", "scripting"],
   "icons": {
