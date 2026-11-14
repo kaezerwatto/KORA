@@ -21,7 +21,8 @@ flowchart LR
         C[Content script]
         E[Engine]
         TM[Mémoires FR/EN → fub]
-        LM[Modèle n-gramme fub]
+        LM[Petit réseau neuronal fub]
+        NG[Repli n-gramme]
         S[(Préférences locales)]
     end
 
@@ -32,6 +33,7 @@ flowchart LR
     C --> E
     E --> TM
     E --> LM
+    LM --> NG
     E -->|Traduction sûre ou abstention| C
 ```
 
@@ -79,7 +81,7 @@ flowchart TD
     G -->|Oui| J
     G -->|Non| Z
     J --> H{Couverture sémantique suffisante ?}
-    H -->|Critique : 100 %| I[Score de fluidité n-gramme]
+    H -->|Critique : 100 %| I[Score neuronal + repli n-gramme]
     H -->|Non critique : ≥ 80 %| I
     H -->|Non| Z
     I --> K[Restaurer chaque valeur]
@@ -161,7 +163,7 @@ Un garde global versionné empêche l’initialisation multiple. Si une ancienne
 
 ## Petit modèle de langue
 
-Le fichier `src/fub-language-model.js` est généré par `scripts/build_fub_language_model.py`.
+`scripts/train_tiny_fub_neural.py` entraîne le réseau puis génère `src/fub-neural-model.js`. `src/neural-language-model.js` exécute ses poids int8 directement en JavaScript, sans bibliothèque d’inférence. Le n-gramme généré par `scripts/build_fub_language_model.py` reste un repli déterministe.
 
 Corpus :
 
@@ -173,17 +175,17 @@ Corpus :
 
 ```mermaid
 flowchart LR
-    A[Deux mots précédents] --> B[Trigramme]
-    C[Mot précédent] --> D[Bigramme]
-    E[Fréquence globale] --> F[Unigramme]
-    B --> G[Interpolation 72 %]
-    D --> G
+    A[Deux mots précédents] --> B[Embeddings 12 dimensions]
+    B --> C[Couche tanh 24 neurones]
+    C --> D[Distribution du mot suivant]
+    E[Trigramme, bigramme, unigramme] --> F[Repli déterministe]
+    D --> G[Fusion 85 %]
     F --> G
-    G --> H[Prédictions du mot suivant]
-    H --> I[Score de fluidité]
+    G --> H[Prédictions et score de fluidité]
+    H --> I[Classement de candidats déjà sûrs]
 ```
 
-Le modèle pèse environ 55 Kio avant minification. Il complète le moteur déterministe mais ne remplace pas un modèle neuronal de traduction générale.
+Le réseau compte 38 488 paramètres. Ses poids et son vocabulaire occupent environ 64 Kio avant minification. Sur 107 phrases Common Voice tenues hors entraînement, le modèle int8 atteint 14,0 % top-1 et 33,0 % top-5. Ces métriques modestes sont publiées sans les confondre avec une qualité de traduction : le modèle complète le moteur déterministe mais ne remplace pas un modèle neuronal de traduction générale.
 
 ## Modules
 
@@ -193,6 +195,8 @@ Le modèle pèse environ 55 Kio avant minification. Il complète le moteur déte
 - `src/general-translations.js` : web, finance, éducation et assistants;
 - `src/language-model.js` : prédiction et score de fluidité;
 - `src/fub-language-model.js` : paramètres générés;
+- `src/fub-neural-model.js` : poids neuronaux int8 générés;
+- `src/neural-language-model.js` : inférence neuronale locale;
 - `src/popup.*` : interface utilisateur;
 - `scripts/build.mjs` : bundle Chrome;
 - `scripts/package.mjs` : ZIP et dossier unpacked.
@@ -213,4 +217,4 @@ flowchart LR
     Q -->|Non| X[Échec du build]
 ```
 
-Le paquet final contient uniquement le manifest, les bundles, la popup et quatre tailles d’icône. Aucun corpus brut, modèle tiers ou dépendance de développement n’est livré.
+Le paquet final contient uniquement le manifest, les bundles incluant les petits poids KORA, la popup et quatre tailles d’icône. Aucun corpus brut, modèle tiers ni dépendance de développement n’est livré.

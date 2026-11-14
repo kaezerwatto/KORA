@@ -41,16 +41,18 @@ Le contenu ajouté après le chargement est traduit automatiquement. Sur `chrome
 
 ## Petit modèle linguistique embarqué
 
-KORA 1.3 contient une première base d’intelligence linguistique légère :
+KORA 1.4 embarque une base d’intelligence linguistique légère et entièrement locale :
 
-- modèle interpolé unigramme/bigramme/trigramme;
+- réseau neuronal à contexte de deux mots, 38 488 paramètres, poids int8;
+- couche d’embedding de 12 dimensions et couche cachée de 24 neurones;
 - entraîné sur 1 067 phrases Adamawa Fulfulde de Common Voice 27, sous licence CC0;
 - 9 368 tokens Common Voice, 208 formulations KORA relues, 1 061 mots fréquents et 1 264 contextes prédictifs;
-- prédiction du mot suivant avec repli trigramme → bigramme → unigramme;
+- prédiction neuronale du mot suivant avec repli n-gramme déterministe;
 - score de fluidité déterministe pour classer plusieurs formulations sûres;
-- environ 55 Kio avant minification, fortement compressé dans le ZIP.
+- validation séparée sur 107 phrases Common Voice : top-1 14,0 %, top-5 33,0 %;
+- 64 Kio de poids et vocabulaire avant minification.
 
-Le modèle de langue n’invente jamais le sens de la source. Il classe uniquement les traductions déjà autorisées par le moteur sémantique.
+Le réseau neuronal n’est pas un traducteur libre : il prédit la fluidité en `fub`. Il classe uniquement les traductions déjà autorisées par le moteur sémantique. Il ne peut donc ni modifier un montant, ni inventer une action financière.
 
 ```mermaid
 flowchart LR
@@ -75,13 +77,14 @@ flowchart TB
     P[Popup KORA] -->|Activer ou choisir FUB/FR/EN| C[Content script]
     C --> T[Engine de traduction]
     T --> M[Mémoires FR/EN vers fub]
-    T --> N[Petit modèle n-gramme fub]
+    T --> N[Petit réseau neuronal fub]
+    N --> G[Repli n-gramme]
     C --> O[MutationObserver]
     O -->|Nouveau contenu| C
     C --> R[Page web existante]
 ```
 
-Un petit n-gramme ne remplace pas un grand modèle neuronal de traduction. Sous la contrainte de 10 Mio et sans corpus parallèle `fub` suffisamment large et validé, cette architecture hybride est plus sûre qu’un modèle génératif miniature qui produirait des contresens.
+Ce petit réseau ne remplace pas un grand modèle neuronal de traduction. Sous la contrainte de 10 Mio et sans corpus parallèle `fub` suffisamment large et validé, son rôle limité de classement est plus sûr qu’un modèle génératif miniature susceptible de produire des contresens.
 
 ## Intégrité et confidentialité
 
@@ -108,12 +111,13 @@ Dans un `<select>`, seul le libellé visible d’une option est traduit. Sa prop
 
 ## Développement
 
-Prérequis : Node.js 20+, Python 3 et Google Chrome.
+Prérequis : Node.js 20+, Python 3 et Google Chrome. Le réentraînement optionnel du réseau demande un environnement `.venv` avec PyTorch et NumPy; les poids générés sont déjà versionnés pour construire l’extension sans PyTorch.
 
 ```bash
 npm install
 npm run build:icons
 npm run build:model
+npm run model:train
 npm run model:demo
 npm test
 npm run test:popup
@@ -152,10 +156,13 @@ src/
   translations.js            mémoire Safinum relue
   general-translations.js    phrasebook financier général
   fub-language-model.js      modèle n-gramme compact généré
-  language-model.js          prédiction et score de fluidité
+  fub-neural-model.js        poids neuronaux int8 générés
+  neural-language-model.js   inférence neuronale JavaScript
+  language-model.js          fusion neuronale et repli n-gramme
   popup.*                    interface dark et sélecteur FUB/FR/EN
 scripts/
   build_fub_language_model.py
+  train_tiny_fub_neural.py
   generate_icons.py
   model_demo.mjs
   build.mjs
@@ -184,9 +191,13 @@ PanLex et le dictionnaire SIL complet ne sont pas redistribués : leurs conditio
 - **BELL AQIL**
 - **SIMO SIGEU NKOUAMKAM MENELIK**
 
+## Validation linguistique
+
+- **M. JEAN ERNSET SOUROUMBAI** — validateur linguistique déclaré.
+
 ## Limites
 
-KORA est un prototype avancé, pas encore un dispositif bancaire certifié. Avant un déploiement public, les traductions critiques doivent être relues à l’aveugle par au moins deux locuteurs `fub` de l’Adamaoua, avec publication du taux d’abstention et des résultats de compréhension.
+KORA est une extension fonctionnelle, mais pas un dispositif bancaire certifié. Avant un déploiement public, les traductions critiques doivent être relues à l’aveugle par au moins deux locuteurs `fub` de l’Adamaoua, avec publication du taux d’abstention et des résultats de compréhension.
 
 ## Licence
 

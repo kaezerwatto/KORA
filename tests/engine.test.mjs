@@ -10,6 +10,7 @@ import {
 } from "../src/engine.js";
 import {
   FUB_MODEL_META,
+  FUB_NEURAL_META,
   predictNextFub,
   rankFubCandidates,
   scoreFubFluency
@@ -24,12 +25,16 @@ test("detects both source languages", () => {
   assert.equal(detectSource("Check the fees before confirming."), "en");
 });
 
-test("ships a compact fub next-word model and deterministic fluency scorer", () => {
+test("ships compact neural and n-gram fub models with a deterministic scorer", () => {
   assert.equal(FUB_MODEL_META.language, "fub");
   assert.match(FUB_MODEL_META.license, /CC0/);
   assert.equal(FUB_MODEL_META.sentences, 1067);
   assert.ok(FUB_MODEL_META.reviewedPhrases > 190);
   assert.ok(FUB_MODEL_META.contexts > 1_000);
+  assert.equal(FUB_NEURAL_META.language, "fub");
+  assert.match(FUB_NEURAL_META.kind, /neural/);
+  assert.ok(FUB_NEURAL_META.parameters < 50_000);
+  assert.ok(FUB_NEURAL_META.top5Accuracy > FUB_NEURAL_META.top1Accuracy);
   const predictions = predictNextFub("o", 5);
   assert.equal(predictions.length, 5);
   assert.ok(predictions.some(({ word }) => word === "wii" || word === "wi'i"));

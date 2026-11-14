@@ -1,12 +1,13 @@
 {
   "name": "kora",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "KORA — traduction financière locale français/anglais vers fulfulde Adamawa (fub)",
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
     "build:icons": "python3 scripts/generate_icons.py",
     "build:model": "python3 scripts/build_fub_language_model.py",
+    "model:train": ".venv/bin/python scripts/train_tiny_fub_neural.py",
     "model:demo": "node scripts/model_demo.mjs",
     "test": "node --test tests/engine.test.mjs",
     "test:popup": "npm run build && node tests/popup.test.mjs",
@@ -15,7 +16,13 @@
     "test:all": "npm test && npm run test:popup && npm run test:pages && npm run test:live",
     "package": "npm run build && node scripts/package.mjs"
   },
-  "keywords": ["chrome-extension", "fulfulde", "fub", "translation", "fintech"],
+  "keywords": [
+    "chrome-extension",
+    "fulfulde",
+    "fub",
+    "translation",
+    "fintech"
+  ],
   "author": "KORA",
   "license": "MIT",
   "devDependencies": {

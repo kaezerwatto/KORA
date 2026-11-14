@@ -3,6 +3,11 @@ import {
   FUB_TRANSITIONS,
   FUB_UNIGRAMS
 } from "./fub-language-model.js";
+import {
+  FUB_NEURAL_META,
+  predictNextNeuralFub,
+  scoreNeuralFub
+} from "./neural-language-model.js";
 
 const unigramCounts = new Map(FUB_UNIGRAMS);
 const unigramTotal = FUB_UNIGRAMS.reduce((total, [, count]) => total + count, 0);
@@ -31,7 +36,7 @@ function addDistribution(scores, distribution, weight) {
   }
 }
 
-export function predictNextFub(context, limit = 5) {
+function predictNextNgramFub(context, limit = 5) {
   const tokens = ["<s>", "<s>", ...tokenizeFub(context)];
   const last = tokens.at(-1);
   const previous = tokens.at(-2);
@@ -45,6 +50,27 @@ export function predictNextFub(context, limit = 5) {
 
   const ranked = [...scores.entries()]
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "ff"))
+    .slice(0, Math.max(1, limit));
+  const total = ranked.reduce((sum, [, score]) => sum + score, 0) || 1;
+  return ranked.map(([word, score]) => ({
+    word,
+    probability: Math.round((score / total) * 10_000) / 10_000
+  }));
+}
+
+export function predictNextFub(context, limit = 5) {
+  const scores = new Map();
+  for (const prediction of predictNextNeuralFub(context, Math.max(12, limit))) {
+    scores.set(prediction.word, 0.85 * prediction.probability);
+  }
+  for (const prediction of predictNextNgramFub(context, Math.max(12, limit))) {
+    scores.set(
+      prediction.word,
+      (scores.get(prediction.word) ?? 0) + 0.15 * prediction.probability
+    );
+  }
+  const ranked = [...scores.entries()]
+    .sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0], "ff"))
     .slice(0, Math.max(1, limit));
   const total = ranked.reduce((sum, [, score]) => sum + score, 0) || 1;
   return ranked.map(([word, score]) => ({
@@ -75,7 +101,7 @@ function probabilityFor(tokens, index) {
   );
 }
 
-export function scoreFubFluency(text) {
+function scoreNgramFubFluency(text) {
   const words = tokenizeFub(text);
   if (!words.length) return 0;
   const tokens = ["<s>", "<s>", ...words, "</s>"];
@@ -87,10 +113,16 @@ export function scoreFubFluency(text) {
   return Math.round(geometricMean * 1_000_000) / 1_000_000;
 }
 
+export function scoreFubFluency(text) {
+  const neural = Math.max(1e-9, scoreNeuralFub(text));
+  const ngram = Math.max(1e-9, scoreNgramFubFluency(text));
+  return Math.round(Math.exp(0.8 * Math.log(neural) + 0.2 * Math.log(ngram)) * 1e6) / 1e6;
+}
+
 export function rankFubCandidates(candidates) {
   return [...new Set(candidates)]
     .map((text) => ({ text, fluency: scoreFubFluency(text) }))
     .sort((a, b) => b.fluency - a.fluency || a.text.localeCompare(b.text, "ff"));
 }
 
-export { FUB_MODEL_META };
+export { FUB_MODEL_META, FUB_NEURAL_META };

@@ -2,7 +2,7 @@ import { translateText } from "./engine.js";
 
 const shouldInitialize = !globalThis.__KORA_CONTENT_INITIALIZED__;
 if (shouldInitialize) globalThis.__KORA_CONTENT_INITIALIZED__ = true;
-const PROTOCOL_VERSION = 4;
+const PROTOCOL_VERSION = 5;
 const SKIP_TAGS = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "CODE", "PRE", "SVG", "CANVAS", "IFRAME"]);
 const records = new Map();
 const attributeRecords = new Map();
@@ -238,10 +238,32 @@ function normalizeUiLabel(value) {
     .toLocaleLowerCase("fr");
 }
 
+const LANGUAGE_ALIASES = Object.freeze({
+  fr: new Set(["fr", "français", "french"]),
+  en: new Set(["en", "english", "anglais"])
+});
+
+function languageForLabel(value) {
+  const label = normalizeUiLabel(value);
+  for (const [language, aliases] of Object.entries(LANGUAGE_ALIASES)) {
+    if (aliases.has(label)) return language;
+  }
+  return null;
+}
+
+function originalControlText(control) {
+  const walker = document.createTreeWalker(control, NodeFilter.SHOW_TEXT);
+  const parts = [];
+  let node;
+  while ((node = walker.nextNode())) {
+    parts.push(records.get(node)?.original ?? node.nodeValue ?? "");
+  }
+  return parts.join(" ");
+}
+
 function switchNativeLanguage(language) {
-  const aliases = language === "fr"
-    ? new Set(["fr", "français", "french"])
-    : new Set(["en", "english", "anglais"]);
+  const aliases = LANGUAGE_ALIASES[language];
+  if (!aliases) return false;
 
   for (const select of document.querySelectorAll("select")) {
     const option = [...select.options].find((item) =>
@@ -268,6 +290,37 @@ function switchNativeLanguage(language) {
     return true;
   }
   return false;
+}
+
+function handleNativeLanguageSelection(event) {
+  const target = event.target;
+  let language = null;
+  if (target instanceof HTMLSelectElement) {
+    language = languageForLabel(target.selectedOptions[0]?.textContent) ??
+      languageForLabel(target.value);
+  } else if (target instanceof Element) {
+    const control = target.closest("button, a, [role='button']");
+    if (control) {
+      language = languageForLabel(control.textContent) ??
+        languageForLabel(originalControlText(control)) ??
+        languageForLabel(control.getAttribute("aria-label")) ??
+        languageForLabel(control.getAttribute("title"));
+    }
+  }
+  if (!language || (!enabled && displayLanguage === language)) return;
+
+  // Let the site's own event pipeline finish before touching extension
+  // storage or translated nodes. Some frameworks synchronously inspect the
+  // clicked control until dispatch has fully returned.
+  setTimeout(() => {
+    enabled = false;
+    displayLanguage = language;
+    chrome.storage.local.set({
+      koraEnabled: false,
+      koraDisplayLanguage: language
+    });
+    restore();
+  }, 0);
 }
 
 async function loadPreferences() {
@@ -360,6 +413,8 @@ async function initialize() {
   registerMessageListener();
   startObserver();
   if (enabled) scan();
+  document.addEventListener("click", handleNativeLanguageSelection, true);
+  document.addEventListener("change", handleNativeLanguageSelection, true);
   for (const eventName of ["click", "change", "input"]) {
     document.addEventListener(eventName, scheduleScan, true);
   }

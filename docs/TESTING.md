@@ -13,7 +13,7 @@
 - contenu financier inédit traité par gabarit ou glossaire.
 - formes Adamawa corrigées (`-go`, `yonaa`);
 - intentions financières générales et seuil de confiance.
-- modèle `fub` de prédiction du mot suivant et score de fluidité déterministe;
+- petit réseau neuronal `fub` quantifié, prédiction du mot suivant, score de fluidité et repli n-gramme;
 - popup dark avec interrupteur et sélecteur FUB/FR/EN;
 - restauration réelle FR/EN et retour vers Fulfulde via les messages d’extension;
 - traduction du libellé d’une option sans modification de sa valeur technique.
@@ -47,4 +47,4 @@ LIVE PASS: English source switched and translated to the same fub interface.
 
 ## Taille
 
-`npm run package` produit aussi `release/kora-unpacked`, directement chargeable dans Chrome, et échoue au-delà de 10 Mio. Le ZIP actuel mesure environ 45 Kio.
+`npm run package` produit aussi `release/kora-unpacked`, directement chargeable dans Chrome, et échoue au-delà de 10 Mio. Le ZIP KORA 1.4 mesure 91,7 Kio.

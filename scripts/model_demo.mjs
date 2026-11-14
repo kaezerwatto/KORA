@@ -1,6 +1,7 @@
 import { translateText } from "../src/engine.js";
 import {
   FUB_MODEL_META,
+  FUB_NEURAL_META,
   predictNextFub,
   scoreFubFluency
 } from "../src/language-model.js";
@@ -10,8 +11,8 @@ const prompts = contexts.length
   ? contexts
   : ["o", "mi ɗon", "transfeer maa", "kaalisi", "jaɓoowo"];
 
-console.log("KORA FUB language model");
-console.log(FUB_MODEL_META);
+console.log("KORA FUB hybrid language model");
+console.log({ neural: FUB_NEURAL_META, fallback: FUB_MODEL_META });
 for (const context of prompts) {
   console.log(`\n${context} →`, predictNextFub(context, 5));
 }

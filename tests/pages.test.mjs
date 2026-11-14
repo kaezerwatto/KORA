@@ -91,7 +91,7 @@ try {
   }, language);
   };
 
-  await displayLanguage("fr");
+  await page.$eval("#switch-fr", (control) => control.click());
   await page.waitForFunction(() => document.documentElement.dataset.siteLanguage === "fr");
   assert.match(await page.evaluate(() => document.body.innerText), /Bonjour, Mariama Bello/);
   assert.equal(await page.evaluate(() => document.documentElement.dataset.koraActive), undefined);
@@ -99,6 +99,12 @@ try {
   await displayLanguage("fub");
   await page.waitForFunction(() => document.documentElement.dataset.koraActive === "true");
   assert.match(await page.evaluate(() => document.body.innerText), /Sannu, Mariama Bello/);
+
+  await displayLanguage("en");
+  await page.waitForFunction(() => document.documentElement.dataset.siteLanguage === "en");
+  assert.match(await page.evaluate(() => document.body.innerText), /Bonjour, Mariama Bello/);
+  await displayLanguage("fub");
+  await page.waitForFunction(() => document.documentElement.dataset.koraActive === "true");
 
   await page.evaluate(() => {
     const message = document.createElement("p");
@@ -125,7 +131,7 @@ try {
   assert.equal(await page.$eval("#bank option", (option) => option.value), "other-bank");
   assert.equal(await page.$eval("#bank option", (option) => option.textContent), "Baŋki goɗɗo");
 
-  await displayLanguage("en");
+  await page.$eval("#switch-en", (control) => control.click());
   await page.waitForFunction(() => document.documentElement.dataset.siteLanguage === "en");
   assert.match(await page.evaluate(() => document.body.innerText), /Hello, Fatou Ndiaye/);
   await displayLanguage("fub");

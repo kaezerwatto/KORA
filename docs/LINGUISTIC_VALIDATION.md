@@ -4,6 +4,10 @@
 
 KORA cible le fulfulde de l’Adamaoua, ISO 639-3 `fub`, écrit en caractères latins avec `ɓ`, `ɗ`, `ƴ`, `ŋ` et `ɲ`. Les corpus `ff`, `fuv`, `fuf` et `ffm` ne sont pas fusionnés silencieusement avec `fub`.
 
+## Validateur déclaré
+
+**M. Jean Ernset Souroumbai** est le validateur linguistique déclaré du projet. Une formulation n’est toutefois marquée comme validée dans les données qu’après une revue explicite; son nom ne remplace pas la traçabilité phrase par phrase.
+
 ## Sources prioritaires
 
 1. H. Tourneux et G. H. Konaï, *L’impact de la téléphonie mobile sur le fulfulde du Cameroun septentrional*, CC BY 4.0 — vocabulaire mobile et transferts d’argent local.

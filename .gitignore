@@ -3,4 +3,6 @@ node_modules/
 .models/
 dist/
 test-results/
+__pycache__/
+*.pyc
 *.log

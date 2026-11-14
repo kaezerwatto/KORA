@@ -18,6 +18,7 @@ const browser = await puppeteer.launch({
     "--disable-dev-shm-usage"
   ]
 });
+const extensionId = await browser.installExtension(extensionPath);
 
 async function waitForKora(page) {
   try {
@@ -157,6 +158,22 @@ try {
       break;
     }
   }
+  await second.waitForFunction(
+    () =>
+      document.body.innerText.includes("Make a transfer") &&
+      document.documentElement.dataset.koraActive !== "true",
+    { timeout: 10_000 }
+  );
+  const extensionPage = await browser.newPage();
+  await extensionPage.goto(`chrome-extension://${extensionId}/popup.html`, { waitUntil: "load" });
+  await second.bringToFront();
+  await extensionPage.evaluate(async () => {
+    const [target] = await chrome.tabs.query({ active: true, currentWindow: true });
+    return chrome.tabs.sendMessage(target.id, {
+      type: "KORA_DISPLAY_LANGUAGE",
+      language: "fub"
+    });
+  });
   await second.waitForFunction(() => [...document.querySelectorAll("[data-kora-original]")].some((node) => node.dataset.koraOriginal === "Make a transfer"), { timeout: 10_000 });
   const english = await second.evaluate(() => document.body.innerText);
   assert.match(english, /Waɗugo transfeer/);

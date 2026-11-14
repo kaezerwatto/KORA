@@ -4,14 +4,28 @@ Date : 14 novembre 2026. Machine : CPU, 8 Go de RAM, sans GPU.
 
 ## Contrainte de livraison
 
-Le paquet Chrome doit rester inférieur à 10 Mo et le protocole interdit de collecter, stocker ou transmettre les données affichées. Aucun modèle neuronal utilisable ne tient dans cette limite :
+Le paquet Chrome doit rester inférieur à 10 Mo et le protocole interdit de collecter, stocker ou transmettre les données affichées. Aucun modèle neuronal de traduction générale évalué ne tient dans cette limite :
 
 - Flagship `francais-fufulde` int8 : environ 78 Mo.
 - DS4H `linguo_mt_en_fub` : environ 312 Mo en FP32.
 - NLLB-200 600M ONNX quantifié : environ 895 Mo et cible `fuv`, pas `fub`.
 - M2M-100 quantifié : environ 632 Mo et cible le macrocode `ff`.
 
-Les modèles neuronaux ont donc été utilisés seulement hors extension, sur cinq phrases publiques, comme outils de comparaison. KORA livré n’emploie aucun proxy ni service distant. Il embarque uniquement un n-gramme `fub` compact entraîné sur Common Voice CC0 et la mémoire KORA relue pour prédire le mot suivant et classer les formulations déjà validées sémantiquement.
+Les grands modèles neuronaux ont donc été utilisés seulement hors extension, sur cinq phrases publiques, comme outils de comparaison. KORA livré n’emploie aucun proxy ni service distant. Il embarque son propre réseau neuronal `fub` de 38 488 paramètres, limité à la prédiction du mot suivant et au classement de formulations déjà validées sémantiquement. Un n-gramme compact sert de repli.
+
+## Évaluation du petit réseau KORA
+
+Le découpage est fait par phrase : 107 phrases Common Voice sont tenues hors entraînement. Les formulations produit relues sont utilisées uniquement dans l’entraînement et ne gonflent pas les métriques de validation.
+
+- architecture : contexte de deux mots, embeddings 12, couche tanh 24;
+- quantification : poids int8, biais float32;
+- taille générée : 64 Kio avec vocabulaire et métadonnées;
+- exactitude top-1 int8 : 14,0 %;
+- exactitude top-5 int8 : 33,0 %;
+- paramètres : 38 488;
+- graine reproductible : 2026.
+
+Ces résultats évaluent la prédiction du prochain mot, pas la fidélité d’une traduction. Le réseau n’a pas l’autorité d’accepter une phrase et ne peut contourner ni le verrou sémantique ni la conservation des valeurs.
 
 ## Comparaison sur cinq actions critiques
 
@@ -45,11 +59,12 @@ Une mémoire publique a fourni des candidats grammaticalement plus cohérents, m
 
 ## Choix final
 
-La solution sous 10 Mo la plus sûre est déterministe :
+La solution sous 10 Mo la plus sûre reste déterministe pour le sens, avec un classement neuronal pour la fluidité :
 
 1. mémoires FR/EN → FUB pour Safinum et les intentions web/financières courantes;
 2. gabarits qui protègent les valeurs variables;
 3. glossaire compositionnel exigeant 100 % de couverture pour le contenu financier critique et 80 % pour le reste;
-4. conservation de l’original si la confiance ou l’intégrité est insuffisante.
+4. classement neuronal, puis repli n-gramme, des seuls candidats déjà sûrs;
+5. conservation de l’original si la confiance ou l’intégrité est insuffisante.
 
 Ce choix privilégie l’intégrité et l’absence de contresens plutôt qu’une couverture artificielle produite par un modèle non fiable.
