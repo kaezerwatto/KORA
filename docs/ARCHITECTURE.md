@@ -168,10 +168,10 @@ Un garde global versionné empêche l’initialisation multiple. Si une ancienne
 Corpus :
 
 - 1 067 phrases Common Voice 27 `fub`, CC0;
-- 208 formulations KORA relues;
+- 242 formulations KORA relues;
 - 9 368 tokens Common Voice;
-- 1 061 mots fréquents;
-- 1 264 contextes prédictifs.
+- 1 098 mots fréquents;
+- 1 375 contextes prédictifs.
 
 ```mermaid
 flowchart LR
@@ -185,7 +185,7 @@ flowchart LR
     H --> I[Classement de candidats déjà sûrs]
 ```
 
-Le réseau compte 38 488 paramètres. Ses poids et son vocabulaire occupent environ 64 Kio avant minification. Sur 107 phrases Common Voice tenues hors entraînement, le modèle int8 atteint 14,0 % top-1 et 33,0 % top-5. Ces métriques modestes sont publiées sans les confondre avec une qualité de traduction : le modèle complète le moteur déterministe mais ne remplace pas un modèle neuronal de traduction générale.
+Le réseau compte 38 488 paramètres. Ses poids et son vocabulaire occupent environ 64 Kio avant minification. Sur 107 phrases Common Voice tenues hors entraînement, le modèle int8 atteint 13,7 % top-1 et 31,6 % top-5. Ces métriques modestes sont publiées sans les confondre avec une qualité de traduction : le modèle complète le moteur déterministe mais ne remplace pas un modèle neuronal de traduction générale.
 
 ## Modules
 

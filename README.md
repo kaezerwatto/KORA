@@ -41,15 +41,15 @@ Le contenu ajouté après le chargement est traduit automatiquement. Sur `chrome
 
 ## Petit modèle linguistique embarqué
 
-KORA 1.4 embarque une base d’intelligence linguistique légère et entièrement locale :
+KORA 1.4.1 embarque une base d’intelligence linguistique légère et entièrement locale :
 
 - réseau neuronal à contexte de deux mots, 38 488 paramètres, poids int8;
 - couche d’embedding de 12 dimensions et couche cachée de 24 neurones;
 - entraîné sur 1 067 phrases Adamawa Fulfulde de Common Voice 27, sous licence CC0;
-- 9 368 tokens Common Voice, 208 formulations KORA relues, 1 061 mots fréquents et 1 264 contextes prédictifs;
+- 9 368 tokens Common Voice, 242 formulations KORA relues, 1 098 mots fréquents et 1 375 contextes prédictifs;
 - prédiction neuronale du mot suivant avec repli n-gramme déterministe;
 - score de fluidité déterministe pour classer plusieurs formulations sûres;
-- validation séparée sur 107 phrases Common Voice : top-1 14,0 %, top-5 33,0 %;
+- validation séparée sur 107 phrases Common Voice : top-1 13,7 %, top-5 31,6 %;
 - 64 Kio de poids et vocabulaire avant minification.
 
 Le réseau neuronal n’est pas un traducteur libre : il prédit la fluidité en `fub`. Il classe uniquement les traductions déjà autorisées par le moteur sémantique. Il ne peut donc ni modifier un montant, ni inventer une action financière.
@@ -104,6 +104,7 @@ Dans un `<select>`, seul le libellé visible d’une option est traduit. Sa prop
 
 - parcours Safinum : tableau de bord, frais, bénéficiaire, récapitulatif et reçu;
 - erreurs et alertes de sécurité;
+- panneau jury, contenu injecté et journaux de contrôle financier;
 - authentification, code OTP/PIN et session;
 - carte, paiement, dépôt, retrait et transfert;
 - compte, historique, relevé, crédit, prêt et remboursement;

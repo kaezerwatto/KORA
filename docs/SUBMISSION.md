@@ -17,10 +17,11 @@ KORA couvre le parcours complet Safinum Pay, ses erreurs et ses alertes. Elle d�
 - analyse générique du DOM d’une page non modifiée;
 - verrou local des données financières;
 - moteur bilingue FR/EN → FUB déterministe;
+- petit réseau neuronal `fub` int8 pour classer la fluidité des formulations sûres;
 - traduction dynamique idempotente compatible avec Vue;
 - retour instantané au texte original;
 - interface accessible et lecture optionnelle;
-- tests automatisés sur l’environnement Safinum réel.
+- tests automatisés sur l’environnement Safinum réel, son panneau jury et ses journaux financiers.
 
 ## Confidentialité
 
@@ -28,7 +29,7 @@ KORA n’utilise aucun serveur de traduction. Le paquet ne contient aucun traceu
 
 ## Faisabilité
 
-- archive KORA 1.4 : 91,7 Kio;
+- archive KORA 1.4.1 : 94,3 Kio;
 - matériel : tout ordinateur exécutant Chrome;
 - réseau : nécessaire uniquement pour ouvrir le service financier;
 - installation : extension non empaquetée en moins d’une minute;

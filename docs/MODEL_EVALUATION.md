@@ -20,8 +20,8 @@ Le découpage est fait par phrase : 107 phrases Common Voice sont tenues hors en
 - architecture : contexte de deux mots, embeddings 12, couche tanh 24;
 - quantification : poids int8, biais float32;
 - taille générée : 64 Kio avec vocabulaire et métadonnées;
-- exactitude top-1 int8 : 14,0 %;
-- exactitude top-5 int8 : 33,0 %;
+- exactitude top-1 int8 : 13,7 %;
+- exactitude top-5 int8 : 31,6 %;
 - paramètres : 38 488;
 - graine reproductible : 2026.
 

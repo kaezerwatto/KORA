@@ -2,7 +2,7 @@ import { translateText } from "./engine.js";
 
 const shouldInitialize = !globalThis.__KORA_CONTENT_INITIALIZED__;
 if (shouldInitialize) globalThis.__KORA_CONTENT_INITIALIZED__ = true;
-const PROTOCOL_VERSION = 5;
+const PROTOCOL_VERSION = 6;
 const SKIP_TAGS = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "CODE", "PRE", "SVG", "CANVAS", "IFRAME"]);
 const records = new Map();
 const attributeRecords = new Map();
@@ -53,9 +53,12 @@ function translateNode(node, protectedList) {
   stats.scanned += 1;
   const option = node.parentElement?.tagName === "OPTION" ? node.parentElement : null;
   const optionValue = option?.value;
+  const textProtectedValues = option
+    ? protectedList.filter((value) => value !== optionValue)
+    : protectedList;
   const result = translateText(current, {
     sourceHint: pageSourceHint(),
-    protectedValues: protectedList
+    protectedValues: textProtectedValues
   });
 
   if (!result.changed) {

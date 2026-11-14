@@ -187,6 +187,65 @@ test("covers common financial and web intents beyond Safinum", () => {
   }
 });
 
+test("covers injected test controls and financial audit labels", () => {
+  const englishCases = [
+    ["Inject unseen content", "Naatnu loowdi ndi anndaaka"],
+    ["Injected content", "Loowdi naatnaandi"],
+    ["Control", "Ƴeewtagol"],
+    ["Submissions", "Naatnaaɗe"],
+    ["Coverage", "Keɓagol firo"],
+    ["Trigger an error / warning", "Fuɗɗin juumre / jeertina"],
+    ["Trigger an error / alert", "Fuɗɗin juumre / jeertina"],
+    ["Security warning", "Jeertina kisal"],
+    ["Network error", "Juumre reso"],
+    ["Alter canonical values", "Waylu kiɗɗe tabitiiɗe"],
+    ["Apply", "Huutin"],
+    ["Verify current step now", "Ƴeewto taƴre jooni"],
+    ["Verify step now", "Ƴeewto taƴre jooni"],
+    ["Reset test", "Fuɗɗito ƴeewndo"],
+    ["Alert / error", "Jeertina / juumre"],
+    ["Fee consultation", "Ƴeewtagol musakaaji"],
+    ["Intact", "Waylaaka"],
+    ["Code", "Kod"],
+    ["Detail", "Humpito"],
+    ["Reason", "Sabaabu"],
+    ["Note", "Tesko"],
+    ["Verified", "Ƴeewtaama"]
+  ];
+  for (const [source, expected] of englishCases) {
+    assert.equal(translateText(source, { sourceHint: "en" }).text, expected, source);
+  }
+  assert.equal(
+    translateText("tu dois tout teter avec l'argent").text,
+    "A foti ƴeewtugo fuu bee kaalisi."
+  );
+  for (const canonical of [
+    "NETWORK_001",
+    "25,000 FCFA",
+    "SAF-2026-IDRSAO",
+    "+237 6 99 12 34 56",
+    "Jean-Paul Mbarga"
+  ]) {
+    assert.equal(translateText(canonical).text, canonical);
+  }
+  const auditLines = [
+    ["reference: SAF-2026-IDRSAO", "Referans: SAF-2026-IDRSAO"],
+    ["amount: 25000", "Jate kaalisi: 25000"],
+    ["beneficiary: Jean-Paul Mbarga", "Jaɓoowo: Jean-Paul Mbarga"],
+    ["phone: +237 6 99 12 34 56", "Telefon: +237 6 99 12 34 56"],
+    ["reason: Paiement de services", "Sabaabu: Paiement de services"],
+    ["note:", "Tesko:"],
+    ["verified: true", "Ƴeewtaama: true"],
+    ["operation: other_bank", "Transaksiyon: other_bank"],
+    ["code: NETWORK_001", "Kod: NETWORK_001"]
+  ];
+  for (const [source, expected] of auditLines) {
+    const result = translateText(source);
+    assert.equal(result.text, expected, source);
+    assert.equal(preservesSensitive(source, result.text), true, source);
+  }
+});
+
 test("general templates preserve unexpected financial values byte-for-byte", () => {
   const pairs = [
     ["Vous avez reçu 13 725 FCFA.", "A jaɓii 13 725 FCFA."],

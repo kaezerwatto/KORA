@@ -23,12 +23,13 @@
 `npm run test:live` :
 
 1. lance Google Chrome avec l’extension unpacked;
-2. ouvre `https://safinum.cm/hackathon-test`;
-3. vérifie le tableau de bord et les valeurs canoniques;
-4. injecte après chargement « Votre transfert de 9 500 FCFA est en attente. »;
-5. parcourt les cinq étapes jusqu’au reçu;
-6. contrôle nom, téléphone, montants et référence;
-7. ouvre une seconde page, bascule Safinum en anglais et confirme la traduction vers le même `fub`.
+2. ouvre `https://safinum.cm/hackathon-test?jury=1`;
+3. vérifie le panneau jury, ses contrôles et son contenu dynamique;
+4. vérifie le tableau de bord et les valeurs canoniques;
+5. injecte après chargement « Votre transfert de 9 500 FCFA est en attente. »;
+6. parcourt les cinq étapes jusqu’au reçu;
+7. contrôle nom, téléphone, montants, référence et journal des soumissions;
+8. ouvre une seconde page, bascule Safinum en anglais et confirme la traduction vers le même `fub`.
 
 Résultat de référence :
 
@@ -47,4 +48,4 @@ LIVE PASS: English source switched and translated to the same fub interface.
 
 ## Taille
 
-`npm run package` produit aussi `release/kora-unpacked`, directement chargeable dans Chrome, et échoue au-delà de 10 Mio. Le ZIP KORA 1.4 mesure 91,7 Kio.
+`npm run package` produit aussi `release/kora-unpacked`, directement chargeable dans Chrome, et échoue au-delà de 10 Mio. Le ZIP KORA 1.4.1 mesure 94,3 Kio.

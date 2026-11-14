@@ -28,6 +28,7 @@ EMBEDDING_SIZE = 12
 HIDDEN_SIZE = 24
 EPOCHS = 35
 BATCH_SIZE = 256
+REVIEWED_WEIGHT = 3
 
 
 class TinyContextModel(nn.Module):
@@ -126,7 +127,9 @@ def main() -> None:
     validation_sentences = [common_voice[index] for index in sentence_indices[split:]]
     # Reviewed product language receives extra training weight and is never
     # counted in the held-out Common Voice metrics.
-    train_contexts, train_targets = examples([*train_sentences, *(reviewed * 4)], word_to_id)
+    train_contexts, train_targets = examples(
+        [*train_sentences, *(reviewed * REVIEWED_WEIGHT)], word_to_id
+    )
     validation_contexts, validation_targets = examples(validation_sentences, word_to_id)
     train_data = TensorDataset(train_contexts, train_targets)
 

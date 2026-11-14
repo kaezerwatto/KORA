@@ -33,6 +33,7 @@ const pages = {
     <section><h2>Academic library</h2><a>Frequently asked questions</a></section>
     <aside><button>New chat</button><button>Send message</button></aside>
     <select id="bank"><option value="other-bank">Other bank</option><option value="mobile-money">Mobile Money</option></select>
+    <select id="reason"><option value="Payment for services">Payment for services</option></select>
     <input value="Fatou Ndiaye"><p id="customer">Fatou Ndiaye</p>
     <script>
       document.querySelector('#switch-fr').onclick = () => document.documentElement.dataset.siteLanguage = 'fr';
@@ -130,6 +131,46 @@ try {
   assert.equal(await page.$eval("#bank", (select) => select.value), "other-bank");
   assert.equal(await page.$eval("#bank option", (option) => option.value), "other-bank");
   assert.equal(await page.$eval("#bank option", (option) => option.textContent), "Baŋki goɗɗo");
+  assert.equal(await page.$eval("#reason", (select) => select.value), "Payment for services");
+  assert.equal(await page.$eval("#reason option", (option) => option.value), "Payment for services");
+  assert.equal(await page.$eval("#reason option", (option) => option.textContent), "Yoɓugo golle");
+
+  await page.evaluate(() => {
+    const panel = document.createElement("section");
+    panel.id = "jury-panel";
+    panel.innerHTML = `
+      <h2>Inject unseen content</h2>
+      <p>Text rendered in the page after load. The extension must translate it without a dedicated hook.</p>
+      <button>Inject</button><h3>Injected content</h3>
+      <p>Trigger an error / warning</p><button>Security warning</button><button>Network error</button>
+      <p>Alter canonical values</p><label>Amount</label><output>25,000 FCFA</output>
+      <label>Beneficiary</label><output>Jean-Paul Mbarga</output>
+      <label>Code</label><output>NETWORK_001</output><button>Apply</button>
+      <button>Verify current step now</button><button>Reset test</button>
+      <h3>Alert / error</h3><p>Intact</p><button>Detail</button><p>Fee consultation</p>`;
+    document.body.appendChild(panel);
+  });
+  await page.waitForFunction(
+    () =>
+      document.querySelector("#jury-panel")?.innerText.includes("Naatnu loowdi ndi anndaaka") &&
+      document.querySelector("#jury-panel")?.innerText.includes("Waylu kiɗɗe tabitiiɗe")
+  );
+  const juryPanel = await page.$eval("#jury-panel", (node) => node.innerText);
+  for (const expected of [
+    "Fuɗɗin juumre / jeertina",
+    "Jeertina kisal",
+    "Juumre reso",
+    "25,000 FCFA",
+    "Jean-Paul Mbarga",
+    "NETWORK_001",
+    "Huutin",
+    "Ƴeewto taƴre jooni",
+    "Fuɗɗito ƴeewndo",
+    "Waylaaka",
+    "Ƴeewtagol musakaaji"
+  ]) {
+    assert.match(juryPanel, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), expected);
+  }
 
   await page.$eval("#switch-en", (control) => control.click());
   await page.waitForFunction(() => document.documentElement.dataset.siteLanguage === "en");

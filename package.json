@@ -1,6 +1,6 @@
 {
   "name": "kora",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "KORA — traduction financière locale français/anglais vers fulfulde Adamawa (fub)",
   "type": "module",
   "scripts": {

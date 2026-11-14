@@ -68,7 +68,7 @@ async function clickOriginal(page, original) {
   }
   const handle = await visibleByOriginal(page, original);
   const target = await handle.evaluateHandle((node) => node.closest("button, a") ?? node);
-  await target.asElement().click();
+  await target.asElement().evaluate((node) => node.click());
 }
 
 async function clickVisibleCheckbox(page) {
@@ -84,8 +84,30 @@ async function clickVisibleCheckbox(page) {
 
 try {
   const page = await browser.newPage();
-  await page.goto("https://safinum.cm/hackathon-test", { waitUntil: "networkidle2", timeout: 90_000 });
+  await page.goto("https://safinum.cm/hackathon-test?jury=1", { waitUntil: "networkidle2", timeout: 90_000 });
   await waitForKora(page);
+  await page.waitForFunction(
+    () =>
+      [...document.querySelectorAll("[data-kora-original]")].some(
+        (node) => node.dataset.koraOriginal === "Injecter du contenu inédit"
+      ),
+    { timeout: 20_000 }
+  );
+  const juryText = await page.evaluate(() => document.body.innerText);
+  for (const expected of [
+    "Naatnu loowdi ndi anndaaka",
+    "Walaa loowdi naatnaandi.",
+    "Ƴeewtagol",
+    "Naatnaaɗe",
+    "Keɓagol firo",
+    "Fuɗɗin juumre / jeertina",
+    "Jeertina kisal",
+    "Juumre reso",
+    "Waylu kiɗɗe tabitiiɗe",
+    "Ƴeewto taƴre jooni"
+  ]) {
+    assert.match(juryText, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "iu"), expected);
+  }
 
   const initial = await page.evaluate(() => document.body.innerText);
   assert.match(initial, /konte maa/i);
@@ -111,7 +133,30 @@ try {
   assert.match(await page.evaluate(() => document.body.innerText), /25[\s\u00a0\u202f]000 FCFA/);
 
   await clickOriginal(page, "Continuer");
-  await page.waitForFunction(() => document.body.innerText.toLowerCase().includes("innde jaɓoowo"));
+  try {
+    await page.waitForFunction(() => document.body.innerText.toLowerCase().includes("innde jaɓoowo"), {
+      timeout: 10_000
+    });
+  } catch (error) {
+    console.error(
+      "BENEFICIARY STEP DIAGNOSTICS",
+      await page.evaluate(() => ({
+        text: document.body.innerText,
+        buttons: [...document.querySelectorAll("button")].map((button) => ({
+          text: button.textContent.trim(),
+          disabled: button.disabled
+        })),
+        selects: [...document.querySelectorAll("select")].map((select) => ({
+          value: select.value,
+          options: [...select.options].map((option) => ({
+            text: option.textContent,
+            value: option.value
+          }))
+        }))
+      }))
+    );
+    throw error;
+  }
   const beneficiaryStep = await page.evaluate(() => document.body.innerText);
   assert.doesNotMatch(beneficiaryStep, /Continuer|Note \(optionnel\)/i);
   assert.match(beneficiaryStep, /Tesko \(so a yiɗi\)/i);
@@ -146,15 +191,28 @@ try {
   assert.match(receipt, /Jean-Paul Mbarga/);
   assert.match(receipt, /SAF-2026-[A-Z0-9]+/);
 
+  await clickOriginal(page, "Soumissions");
+  try {
+    await page.waitForFunction(() => document.body.innerText.includes("Waylaaka"), { timeout: 10_000 });
+  } catch (error) {
+    console.error("SUBMISSIONS DIAGNOSTICS", await page.evaluate(() => document.body.innerText));
+    throw error;
+  }
+  const submissions = await page.evaluate(() => document.body.innerText);
+  assert.match(submissions, /Humpito/);
+  assert.match(submissions, /Jean-Paul Mbarga/);
+  assert.match(submissions, /25(?:[,\s\u00a0\u202f])?000/);
+  assert.match(submissions, /SAF-2026-[A-Z0-9]+/);
+
   console.log("LIVE PASS: French journey, dynamic content, form values and receipt integrity.");
 
   const second = await browser.newPage();
-  await second.goto("https://safinum.cm/hackathon-test", { waitUntil: "networkidle2", timeout: 90_000 });
+  await second.goto("https://safinum.cm/hackathon-test?jury=1", { waitUntil: "networkidle2", timeout: 90_000 });
   await waitForKora(second);
   const languageButtons = await second.$$("button");
   for (const button of languageButtons) {
     if ((await button.evaluate((node) => node.textContent.trim())) === "EN") {
-      await button.click();
+      await button.evaluate((node) => node.click());
       break;
     }
   }
