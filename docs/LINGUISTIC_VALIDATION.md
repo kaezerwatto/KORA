@@ -22,7 +22,9 @@ KORA cible le fulfulde de l’Adamaoua, ISO 639-3 `fub`, écrit en caractères l
 - Flagship `francais-fufulde` : petit modèle camerounais, mais sorties très instables sur les libellés bancaires.
 - DS4H `linguo_mt_en_fub` : BLEU publié 17,43, mais corpus non documenté.
 - NLLB-200 : cible `fuv_Latn`, pas `fub`.
-- Google Traduction : la tentative de comparaison a reçu HTTP 429; aucun résultat Google n’est revendiqué.
+- Google Traduction : cinq réponses `ff` ont été relevées le 14 novembre 2026
+  pour comparaison. Elles ne sont pas importées automatiquement, car la cible
+  Google est le macrocode `ff` et non une garantie de variété `fub`.
 - PanLex `fub` : 2 457 associations sens-expression et taille compatible, mais non embarqué. La licence officielle actuelle est CC BY-NC-SA 4.0 alors qu’un miroir annonce CC0; une autorisation écrite est nécessaire avant tout usage potentiellement commercial.
 - Dictionnaire SIL `fub` : 11 190 entrées, mais son contrat interdit l’extraction et l’incorporation dans KORA sans autorisation écrite.
 - Corpus Mozilla narratif NOODL : licence incompatible avec l’entraînement et les dérivés.
@@ -40,6 +42,14 @@ Les sorties d’une mémoire publique `ff` ont servi de comparaison, pas de sour
 - « Votre transfert a été envoyé avec succès. » : référence `Jaltugol maa neldaama no moƴƴi.`; KORA `Transfeer maa neldaama bee moƴƴere.`
 
 Pour chaque concept, KORA privilégie cohérence, impératif clair et terminologie identique sur les cinq écrans. Les sorties modèles répétitives ou bibliques ont été rejetées.
+
+Une deuxième comparaison vérifiable porte sur `compte courant`,
+`bénéficiaire`, `solde insuffisant`, `transaction en attente` et
+`transfert effectué`. Les réponses Google, les formes KORA et la décision
+associée se trouvent dans
+[`../data/corpora/google-ff-comparison.json`](../data/corpora/google-ff-comparison.json).
+Les divergences confirment qu’une sortie `ff` ne doit pas être assimilée sans
+revue à l’Adamawa `fub`.
 
 ## Corrections Adamawa intégrées
 

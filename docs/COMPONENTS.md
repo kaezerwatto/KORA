@@ -7,7 +7,8 @@
 | Code KORA | Extension Chrome, moteur et interface | MIT |
 | Mémoire KORA | Phrases du parcours et messages financiers | Projet KORA |
 | Glossaire compilé | Terminologie et provenance | Métadonnées du projet; respecter chaque source citée |
-| Petit modèle neuronal KORA | Classement de fluidité, poids int8 entraînés par KORA | Code MIT; Common Voice CC0 et mémoire KORA |
+| Terminologie financière contrôlée | Index FR/EN→`fub` compilé; statuts conservés | Projet KORA; inventaires fournis sans licence déclarée |
+| Petit modèle neuronal KORA | Classement de fluidité, poids int8 entraînés par KORA | Code MIT; Common Voice CC0, mémoire et candidats KORA |
 
 Le paquet inclut les petits poids KORA et leur inférence JavaScript. Il n’inclut aucun corpus brut, poids neuronal tiers, bibliothèque d’inférence ou code chargé à distance.
 
@@ -38,10 +39,14 @@ Aucun service externe n’est utilisé à l’exécution.
 
 Pendant le développement :
 
-- une tentative de comparaison de cinq phrases publiques avec Google Translate a reçu HTTP 429;
+- cinq libellés publics ont été comparés à Google Translate vers `ff`; les
+  résultats sont archivés séparément et ne sont pas importés;
 - une mémoire publique `ff` a servi de référence secondaire pour cinq phrases;
 - aucune donnée saisie, personnelle ou provenant d’une session de test n’a été transmise.
 
 ## Sources linguistiques
 
-Voir [`../data/glossary.json`](../data/glossary.json) et [`VALIDATION.md`](VALIDATION.md). KORA ne redistribue pas les fichiers SIL, Common Voice, Bible, OPUS ou Mozilla NOODL.
+Voir [`../data/glossary.json`](../data/glossary.json),
+[`LINGUISTIC_VALIDATION.md`](LINGUISTIC_VALIDATION.md) et
+[`FINANCIAL_CORPORA.md`](FINANCIAL_CORPORA.md). KORA ne redistribue pas les
+fichiers SIL, Common Voice, Bible, OPUS ou Mozilla NOODL.

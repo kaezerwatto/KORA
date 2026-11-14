@@ -21,22 +21,24 @@ Un second passage sur les éléments interactifs empêche les frameworks réacti
 
 ### Popup
 
-Le popup permet :
+La popup permet uniquement :
 
-- activation et désactivation;
-- détection automatique ou source FR/EN forcée;
-- statistiques locales;
-- rescan du contenu dynamique;
-- essai d’un message inédit;
-- lecture optionnelle par la synthèse vocale de Chrome.
+- l’activation et la désactivation;
+- la sélection `Fulfulde`, `Français` ou `English`;
+- l’affichage de l’état de l’onglet actif.
 
-Seules les préférences `koraEnabled` et `koraSource` sont enregistrées avec `chrome.storage.local`.
+Après une action réussie, elle se ferme afin de rendre immédiatement le focus
+à la page. Les raccourcis natifs comme `Ctrl+A` restent donc disponibles.
+Seules les préférences de langue et d’activation sont enregistrées avec
+`chrome.storage.local`.
 
 ## 3. Cascade de traduction
 
 ### Mémoire bilingue
 
-Les 92 textes publics du parcours et du domaine financier sont enregistrés dans les deux directions source :
+La mémoire historique du parcours et du domaine financier est complétée par
+les libellés dédupliqués des deux corpus financiers fournis. Chaque concept
+possède deux clés source :
 
 ```text
 français ─┐
@@ -44,7 +46,9 @@ français ─┐
 anglais ──┘
 ```
 
-Les sept erreurs et alertes publiques sont couvertes explicitement.
+Les erreurs et alertes publiques sont couvertes explicitement. Les entrées
+étendues portent un statut de provenance; les codes API restent inchangés.
+Voir `docs/FINANCIAL_CORPORA.md`.
 
 ### Gabarits
 
@@ -120,8 +124,10 @@ Le content script est déclaré pour les pages HTTP/HTTPS afin de démontrer la 
 - protection des huit catégories de valeurs;
 - préservation des espaces et montants;
 - sept erreurs bilingues;
-- couverture des 92 paires;
+- couverture de la mémoire historique et de l’inventaire financier importé;
 - contenu inédit par gabarit et glossaire.
+- conservation exacte des codes API et identifiants techniques;
+- sélection complète de page et de champ par `Ctrl+A`.
 
 ### Live
 
@@ -135,6 +141,7 @@ Le test Puppeteer charge réellement l’extension sur Safinum Pay :
 - reçu;
 - bascule anglaise;
 - contrôle des montants, compte, téléphone, référence et nom.
+- page UBA Cameroon réelle et couverture de ses principaux libellés visibles.
 
 ## 9. Faisabilité
 

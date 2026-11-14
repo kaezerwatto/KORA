@@ -44,6 +44,24 @@ const pages = {
   "/frame": `<!doctype html><html lang="en"><body>
     <p id="frame-message">Injected content</p>
     <input id="frame-attribute" placeholder="Amount">
+  </body></html>`,
+  "/uba": `<!doctype html><html lang="fr"><body>
+    <nav>
+      <a>Localisateur de GAB / Agences</a><a>Particuliers</a><a>Cartes</a>
+      <a>Crédits</a><a>Entreprises</a><a>Internet Banking</a><a>Aide</a>
+    </nav>
+    <main>
+      <h1>Banque Digitale</h1>
+      <p>Nos solutions digitales offrent de nombreux avantages qui vous permettront de garder le contrôle où que vous soyez.</p>
+      <a>En savoir plus</a>
+      <h2>LEO</h2>
+      <p>Découvrez LEO, l’assistant virtuel de UBA qui simplifie votre quotidien en vous accompagnant dans vos paiements, vos transferts et toutes vos opérations essentielles.</p>
+      <h2>Banque pour particuliers</h2>
+      <p>Nous répondons à vos besoins essentiels en vous proposant une gamme d’options bancaires adaptées à votre personnalité.</p>
+      <h2>Personnalisez vos mises à jour</h2>
+      <p>Inscrivez-vous pour recevoir les contenus qui vous intéressent le plus.</p>
+      <label>Noms &amp; Prénoms <input value=""></label>
+    </main>
   </body></html>`
 };
 
@@ -82,6 +100,16 @@ try {
   assert.equal(await page.$eval("#bank", (select) => select.value), "other-bank");
   assert.equal(await page.$eval("#bank option", (option) => option.value), "other-bank");
   assert.equal(await page.$eval("#bank option", (option) => option.textContent), "Baŋki goɗɗo");
+
+  await page.evaluate(() => {
+    document.body.tabIndex = -1;
+    document.body.focus();
+  });
+  await page.keyboard.down("Control");
+  await page.keyboard.press("KeyA");
+  await page.keyboard.up("Control");
+  assert.match(await page.evaluate(() => getSelection()?.toString() ?? ""), /Sannu, Mariama Bello/);
+  await page.evaluate(() => getSelection()?.removeAllRanges());
 
   const extensionPage = await browser.newPage();
   await extensionPage.goto(`chrome-extension://${extensionId}/popup.html`, { waitUntil: "load" });
@@ -262,6 +290,26 @@ try {
   await displayLanguage("fub");
   await page.waitForFunction(() => document.documentElement.dataset.koraActive === "true");
   assert.match(await page.evaluate(() => document.body.innerText), /Sannu, Fatou Ndiaye/);
+
+  await page.goto(`http://127.0.0.1:${port}/uba`, { waitUntil: "load" });
+  await page.waitForFunction(() => document.documentElement.dataset.koraActive === "true");
+  const uba = await page.evaluate(() => document.body.innerText);
+  for (const expected of [
+    "Ɗaɓɓirgal masin kaalisi / bure baŋki",
+    "Kiliyaneeɓe keeriiɓe",
+    "Kaarte",
+    "Kerdii",
+    "Kompaniiji",
+    "Baŋki e internet",
+    "Baŋki dijitaal",
+    "Kuutorɗe amen dijitaal",
+    "Anndu LEO",
+    "Baŋki ngam kiliyaneeɓe keeriiɓe",
+    "Suɓo kabaruuji maa",
+    "Innde e jammun"
+  ]) {
+    assert.match(uba, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "iu"), expected);
+  }
 
   console.log("PAGES PASS: FR/EN/FUB, inputs, dynamic text/attributes, open Shadow DOM and iframe.");
 } finally {

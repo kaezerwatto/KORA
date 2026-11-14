@@ -1,0 +1,1247 @@
+CORPUS TERMINOLOGIQUE FINANCIER ET BANCAIRE — VOLUME 1
+Français, international et Afrique centrale
+========================================================================
+
+Note : premier volume de travail, non exhaustif et non équivalent à un corpus d'un milliard de mots.
+Les définitions sont générales et doivent être vérifiées pour tout usage juridique ou réglementaire.
+
+
+########################################################################
+BANQUE ET COMPTES
+########################################################################
+
+1. Compte courant
+Définition : Compte bancaire destiné aux opérations quotidiennes : dépôts, retraits, virements, prélèvements et paiements.
+Synonymes / variantes : compte à vue; compte de dépôt
+Expressions : ouvrir un compte courant; consulter son compte
+
+2. Compte d'épargne
+Définition : Compte destiné à recevoir des dépôts conservés en vue d'une épargne, parfois rémunérés selon les conditions contractuelles.
+Synonymes / variantes : livret; compte épargne
+Expressions : alimenter un compte d'épargne; retirer son épargne
+
+3. Compte joint
+Définition : Compte ouvert au nom de plusieurs titulaires, soumis aux règles de fonctionnement convenues avec la banque.
+Synonymes / variantes : compte collectif; compte commun
+Expressions : ouvrir un compte joint; cotitulaire du compte
+
+4. Compte professionnel
+Définition : Compte utilisé pour les opérations financières d'une entreprise, d'un commerçant ou d'un professionnel.
+Synonymes / variantes : compte entreprise; compte business
+Expressions : encaisser les recettes professionnelles; payer les fournisseurs
+
+5. Compte dormant
+Définition : Compte qui n'enregistre plus d'opérations ou de contacts pendant une période définie par les règles applicables.
+Synonymes / variantes : compte inactif
+Expressions : réactiver un compte dormant; rechercher un compte inactif
+
+6. Compte bloqué
+Définition : Compte dont certaines opérations sont temporairement ou légalement restreintes.
+Synonymes / variantes : compte gelé; restriction de compte
+Expressions : débloquer un compte; compte temporairement indisponible
+
+7. Solde disponible
+Définition : Montant immédiatement utilisable sur un compte, compte tenu des opérations comptabilisées et des éventuelles réserves.
+Synonymes / variantes : disponibilité; fonds disponibles
+Expressions : vérifier le solde disponible; fonds insuffisants
+
+8. Solde comptable
+Définition : Montant figurant dans les écritures du compte à un instant donné, avant ou après certains traitements selon le système.
+Synonymes / variantes : solde en comptabilité
+Expressions : consulter le solde comptable
+
+9. Solde créditeur
+Définition : Situation dans laquelle les sommes portées au crédit du compte dépassent les sommes portées au débit.
+Synonymes / variantes : position créditrice
+Expressions : compte créditeur; présenter un solde créditeur
+
+10. Solde débiteur
+Définition : Situation dans laquelle les sommes portées au débit dépassent les sommes portées au crédit.
+Synonymes / variantes : position débitrice
+Expressions : compte débiteur; autorisation de découvert
+
+11. Relevé de compte
+Définition : Document récapitulant les opérations enregistrées sur un compte pendant une période déterminée.
+Synonymes / variantes : extrait de compte; statement
+Expressions : télécharger un relevé; contester une écriture
+
+12. Date de valeur
+Définition : Date retenue par l'établissement pour le calcul des intérêts ou le traitement financier d'une opération.
+Synonymes / variantes : date valeur
+Expressions : date de valeur d'un dépôt; date de valeur d'un virement
+
+13. Frais de tenue de compte
+Définition : Frais prélevés pour la gestion administrative et opérationnelle d'un compte, selon la convention tarifaire.
+Synonymes / variantes : commission de gestion; frais de compte
+Expressions : prélever les frais de tenue de compte
+
+14. Découvert autorisé
+Définition : Facilité permettant au titulaire d'un compte de présenter un solde négatif dans une limite et pour une durée convenues.
+Synonymes / variantes : facilité de caisse; autorisation de découvert
+Expressions : utiliser son découvert autorisé
+
+15. RIB
+Définition : Relevé d'identité bancaire contenant les informations nécessaires pour identifier un compte et recevoir certains paiements.
+Synonymes / variantes : coordonnées bancaires
+Expressions : communiquer son RIB; enregistrer un bénéficiaire
+
+16. IBAN
+Définition : Identifiant international de compte bancaire utilisé dans les pays et systèmes qui l'ont adopté.
+Synonymes / variantes : International Bank Account Number
+Expressions : vérifier un IBAN; fournir un IBAN
+
+17. BIC
+Définition : Code d'identification d'un établissement financier utilisé notamment dans les échanges internationaux.
+Synonymes / variantes : code SWIFT
+Expressions : renseigner le BIC de la banque
+
+18. Titulaire de compte
+Définition : Personne physique ou morale au nom de laquelle un compte est ouvert.
+Synonymes / variantes : client titulaire; account holder
+Expressions : vérifier l'identité du titulaire
+
+19. Mandataire bancaire
+Définition : Personne autorisée par le titulaire à effectuer certaines opérations sur un compte dans les limites d'un mandat.
+Synonymes / variantes : représentant; procurataire
+Expressions : donner procuration; retirer par mandataire
+
+20. Convention de compte
+Définition : Document contractuel définissant les conditions d'ouverture, de fonctionnement, de tarification et de clôture d'un compte.
+Synonymes / variantes : contrat de compte
+Expressions : signer la convention de compte
+
+########################################################################
+PAIEMENTS, VIREMENTS ET TRANSFERTS
+########################################################################
+
+1. Virement bancaire
+Définition : Opération par laquelle des fonds sont transférés d'un compte vers un autre sur instruction du donneur d'ordre.
+Synonymes / variantes : transfert bancaire; bank transfer
+Expressions : effectuer un virement; créditer le bénéficiaire
+
+2. Virement permanent
+Définition : Virement programmé pour être exécuté automatiquement à intervalles réguliers.
+Synonymes / variantes : virement périodique; ordre permanent
+Expressions : mettre en place un virement permanent
+
+3. Virement ponctuel
+Définition : Virement effectué une seule fois à la demande du donneur d'ordre.
+Synonymes / variantes : virement occasionnel
+Expressions : envoyer un virement ponctuel
+
+4. Virement interbancaire
+Définition : Transfert de fonds entre des comptes tenus par des établissements bancaires différents.
+Synonymes / variantes : transfert interbancaire
+Expressions : exécuter un virement interbancaire
+
+5. Virement international
+Définition : Transfert de fonds entre des comptes situés dans des pays différents.
+Synonymes / variantes : transfert transfrontalier
+Expressions : recevoir un virement international
+
+6. Ordre de virement
+Définition : Instruction donnée à une banque pour transférer une somme déterminée vers un bénéficiaire.
+Synonymes / variantes : instruction de paiement
+Expressions : émettre un ordre de virement
+
+7. Bénéficiaire
+Définition : Personne ou entité désignée pour recevoir les fonds d'un paiement ou d'un transfert.
+Synonymes / variantes : destinataire; payee
+Expressions : ajouter un bénéficiaire; vérifier le bénéficiaire
+
+8. Donneur d'ordre
+Définition : Personne qui initie une opération de paiement ou un transfert.
+Synonymes / variantes : émetteur; payeur
+Expressions : identifier le donneur d'ordre
+
+9. Prélèvement automatique
+Définition : Opération par laquelle un créancier reçoit l'autorisation de demander le débit du compte du payeur selon des modalités définies.
+Synonymes / variantes : débit direct; direct debit
+Expressions : mettre en place un prélèvement
+
+10. Paiement récurrent
+Définition : Paiement effectué à intervalles réguliers, souvent pour un abonnement ou une facture.
+Synonymes / variantes : paiement périodique
+Expressions : activer un paiement récurrent
+
+11. Paiement instantané
+Définition : Paiement dont le traitement et la mise à disposition des fonds sont réalisés en quelques secondes lorsque le système le permet.
+Synonymes / variantes : paiement en temps réel
+Expressions : envoyer un paiement instantané
+
+12. Paiement marchand
+Définition : Paiement effectué par un client au profit d'un commerçant ou d'un prestataire.
+Synonymes / variantes : paiement commerçant; merchant payment
+Expressions : payer chez un marchand
+
+13. Paiement sans contact
+Définition : Paiement initié en approchant une carte ou un appareil compatible d'un terminal.
+Synonymes / variantes : contactless payment
+Expressions : payer sans contact
+
+14. Paiement refusé
+Définition : Opération de paiement rejetée par le système ou l'établissement pour un motif technique, réglementaire ou financier.
+Synonymes / variantes : transaction rejetée
+Expressions : paiement refusé pour fonds insuffisants
+
+15. Transaction en attente
+Définition : Opération initiée mais dont le traitement ou la confirmation n'est pas encore achevé.
+Synonymes / variantes : opération pending; transaction pending
+Expressions : vérifier une transaction en attente
+
+16. Transaction annulée
+Définition : Opération dont l'exécution a été annulée selon les règles du service utilisé.
+Synonymes / variantes : paiement annulé
+Expressions : demander l'annulation d'une transaction
+
+17. Remboursement
+Définition : Opération consistant à restituer tout ou partie d'une somme précédemment payée.
+Synonymes / variantes : refund; reversement
+Expressions : demander un remboursement
+
+18. Rétrofacturation
+Définition : Procédure de contestation d'une opération par laquelle le montant peut être restitué au payeur selon les règles du réseau ou du contrat.
+Synonymes / variantes : chargeback
+Expressions : ouvrir un dossier de rétrofacturation
+
+19. Compensation interbancaire
+Définition : Processus de calcul des positions réciproques entre établissements avant règlement des soldes.
+Synonymes / variantes : clearing
+Expressions : présenter une opération à la compensation
+
+20. Règlement
+Définition : Transfert effectif des fonds destiné à éteindre une obligation de paiement entre parties.
+Synonymes / variantes : settlement; dénouement
+Expressions : procéder au règlement d'une transaction
+
+########################################################################
+CARTES ET MONÉTIQUE
+########################################################################
+
+1. Carte de débit
+Définition : Carte permettant de régler des achats ou de retirer des espèces par débit d'un compte associé.
+Synonymes / variantes : carte bancaire à débit
+Expressions : payer par carte de débit
+
+2. Carte de crédit
+Définition : Carte permettant d'utiliser une ligne de crédit selon les modalités contractuelles de l'émetteur.
+Synonymes / variantes : credit card
+Expressions : régler avec une carte de crédit
+
+3. Carte prépayée
+Définition : Carte chargée au préalable d'une valeur monétaire utilisable pour effectuer des paiements.
+Synonymes / variantes : carte rechargeable; prepaid card
+Expressions : recharger une carte prépayée
+
+4. Carte virtuelle
+Définition : Carte de paiement dématérialisée dont les données peuvent être utilisées pour des paiements en ligne.
+Synonymes / variantes : e-card; virtual card
+Expressions : générer une carte virtuelle
+
+5. Code PIN
+Définition : Code personnel utilisé pour authentifier certaines opérations réalisées avec une carte ou un dispositif.
+Synonymes / variantes : code confidentiel
+Expressions : saisir son code PIN
+
+6. DAB
+Définition : Distributeur automatique de billets permettant notamment le retrait d'espèces.
+Synonymes / variantes : ATM; distributeur
+Expressions : retirer de l'argent au DAB
+
+7. GAB
+Définition : Guichet automatique bancaire proposant plusieurs services automatisés, selon l'équipement et la banque.
+Synonymes / variantes : automate bancaire
+Expressions : consulter son solde au GAB
+
+8. TPE
+Définition : Terminal de paiement électronique utilisé par un commerçant pour accepter des paiements électroniques.
+Synonymes / variantes : terminal de paiement; POS
+Expressions : effectuer un paiement sur TPE
+
+9. Acquéreur
+Définition : Établissement ou prestataire qui traite les paiements par carte pour le compte d'un commerçant.
+Synonymes / variantes : acquirer
+Expressions : contrat d'acquisition commerçant
+
+10. Émetteur de carte
+Définition : Établissement qui délivre une carte de paiement et gère la relation avec son porteur.
+Synonymes / variantes : issuer
+Expressions : banque émettrice de la carte
+
+11. Porteur de carte
+Définition : Personne autorisée à utiliser une carte de paiement.
+Synonymes / variantes : cardholder
+Expressions : identifier le porteur de carte
+
+12. Autorisation de paiement
+Définition : Réponse du système ou de l'émetteur autorisant ou refusant une transaction.
+Synonymes / variantes : authorization
+Expressions : demander une autorisation
+
+13. Plafond de paiement
+Définition : Montant maximal de paiements autorisé sur une période ou dans des conditions définies.
+Synonymes / variantes : limite de paiement
+Expressions : augmenter le plafond de la carte
+
+14. Opposition sur carte
+Définition : Mesure visant à empêcher l'utilisation d'une carte, notamment en cas de perte, vol ou compromission.
+Synonymes / variantes : blocage de carte
+Expressions : faire opposition à sa carte
+
+15. Tokenisation
+Définition : Remplacement des données sensibles de carte par un identifiant substitutif utilisable dans un environnement sécurisé.
+Synonymes / variantes : tokenization
+Expressions : tokeniser une carte
+
+########################################################################
+MOBILE MONEY ET FINTECH
+########################################################################
+
+1. Monnaie électronique
+Définition : Valeur monétaire stockée sous forme électronique, représentant une créance sur son émetteur et utilisable pour effectuer des paiements.
+Synonymes / variantes : e-money; monnaie numérique électronique
+Expressions : émettre de la monnaie électronique
+
+2. Portefeuille électronique
+Définition : Service permettant de conserver et d'utiliser une valeur ou des moyens de paiement sous forme numérique.
+Synonymes / variantes : wallet; e-wallet
+Expressions : alimenter son portefeuille électronique
+
+3. Mobile money
+Définition : Service financier permettant d'effectuer des opérations monétaires au moyen d'un téléphone mobile.
+Synonymes / variantes : argent mobile; mobile wallet
+Expressions : envoyer de l'argent par mobile money
+
+4. Cash-in
+Définition : Opération consistant à convertir des espèces en valeur disponible dans un portefeuille ou un compte numérique.
+Synonymes / variantes : dépôt cash; alimentation en espèces
+Expressions : faire un cash-in chez un agent
+
+5. Cash-out
+Définition : Opération consistant à retirer en espèces une valeur détenue dans un portefeuille ou un compte numérique.
+Synonymes / variantes : retrait cash
+Expressions : effectuer un cash-out
+
+6. USSD
+Définition : Protocole de communication utilisé par des téléphones pour accéder à des services via des codes courts de type *XXX#.
+Synonymes / variantes : menu USSD; code court
+Expressions : composer le code USSD
+
+7. QR code de paiement
+Définition : Code visuel permettant d'initier ou d'identifier un paiement à l'aide d'un appareil compatible.
+Synonymes / variantes : code QR; QR payment
+Expressions : scanner le QR code du marchand
+
+8. Agent de monnaie électronique
+Définition : Point de service autorisé à effectuer certaines opérations pour le compte d'un émetteur de monnaie électronique.
+Synonymes / variantes : agent mobile money
+Expressions : déposer chez un agent
+
+9. Interopérabilité
+Définition : Capacité de systèmes ou prestataires différents à échanger des données et à exécuter des opérations entre eux.
+Synonymes / variantes : interconnection; interoperability
+Expressions : transférer entre deux réseaux interopérables
+
+10. API bancaire
+Définition : Interface logicielle permettant à des applications autorisées d'échanger des données ou d'initier des services bancaires.
+Synonymes / variantes : interface de programmation bancaire
+Expressions : connecter une API bancaire
+
+11. Open Banking
+Définition : Modèle permettant, avec consentement et dans un cadre sécurisé, le partage de données bancaires ou l'accès à des services par des tiers autorisés.
+Synonymes / variantes : banque ouverte
+Expressions : autoriser l'accès à ses données bancaires
+
+12. Agrégateur de paiement
+Définition : Prestataire qui regroupe ou facilite l'accès à plusieurs moyens de paiement pour un commerçant ou une plateforme.
+Synonymes / variantes : payment aggregator
+Expressions : intégrer un agrégateur de paiement
+
+13. Fintech
+Définition : Entreprise ou solution qui utilise la technologie pour fournir ou améliorer des services financiers.
+Synonymes / variantes : technologie financière
+Expressions : solution fintech de paiement
+
+14. Authentification forte
+Définition : Vérification de l'identité reposant sur plusieurs facteurs indépendants ou mécanismes renforcés.
+Synonymes / variantes : SCA; authentification multifacteur
+Expressions : confirmer une opération par OTP
+
+15. OTP
+Définition : Code à usage unique envoyé ou généré pour confirmer une connexion ou une transaction.
+Synonymes / variantes : one-time password; code à usage unique
+Expressions : saisir le code OTP
+
+########################################################################
+CRÉDITS ET FINANCEMENT
+########################################################################
+
+1. Crédit à la consommation
+Définition : Financement accordé à un particulier pour des dépenses non directement liées à l'acquisition d'un bien immobilier.
+Synonymes / variantes : prêt à la consommation
+Expressions : demander un crédit à la consommation
+
+2. Crédit immobilier
+Définition : Prêt destiné notamment à financer l'acquisition, la construction ou la rénovation d'un bien immobilier.
+Synonymes / variantes : prêt immobilier
+Expressions : constituer un dossier de crédit immobilier
+
+3. Crédit professionnel
+Définition : Financement destiné aux besoins d'une activité professionnelle ou d'une entreprise.
+Synonymes / variantes : prêt professionnel
+Expressions : solliciter un crédit professionnel
+
+4. Crédit de trésorerie
+Définition : Financement à court terme destiné à couvrir un décalage temporaire de trésorerie.
+Synonymes / variantes : facilité de trésorerie
+Expressions : obtenir un crédit de trésorerie
+
+5. Crédit-bail
+Définition : Contrat de location d'un bien avec possibilité d'acquisition à l'échéance selon les conditions prévues.
+Synonymes / variantes : leasing
+Expressions : financer un équipement en crédit-bail
+
+6. Crédit renouvelable
+Définition : Crédit dont le montant disponible se reconstitue au fur et à mesure des remboursements, dans les limites du contrat.
+Synonymes / variantes : réserve d'argent
+Expressions : utiliser une réserve de crédit
+
+7. Capital emprunté
+Définition : Montant principal mis à disposition de l'emprunteur, hors intérêts et frais.
+Synonymes / variantes : principal; montant du prêt
+Expressions : rembourser le capital emprunté
+
+8. Taux nominal
+Définition : Taux d'intérêt contractuel appliqué au capital selon les modalités du crédit.
+Synonymes / variantes : taux d'intérêt nominal
+Expressions : comparer les taux nominaux
+
+9. TAEG
+Définition : Taux annuel effectif global exprimant le coût annuel total du crédit selon les règles applicables.
+Synonymes / variantes : taux effectif global
+Expressions : comparer les TAEG
+
+10. Échéance
+Définition : Date à laquelle une somme doit être payée ou remboursée.
+Synonymes / variantes : date d'exigibilité; due date
+Expressions : payer l'échéance mensuelle
+
+11. Mensualité
+Définition : Montant périodique dû chaque mois au titre d'un crédit ou d'un contrat.
+Synonymes / variantes : paiement mensuel
+Expressions : calculer la mensualité du prêt
+
+12. Tableau d'amortissement
+Définition : Document détaillant, échéance par échéance, la répartition entre capital remboursé, intérêts et solde restant dû.
+Synonymes / variantes : échéancier d'amortissement
+Expressions : éditer le tableau d'amortissement
+
+13. Différé de remboursement
+Définition : Période pendant laquelle le remboursement du capital, ou parfois de certaines sommes, est reporté selon le contrat.
+Synonymes / variantes : différé de paiement
+Expressions : bénéficier d'un différé
+
+14. Pénalité de retard
+Définition : Somme ou majoration due en cas de paiement effectué après la date prévue, dans les limites légales et contractuelles.
+Synonymes / variantes : frais de retard
+Expressions : calculer les pénalités de retard
+
+15. Garantie hypothécaire
+Définition : Sûreté portant sur un bien immobilier pour garantir le remboursement d'une dette.
+Synonymes / variantes : hypothèque
+Expressions : prendre une garantie hypothécaire
+
+16. Cautionnement
+Définition : Engagement d'une personne ou entité à payer si le débiteur principal n'exécute pas son obligation.
+Synonymes / variantes : caution; garantie personnelle
+Expressions : fournir une caution
+
+17. Nantissement
+Définition : Affectation d'un bien meuble ou d'un droit en garantie d'une obligation.
+Synonymes / variantes : gage selon le régime juridique
+Expressions : nantir un fonds de commerce
+
+18. Défaut de paiement
+Définition : Non-exécution d'une obligation de paiement à son échéance.
+Synonymes / variantes : impayé; défaillance
+Expressions : déclarer un défaut de paiement
+
+19. Restructuration de dette
+Définition : Modification des modalités de remboursement d'une dette afin de traiter une difficulté financière.
+Synonymes / variantes : rééchelonnement; refinancement selon le cas
+Expressions : négocier une restructuration
+
+20. Capacité d'endettement
+Définition : Part des revenus qu'un emprunteur peut consacrer au remboursement de ses dettes selon les critères retenus.
+Synonymes / variantes : capacité de remboursement
+Expressions : évaluer la capacité d'endettement
+
+########################################################################
+ÉPARGNE, PLACEMENT ET INVESTISSEMENT
+########################################################################
+
+1. Dépôt à terme
+Définition : Dépôt bloqué pendant une durée convenue, rémunéré selon des conditions définies au contrat.
+Synonymes / variantes : DAT; term deposit
+Expressions : ouvrir un dépôt à terme
+
+2. Intérêt simple
+Définition : Intérêt calculé uniquement sur le capital initial pendant la période considérée.
+Synonymes / variantes : rémunération simple
+Expressions : calculer les intérêts simples
+
+3. Intérêt composé
+Définition : Intérêt calculé sur le capital initial augmenté des intérêts précédemment acquis.
+Synonymes / variantes : capitalisation des intérêts
+Expressions : appliquer les intérêts composés
+
+4. Taux de rendement
+Définition : Mesure du revenu ou du gain obtenu par rapport au montant investi, selon une méthode définie.
+Synonymes / variantes : rentabilité; yield
+Expressions : calculer le rendement annuel
+
+5. Obligation
+Définition : Titre de créance représentant un emprunt émis par un État, une entreprise ou une autre entité.
+Synonymes / variantes : bond; titre obligataire
+Expressions : souscrire une obligation
+
+6. Action
+Définition : Titre représentant une fraction du capital d'une société et pouvant conférer des droits financiers et politiques.
+Synonymes / variantes : part sociale cotée selon le contexte; share
+Expressions : acheter des actions
+
+7. Dividende
+Définition : Part du bénéfice distribuée aux actionnaires sur décision de l'organe compétent.
+Synonymes / variantes : distribution
+Expressions : percevoir un dividende
+
+8. Fonds d'investissement
+Définition : Véhicule collectif qui rassemble des capitaux pour les investir selon une stratégie définie.
+Synonymes / variantes : fonds collectif; investment fund
+Expressions : souscrire à un fonds
+
+9. OPCVM
+Définition : Organisme de placement collectif en valeurs mobilières soumis à un cadre réglementaire spécifique.
+Synonymes / variantes : fonds d'investissement réglementé
+Expressions : investir dans un OPCVM
+
+10. Portefeuille d'investissement
+Définition : Ensemble des actifs financiers détenus par un investisseur.
+Synonymes / variantes : portfolio
+Expressions : diversifier son portefeuille
+
+11. Diversification
+Définition : Répartition des investissements entre plusieurs actifs ou catégories afin de limiter la concentration du risque.
+Synonymes / variantes : allocation diversifiée
+Expressions : diversifier ses placements
+
+12. Plus-value
+Définition : Gain résultant de la différence positive entre le prix de cession et le coût d'acquisition, selon les ajustements applicables.
+Synonymes / variantes : gain en capital; capital gain
+Expressions : réaliser une plus-value
+
+13. Moins-value
+Définition : Perte résultant de la différence négative entre le prix de cession et le coût d'acquisition.
+Synonymes / variantes : perte en capital
+Expressions : constater une moins-value
+
+14. Liquidité d'un actif
+Définition : Facilité avec laquelle un actif peut être converti en espèces sans perte importante de valeur.
+Synonymes / variantes : liquidité de marché
+Expressions : évaluer la liquidité d'un actif
+
+15. Horizon de placement
+Définition : Durée pendant laquelle un investisseur prévoit de conserver un investissement.
+Synonymes / variantes : durée d'investissement
+Expressions : définir son horizon de placement
+
+########################################################################
+MARCHÉS FINANCIERS ET INSTRUMENTS
+########################################################################
+
+1. Marché primaire
+Définition : Marché sur lequel des titres financiers sont émis et proposés pour la première fois aux investisseurs.
+Synonymes / variantes : primary market
+Expressions : émettre des obligations sur le marché primaire
+
+2. Marché secondaire
+Définition : Marché sur lequel des titres déjà émis sont échangés entre investisseurs.
+Synonymes / variantes : secondary market
+Expressions : négocier sur le marché secondaire
+
+3. Cotation
+Définition : Détermination ou publication du prix auquel un instrument financier est négocié sur un marché.
+Synonymes / variantes : listing; quotation
+Expressions : suivre la cotation d'une action
+
+4. Indice boursier
+Définition : Indicateur calculé à partir d'un ensemble de titres selon une méthode de pondération.
+Synonymes / variantes : index
+Expressions : suivre un indice boursier
+
+5. Capitalisation boursière
+Définition : Valeur de marché d'une société cotée, généralement calculée à partir du cours et du nombre de titres.
+Synonymes / variantes : market capitalization
+Expressions : calculer la capitalisation boursière
+
+6. Courtier
+Définition : Intermédiaire qui exécute ou facilite des opérations pour le compte de clients selon son statut.
+Synonymes / variantes : broker
+Expressions : passer un ordre par un courtier
+
+7. Ordre au marché
+Définition : Instruction d'acheter ou vendre immédiatement au meilleur prix disponible, sous réserve des règles du marché.
+Synonymes / variantes : market order
+Expressions : passer un ordre au marché
+
+8. Ordre à cours limité
+Définition : Instruction d'achat ou de vente assortie d'un prix limite maximal ou minimal.
+Synonymes / variantes : limit order
+Expressions : placer un ordre limité
+
+9. Obligation souveraine
+Définition : Titre de dette émis par un État ou pour son compte.
+Synonymes / variantes : dette souveraine; sovereign bond
+Expressions : acheter une obligation souveraine
+
+10. Bon du Trésor
+Définition : Titre de dette publique généralement émis à court terme pour financer les besoins de trésorerie de l'État.
+Synonymes / variantes : treasury bill
+Expressions : souscrire à un bon du Trésor
+
+11. Produit dérivé
+Définition : Instrument financier dont la valeur dépend d'un actif, d'un taux, d'un indice ou d'un événement sous-jacent.
+Synonymes / variantes : dérivé; derivative
+Expressions : négocier un produit dérivé
+
+12. Contrat à terme
+Définition : Contrat prévoyant l'achat ou la vente d'un actif à une date future et selon des conditions déterminées.
+Synonymes / variantes : forward; futures selon le marché
+Expressions : couvrir un risque avec un contrat à terme
+
+13. Option financière
+Définition : Contrat donnant à son acheteur un droit, et non une obligation, d'acheter ou de vendre un actif selon des conditions définies.
+Synonymes / variantes : call; put selon le sens
+Expressions : acheter une option d'achat
+
+14. Swap
+Définition : Contrat d'échange de flux financiers selon des modalités convenues.
+Synonymes / variantes : contrat d'échange
+Expressions : conclure un swap de taux
+
+15. Volatilité
+Définition : Mesure de l'ampleur des variations du prix ou du rendement d'un actif.
+Synonymes / variantes : variabilité des cours
+Expressions : mesurer la volatilité du marché
+
+########################################################################
+COMPTABILITÉ ET ÉTATS FINANCIERS
+########################################################################
+
+1. Actif
+Définition : Ensemble des ressources contrôlées par une entité et présentées dans son bilan selon les normes applicables.
+Synonymes / variantes : assets; emplois
+Expressions : enregistrer un actif
+
+2. Passif
+Définition : Ensemble des obligations et ressources de financement présentées au bilan selon les normes applicables.
+Synonymes / variantes : liabilities; ressources
+Expressions : analyser le passif
+
+3. Capitaux propres
+Définition : Intérêt résiduel dans les actifs d'une entité après déduction de ses passifs.
+Synonymes / variantes : fonds propres; equity
+Expressions : renforcer les capitaux propres
+
+4. Bilan comptable
+Définition : État présentant à une date donnée les actifs, passifs et capitaux propres d'une entité.
+Synonymes / variantes : balance sheet
+Expressions : établir le bilan annuel
+
+5. Compte de résultat
+Définition : État récapitulant les produits et charges d'une période afin de déterminer le résultat.
+Synonymes / variantes : état des résultats; income statement
+Expressions : analyser le compte de résultat
+
+6. Chiffre d'affaires
+Définition : Montant des ventes de biens et services réalisées dans le cadre de l'activité sur une période.
+Synonymes / variantes : revenu commercial; revenue
+Expressions : déclarer le chiffre d'affaires
+
+7. Produit financier
+Définition : Revenu provenant d'opérations ou d'actifs financiers.
+Synonymes / variantes : revenu financier
+Expressions : comptabiliser un produit financier
+
+8. Charge financière
+Définition : Coût lié au financement ou à certaines opérations financières, notamment les intérêts.
+Synonymes / variantes : frais financiers
+Expressions : enregistrer une charge financière
+
+9. Amortissement comptable
+Définition : Répartition du coût amortissable d'un actif sur sa durée d'utilisation estimée.
+Synonymes / variantes : dépréciation systématique
+Expressions : calculer l'amortissement annuel
+
+10. Provision
+Définition : Montant comptabilisé pour couvrir un risque ou une charge dont l'échéance ou le montant est incertain.
+Synonymes / variantes : provision pour risques
+Expressions : constituer une provision
+
+11. Créance
+Définition : Droit d'une personne ou entité d'exiger une somme ou une prestation d'un débiteur.
+Synonymes / variantes : receivable; dette à recevoir
+Expressions : recouvrer une créance
+
+12. Dette fournisseur
+Définition : Somme due à un fournisseur au titre de biens ou services reçus.
+Synonymes / variantes : compte fournisseur
+Expressions : régler une dette fournisseur
+
+13. Rapprochement bancaire
+Définition : Contrôle comparant les écritures comptables d'une entité avec le relevé fourni par la banque.
+Synonymes / variantes : conciliation bancaire
+Expressions : effectuer le rapprochement bancaire
+
+14. Lettrage comptable
+Définition : Opération consistant à associer des écritures correspondant à une même opération ou un même règlement.
+Synonymes / variantes : matching des écritures
+Expressions : lettrer les comptes clients
+
+15. Flux de trésorerie
+Définition : Entrées et sorties de liquidités d'une entité sur une période.
+Synonymes / variantes : cash-flow
+Expressions : suivre les flux de trésorerie
+
+########################################################################
+CHANGE ET OPÉRATIONS INTERNATIONALES
+########################################################################
+
+1. Taux de change
+Définition : Prix d'une monnaie exprimé dans une autre monnaie.
+Synonymes / variantes : cours de change; exchange rate
+Expressions : consulter le taux de change
+
+2. Devise
+Définition : Monnaie utilisée dans un pays ou une zone monétaire, ou négociée sur le marché des changes.
+Synonymes / variantes : monnaie étrangère
+Expressions : détenir des devises
+
+3. Conversion de devises
+Définition : Échange d'un montant exprimé dans une monnaie contre son équivalent dans une autre monnaie.
+Synonymes / variantes : conversion monétaire
+Expressions : convertir des euros en francs CFA
+
+4. Cours acheteur
+Définition : Prix auquel un intervenant accepte d'acheter une devise ou un actif.
+Synonymes / variantes : bid rate
+Expressions : consulter le cours acheteur
+
+5. Cours vendeur
+Définition : Prix auquel un intervenant propose de vendre une devise ou un actif.
+Synonymes / variantes : ask rate
+Expressions : consulter le cours vendeur
+
+6. Écart de change
+Définition : Différence résultant de la conversion d'un montant à des taux de change différents.
+Synonymes / variantes : différence de conversion
+Expressions : comptabiliser un écart de change
+
+7. Risque de change
+Définition : Risque de perte lié à une variation défavorable des taux de change.
+Synonymes / variantes : currency risk
+Expressions : couvrir le risque de change
+
+8. SWIFT
+Définition : Réseau de messagerie financière sécurisée utilisé par les institutions pour échanger des instructions et informations.
+Synonymes / variantes : réseau SWIFT
+Expressions : envoyer une instruction SWIFT
+
+9. Banque correspondante
+Définition : Banque qui fournit des services à une autre banque, notamment pour des paiements internationaux.
+Synonymes / variantes : correspondent bank
+Expressions : utiliser une banque correspondante
+
+10. Frais de transfert international
+Définition : Frais facturés pour l'exécution ou la réception d'un transfert transfrontalier.
+Synonymes / variantes : commission de transfert
+Expressions : comparer les frais internationaux
+
+11. OUR
+Définition : Instruction de paiement indiquant, dans certains circuits, que les frais sont supportés par le donneur d'ordre.
+Synonymes / variantes : frais à la charge de l'émetteur
+Expressions : choisir l'option OUR
+
+12. SHA
+Définition : Instruction indiquant que les frais sont partagés entre donneur d'ordre et bénéficiaire selon les règles applicables.
+Synonymes / variantes : frais partagés
+Expressions : choisir l'option SHA
+
+13. BEN
+Définition : Instruction indiquant que les frais sont supportés par le bénéficiaire selon les règles applicables.
+Synonymes / variantes : frais à la charge du bénéficiaire
+Expressions : choisir l'option BEN
+
+########################################################################
+ASSURANCE ET PROTECTION FINANCIÈRE
+########################################################################
+
+1. Prime d'assurance
+Définition : Somme payée par l'assuré à l'assureur en contrepartie de la couverture prévue au contrat.
+Synonymes / variantes : cotisation d'assurance
+Expressions : payer la prime annuelle
+
+2. Sinistre
+Définition : Événement susceptible de déclencher la garantie prévue par un contrat d'assurance.
+Synonymes / variantes : événement assuré
+Expressions : déclarer un sinistre
+
+3. Indemnisation
+Définition : Somme ou prestation versée pour réparer un préjudice couvert par une assurance ou un mécanisme applicable.
+Synonymes / variantes : indemnité
+Expressions : demander une indemnisation
+
+4. Franchise
+Définition : Part du dommage qui reste à la charge de l'assuré selon le contrat.
+Synonymes / variantes : reste à charge contractuel
+Expressions : appliquer la franchise
+
+5. Assurance-vie
+Définition : Contrat d'assurance comportant des garanties liées à la vie humaine et pouvant inclure une dimension d'épargne.
+Synonymes / variantes : contrat vie
+Expressions : souscrire une assurance-vie
+
+6. Bénéficiaire d'assurance
+Définition : Personne désignée pour recevoir une prestation prévue par le contrat.
+Synonymes / variantes : ayant droit désigné
+Expressions : désigner un bénéficiaire
+
+7. Exclusion de garantie
+Définition : Situation ou événement non couvert par le contrat d'assurance.
+Synonymes / variantes : risque exclu
+Expressions : vérifier les exclusions
+
+8. Réassurance
+Définition : Opération par laquelle un assureur transfère une partie de ses risques à un réassureur.
+Synonymes / variantes : assurance des assureurs
+Expressions : céder un risque en réassurance
+
+########################################################################
+RISQUES, CONFORMITÉ ET SÉCURITÉ
+########################################################################
+
+1. Risque de crédit
+Définition : Risque qu'un emprunteur ou une contrepartie ne respecte pas ses obligations financières.
+Synonymes / variantes : risque de contrepartie
+Expressions : évaluer le risque de crédit
+
+2. Risque de liquidité
+Définition : Risque de ne pas pouvoir faire face à ses engagements à échéance sans coût excessif.
+Synonymes / variantes : liquidity risk
+Expressions : surveiller le risque de liquidité
+
+3. Risque opérationnel
+Définition : Risque de perte résultant de processus, personnes, systèmes inadéquats ou d'événements externes.
+Synonymes / variantes : operational risk
+Expressions : maîtriser le risque opérationnel
+
+4. Risque de marché
+Définition : Risque de perte lié aux variations des prix, taux, cours ou autres facteurs de marché.
+Synonymes / variantes : market risk
+Expressions : mesurer le risque de marché
+
+5. KYC
+Définition : Procédures de connaissance du client permettant notamment de vérifier son identité et de comprendre la relation d'affaires.
+Synonymes / variantes : Know Your Customer; connaissance client
+Expressions : effectuer le KYC d'un client
+
+6. LBC/FT
+Définition : Dispositifs de lutte contre le blanchiment de capitaux et le financement du terrorisme.
+Synonymes / variantes : AML/CFT
+Expressions : déclarer une opération suspecte
+
+7. Blanchiment de capitaux
+Définition : Processus visant à dissimuler l'origine illicite de fonds pour leur donner une apparence légale.
+Synonymes / variantes : money laundering
+Expressions : détecter le blanchiment de capitaux
+
+8. Financement du terrorisme
+Définition : Fourniture ou collecte de fonds destinés à soutenir des actes ou organisations terroristes.
+Synonymes / variantes : terrorist financing
+Expressions : prévenir le financement du terrorisme
+
+9. Personne politiquement exposée
+Définition : Personne exerçant ou ayant exercé des fonctions publiques importantes, ainsi que certaines personnes liées, soumise à des diligences adaptées.
+Synonymes / variantes : PPE; PEP
+Expressions : identifier une PPE
+
+10. Sanctions financières
+Définition : Mesures restrictives visant des personnes, entités, secteurs ou pays, selon les textes applicables.
+Synonymes / variantes : sanctions économiques
+Expressions : filtrer un paiement au regard des sanctions
+
+11. Fraude au paiement
+Définition : Acte trompeur visant à obtenir ou détourner des fonds par l'utilisation abusive d'un moyen de paiement.
+Synonymes / variantes : escroquerie au paiement
+Expressions : signaler une fraude au paiement
+
+12. Phishing
+Définition : Technique frauduleuse visant à obtenir des informations sensibles en se faisant passer pour un interlocuteur légitime.
+Synonymes / variantes : hameçonnage
+Expressions : repérer un message de phishing
+
+13. Authentification
+Définition : Processus permettant de vérifier l'identité d'un utilisateur ou d'un système.
+Synonymes / variantes : vérification d'identité
+Expressions : authentifier un utilisateur
+
+14. Chiffrement
+Définition : Transformation de données afin de les rendre illisibles sans la clé appropriée.
+Synonymes / variantes : cryptage au sens courant; encryption
+Expressions : chiffrer les données bancaires
+
+15. Journal d'audit
+Définition : Trace structurée des événements et actions permettant de reconstituer une activité ou un traitement.
+Synonymes / variantes : audit trail; log d'audit
+Expressions : consulter le journal d'audit
+
+########################################################################
+MICROFINANCE ET INCLUSION FINANCIÈRE
+########################################################################
+
+1. Microfinance
+Définition : Ensemble de services financiers destinés notamment aux personnes ou petites activités ayant un accès limité aux banques classiques.
+Synonymes / variantes : finance inclusive
+Expressions : accéder aux services de microfinance
+
+2. Institution de microfinance
+Définition : Organisme autorisé à fournir des services financiers de proximité selon le cadre réglementaire applicable.
+Synonymes / variantes : IMF; établissement de microfinance
+Expressions : ouvrir un compte dans une IMF
+
+3. Microcrédit
+Définition : Crédit de montant généralement limité accordé à une personne ou une petite activité.
+Synonymes / variantes : prêt de faible montant
+Expressions : obtenir un microcrédit
+
+4. Épargne collective
+Définition : Épargne constituée par plusieurs personnes selon des règles communes.
+Synonymes / variantes : épargne de groupe
+Expressions : cotiser à une épargne collective
+
+5. Tontine
+Définition : Mécanisme collectif d'épargne ou de financement reposant sur des contributions périodiques et des règles convenues.
+Synonymes / variantes : épargne rotative; cotisation tournante
+Expressions : participer à une tontine
+
+6. Crédit solidaire
+Définition : Crédit accordé à un groupe dont les membres peuvent partager certaines responsabilités de remboursement.
+Synonymes / variantes : prêt de groupe
+Expressions : contracter un crédit solidaire
+
+7. Éducation financière
+Définition : Acquisition de connaissances et compétences permettant de prendre des décisions financières éclairées.
+Synonymes / variantes : littératie financière
+Expressions : suivre une formation en éducation financière
+
+8. Inclusion financière
+Définition : Accès et utilisation de services financiers utiles, abordables et adaptés aux besoins des personnes et entreprises.
+Synonymes / variantes : accès financier
+Expressions : développer l'inclusion financière
+
+########################################################################
+FISCALITÉ ET FINANCES PUBLIQUES
+########################################################################
+
+1. Impôt
+Définition : Prélèvement obligatoire établi par une autorité publique selon les règles fiscales.
+Synonymes / variantes : taxe au sens large selon le contexte
+Expressions : déclarer et payer ses impôts
+
+2. TVA
+Définition : Taxe sur la valeur ajoutée appliquée aux opérations imposables selon la législation applicable.
+Synonymes / variantes : taxe sur la consommation
+Expressions : collecter la TVA
+
+3. Retenue à la source
+Définition : Prélèvement fiscal effectué par un payeur lors du versement d'un revenu.
+Synonymes / variantes : withholding tax
+Expressions : appliquer une retenue à la source
+
+4. Déclaration fiscale
+Définition : Document ou formalité par laquelle un contribuable communique les informations nécessaires à l'établissement de l'impôt.
+Synonymes / variantes : déclaration d'impôt
+Expressions : déposer sa déclaration fiscale
+
+5. Dette publique
+Définition : Ensemble des engagements financiers des administrations publiques selon le périmètre retenu.
+Synonymes / variantes : dette de l'État
+Expressions : financer la dette publique
+
+6. Déficit budgétaire
+Définition : Situation dans laquelle les dépenses publiques dépassent les recettes sur une période donnée.
+Synonymes / variantes : déficit de l'État
+Expressions : financer un déficit budgétaire
+
+7. Recettes publiques
+Définition : Ressources encaissées par les administrations publiques, notamment fiscales et non fiscales.
+Synonymes / variantes : revenus publics
+Expressions : mobiliser les recettes publiques
+
+8. Dépenses publiques
+Définition : Dépenses engagées par les administrations publiques pour leurs missions et politiques.
+Synonymes / variantes : charges publiques
+Expressions : exécuter les dépenses publiques
+
+########################################################################
+TRÉSORERIE ET FINANCE D'ENTREPRISE
+########################################################################
+
+1. Plan de trésorerie
+Définition : Prévision des encaissements et décaissements sur une période afin d'anticiper les besoins de liquidité.
+Synonymes / variantes : budget de trésorerie
+Expressions : établir un plan de trésorerie
+
+2. Besoin en fonds de roulement
+Définition : Besoin de financement lié au décalage entre les décaissements et les encaissements du cycle d'exploitation.
+Synonymes / variantes : BFR
+Expressions : calculer le BFR
+
+3. Fonds de roulement
+Définition : Ressource durable disponible pour financer une partie du cycle d'exploitation après financement des emplois stables.
+Synonymes / variantes : FR
+Expressions : analyser le fonds de roulement
+
+4. Excédent de trésorerie
+Définition : Situation dans laquelle les liquidités disponibles dépassent les besoins immédiats identifiés.
+Synonymes / variantes : surplus de trésorerie
+Expressions : placer un excédent de trésorerie
+
+5. Prévision de trésorerie
+Définition : Estimation future des flux de trésorerie à partir d'hypothèses documentées.
+Synonymes / variantes : forecast de cash-flow
+Expressions : actualiser les prévisions
+
+6. Encaissement
+Définition : Réception effective de fonds par une entreprise ou un organisme.
+Synonymes / variantes : entrée de fonds
+Expressions : suivre les encaissements clients
+
+7. Décaissement
+Définition : Sortie effective de fonds d'une caisse ou d'un compte.
+Synonymes / variantes : sortie de fonds
+Expressions : autoriser un décaissement
+
+8. Affacturage
+Définition : Technique de financement et de gestion de créances commerciales par cession à un factor.
+Synonymes / variantes : factoring
+Expressions : céder des factures à un factor
+
+9. Escompte commercial
+Définition : Opération par laquelle une banque avance le montant d'un effet de commerce avant son échéance, déduction faite des frais et intérêts.
+Synonymes / variantes : escompte d'effet
+Expressions : demander l'escompte d'une traite
+
+10. Garantie bancaire
+Définition : Engagement d'une banque de payer un bénéficiaire si les conditions prévues par la garantie sont réunies.
+Synonymes / variantes : caution bancaire selon le mécanisme
+Expressions : émettre une garantie bancaire
+
+########################################################################
+CRYPTOACTIFS ET FINANCE NUMÉRIQUE
+########################################################################
+
+1. Cryptoactif
+Définition : Actif numérique pouvant être transféré ou stocké au moyen de technologies cryptographiques et de registres distribués.
+Synonymes / variantes : actif cryptographique
+Expressions : détenir un cryptoactif
+
+2. Blockchain
+Définition : Technologie de registre distribué dans laquelle les transactions sont regroupées et liées selon un mécanisme de consensus.
+Synonymes / variantes : chaîne de blocs
+Expressions : enregistrer une transaction sur blockchain
+
+3. Stablecoin
+Définition : Cryptoactif conçu pour maintenir une valeur stable par rapport à une référence, sans garantie automatique de stabilité.
+Synonymes / variantes : jeton stable
+Expressions : transférer un stablecoin
+
+4. Clé privée
+Définition : Information secrète permettant notamment de contrôler des actifs ou de signer des transactions cryptographiques.
+Synonymes / variantes : private key
+Expressions : sécuriser sa clé privée
+
+5. Clé publique
+Définition : Information cryptographique pouvant être communiquée pour recevoir ou vérifier des opérations.
+Synonymes / variantes : public key
+Expressions : partager une adresse dérivée
+
+6. Adresse de portefeuille
+Définition : Identifiant permettant d'envoyer des actifs numériques vers un portefeuille compatible.
+Synonymes / variantes : wallet address
+Expressions : vérifier une adresse de portefeuille
+
+7. Smart contract
+Définition : Programme exécuté sur une infrastructure compatible afin d'appliquer automatiquement des règles prédéfinies.
+Synonymes / variantes : contrat intelligent
+Expressions : déployer un smart contract
+
+8. Frais de réseau
+Définition : Frais associés au traitement d'une transaction sur un réseau blockchain.
+Synonymes / variantes : gas fees
+Expressions : estimer les frais de réseau
+
+########################################################################
+TERMES QUANTITATIFS ET MONTANTS
+########################################################################
+
+1. Principal
+Définition : Montant initial d'un prêt ou d'un investissement, hors intérêts et autres ajustements.
+Synonymes / variantes : capital initial
+Expressions : calculer les intérêts sur le principal
+
+2. Taux annuel
+Définition : Taux exprimé sur une base annuelle, selon une convention de calcul déterminée.
+Synonymes / variantes : taux par an
+Expressions : appliquer un taux annuel de 8 %
+
+3. Taux mensuel
+Définition : Taux exprimé sur une base mensuelle, qui ne doit pas être confondu automatiquement avec un taux annuel divisé par douze.
+Synonymes / variantes : taux par mois
+Expressions : calculer un taux mensuel
+
+4. Point de base
+Définition : Unité correspondant à un centième de point de pourcentage, soit 0,01 %.
+Synonymes / variantes : basis point; bp
+Expressions : hausse de 25 points de base
+
+5. Valeur nominale
+Définition : Valeur faciale ou valeur inscrite d'un instrument financier, distincte éventuellement de son prix de marché.
+Synonymes / variantes : valeur faciale
+Expressions : obligation de valeur nominale 10 000
+
+6. Montant brut
+Définition : Montant avant déduction des frais, impôts ou retenues applicables.
+Synonymes / variantes : valeur brute
+Expressions : montant brut du transfert
+
+7. Montant net
+Définition : Montant restant après déduction des frais, impôts ou retenues applicables.
+Synonymes / variantes : valeur nette
+Expressions : montant net reçu
+
+8. Commission
+Définition : Rémunération facturée pour un service ou une opération, souvent calculée forfaitairement ou en pourcentage.
+Synonymes / variantes : frais de service
+Expressions : prélever une commission de 1 %
+
+9. Frais fixes
+Définition : Frais dont le montant ne dépend pas directement de la valeur de l'opération.
+Synonymes / variantes : commission forfaitaire
+Expressions : facturer 500 FCFA de frais fixes
+
+10. Frais proportionnels
+Définition : Frais calculés en fonction d'une base, souvent le montant de l'opération.
+Synonymes / variantes : commission variable
+Expressions : appliquer 0,5 % du montant
+
+11. Échéancier
+Définition : Calendrier des paiements, remboursements ou autres obligations financières.
+Synonymes / variantes : calendrier de paiement
+Expressions : respecter l'échéancier
+
+12. Valeur actualisée
+Définition : Valeur présente d'un flux futur calculée au moyen d'un taux d'actualisation.
+Synonymes / variantes : present value
+Expressions : actualiser les flux futurs
+
+13. Valeur future
+Définition : Valeur estimée d'un capital à une date future après application d'une règle de capitalisation.
+Synonymes / variantes : future value
+Expressions : calculer la valeur future
+
+14. Taux d'actualisation
+Définition : Taux utilisé pour convertir des flux futurs en valeur présente.
+Synonymes / variantes : discount rate
+Expressions : choisir le taux d'actualisation
+
+15. Ratio financier
+Définition : Indicateur calculé à partir de données financières afin d'évaluer une dimension de la situation d'une entité.
+Synonymes / variantes : indicateur financier
+Expressions : calculer le ratio d'endettement
+
+
+BANQUE DE PHRASES — EXEMPLES SYNTHÉTIQUES
+
+Consultation et gestion de compte
+- Je voudrais connaître le solde de mon compte.
+- Quel est le solde disponible après les opérations en attente ?
+- Je souhaite télécharger mon relevé bancaire.
+- Pourquoi des frais de tenue de compte ont-ils été prélevés ?
+- Mon compte est bloqué, comment le réactiver ?
+- Je souhaite modifier mes coordonnées personnelles.
+- Je veux ajouter un cotitulaire ou un mandataire.
+- Je souhaite clôturer mon compte bancaire.
+
+Virements et transferts
+- J'ai effectué un virement, mais le bénéficiaire ne l'a pas reçu.
+- Le transfert est toujours en attente.
+- Je souhaite annuler un ordre de virement.
+- Quels sont les frais d'un transfert vers une autre banque ?
+- Quel délai faut-il prévoir pour un virement international ?
+- Je me suis trompé de bénéficiaire.
+- Le montant a été débité deux fois.
+- Je souhaite enregistrer un nouveau bénéficiaire.
+
+Carte et paiements
+- Ma carte a été refusée alors que mon compte est approvisionné.
+- Je souhaite faire opposition à ma carte.
+- Le distributeur a retenu ma carte.
+- Un paiement apparaît deux fois sur mon relevé.
+- Je ne reconnais pas cette transaction.
+- Mon paiement sans contact ne fonctionne plus.
+- Je souhaite augmenter le plafond de paiement.
+- Je veux obtenir une carte virtuelle pour payer en ligne.
+
+Crédit et remboursement
+- Je souhaite connaître les conditions d'obtention d'un crédit.
+- Quel sera le montant de ma mensualité ?
+- Puis-je rembourser mon prêt par anticipation ?
+- Je souhaite obtenir un tableau d'amortissement.
+- Mon échéance a été prélevée deux fois.
+- Je demande un rééchelonnement de ma dette.
+- Quels documents faut-il fournir pour un crédit professionnel ?
+- Quel est le coût total du financement, frais compris ?
+
+Mobile money et services numériques
+- Je souhaite transférer de l'argent vers un autre portefeuille mobile.
+- Mon retrait a échoué, mais le montant a été débité.
+- Comment récupérer un code PIN oublié ?
+- Le code OTP n'arrive pas sur mon téléphone.
+- Je veux payer un commerçant avec un QR code.
+- Comment alimenter mon portefeuille électronique ?
+- Je souhaite retirer mon argent chez un agent.
+- Le service USSD ne répond pas.
+
+Fraude et sécurité
+- Je pense avoir communiqué mon code confidentiel à un fraudeur.
+- Je ne reconnais pas ce paiement.
+- J'ai reçu un message me demandant de confirmer mes coordonnées bancaires.
+- Je souhaite signaler une opération suspecte.
+- Mon téléphone contenant mon application bancaire a été volé.
+- Je veux désactiver les paiements en ligne.
+- Comment vérifier qu'un agent est autorisé ?
+- Je souhaite contester une opération frauduleuse.
+
+
+MONTANTS ET NORMALISATION
+- Montant en XAF : 500 FCFA; 500 XAF; cinq cents francs CFA; 0,5 millier de FCFA
+- Milliers : 1 000 XAF; 5 000 FCFA; 25 000 francs CFA; 100K FCFA (forme abrégée à désambiguïser)
+- Millions : 1 000 000 XAF; 1 million de FCFA; 2,5 millions; 10M XAF
+- Milliards : 1 000 000 000 XAF; 1 milliard de FCFA; 1,2 milliard; 3B XAF
+- Décimales : 1 250,50 XAF; 1250.50 XAF; 1.250,50 XAF (séparateurs dépendant de la convention)
+- Pourcentages : 5 %; 5,0 %; 0,05 en valeur décimale; 500 points de base
+- Taux périodiques : 2 % par mois; 8 % par an; taux nominal annuel; taux effectif annuel
+- Durées : 30 jours; 90 jours; 6 mois; 12 mois; 36 mois; échéance trimestrielle
+- Codes monétaires : XAF; FCFA; franc CFA d'Afrique centrale; EUR; USD; GBP; NGN; GHS
+- Formats de dates : 14/11/2026; 2026-11-14; 14 novembre 2026; date de valeur

@@ -17,25 +17,25 @@ def build_icon() -> Image.Image:
     image = Image.new("RGBA", (CANVAS, CANVAS), (0, 0, 0, 0))
     draw = ImageDraw.Draw(image)
 
-    # Use almost the full canvas: Chrome renders extension marks inside a
-    # fixed-size slot, so internal padding must stay small for visual presence.
+    # Keep the dark tile large in Chrome while leaving a calm safety margin
+    # between the speech mark and the outer contour.
     draw.rounded_rectangle((2, 2, 1022, 1022), radius=226, fill="#0B0F14")
     draw.rounded_rectangle((16, 16, 1008, 1008), radius=214, outline="#26313A", width=12)
 
     # First voice: an open, light speech card.
-    rounded_polygon(draw, (50, 100, 750, 560), 126, "#F5F2E9")
-    draw.polygon([(120, 520), (125, 720), (330, 548)], fill="#F5F2E9")
-    draw.rounded_rectangle((190, 260, 620, 304), radius=22, fill="#0B1720")
-    draw.rounded_rectangle((190, 362, 520, 406), radius=22, fill="#0B1720")
+    rounded_polygon(draw, (82, 118, 742, 552), 118, "#F5F2E9")
+    draw.polygon([(142, 515), (150, 690), (330, 540)], fill="#F5F2E9")
+    draw.rounded_rectangle((200, 263, 610, 307), radius=22, fill="#0B1720")
+    draw.rounded_rectangle((200, 360, 510, 404), radius=22, fill="#0B1720")
 
     # Second voice: Adamawa Fulfulde answer, offset and visibly connected.
-    rounded_polygon(draw, (250, 380, 974, 860), 130, "#16B891")
-    draw.polygon([(765, 820), (875, 990), (650, 848)], fill="#16B891")
-    draw.rounded_rectangle((410, 550, 830, 596), radius=23, fill="#071B17")
-    draw.rounded_rectangle((410, 656, 730, 702), radius=23, fill="#071B17")
+    rounded_polygon(draw, (270, 390, 942, 838), 124, "#16B891")
+    draw.polygon([(742, 800), (838, 944), (640, 826)], fill="#16B891")
+    draw.rounded_rectangle((410, 546, 812, 592), radius=23, fill="#071B17")
+    draw.rounded_rectangle((410, 646, 716, 692), radius=23, fill="#071B17")
 
     # The overlap forms a subtle bridge between both languages.
-    draw.rounded_rectangle((315, 354, 650, 404), radius=25, fill="#F5B942")
+    draw.rounded_rectangle((325, 358, 635, 406), radius=24, fill="#F5B942")
     return image
 
 

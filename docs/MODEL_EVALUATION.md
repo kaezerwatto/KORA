@@ -11,21 +11,51 @@ Le paquet Chrome doit rester inférieur à 10 Mo et le protocole interdit de col
 - NLLB-200 600M ONNX quantifié : environ 895 Mo et cible `fuv`, pas `fub`.
 - M2M-100 quantifié : environ 632 Mo et cible le macrocode `ff`.
 
-Les grands modèles neuronaux ont donc été utilisés seulement hors extension, sur cinq phrases publiques, comme outils de comparaison. KORA livré n’emploie aucun proxy ni service distant. Il embarque son propre réseau neuronal `fub` de 77 104 paramètres, limité à la prédiction du mot suivant et au classement de formulations déjà validées sémantiquement. Un n-gramme compact sert de repli.
+Les grands modèles neuronaux ont donc été utilisés seulement hors extension,
+sur des phrases publiques, comme outils de comparaison. KORA livré n’emploie
+aucun proxy ni service distant. Il embarque son propre réseau neuronal `fub`
+de 192 864 paramètres, limité à la prédiction du mot suivant et au classement
+de formulations dont le sens est déterminé en amont. Un n-gramme compact sert
+de repli.
 
 ## Évaluation du petit réseau KORA
 
-Le découpage est fait par phrase : 107 phrases Common Voice sont tenues hors entraînement. Les formulations produit relues sont utilisées uniquement dans l’entraînement et ne gonflent pas les métriques de validation.
+Le découpage est fait par phrase : 107 phrases Common Voice sont tenues hors
+entraînement. Les 262 formulations historiques de la mémoire KORA et les 386 formulations
+terminologiques candidates sont utilisées uniquement dans l’entraînement et
+ne gonflent pas les métriques de validation. Les candidates ont un poids
+inférieur aux formulations historiques de la mémoire KORA.
 
-- architecture : contexte de deux mots, embeddings 24, couche tanh 48;
+- architecture : contexte de trois mots, embeddings 24, couche tanh 96;
 - quantification : poids int8, biais float32;
-- taille générée : environ 114 Kio avec vocabulaire et métadonnées;
-- exactitude top-1 int8 : 13,4 %;
-- exactitude top-5 int8 : 32,6 %;
-- paramètres : 77 104;
+- vocabulaire neuronal : 1 536 unités;
+- taille générée : environ 273 Kio avec vocabulaire et métadonnées;
+- exactitude top-1 int8 : 14,6 %;
+- exactitude top-5 int8 : 34,0 %;
+- paramètres : 192 864;
+- arrêt anticipé : époque optimale 2, arrêt après 8 époques sur un maximum de 40;
 - graine reproductible : 2026.
 
 Ces résultats évaluent la prédiction du prochain mot, pas la fidélité d’une traduction. Le réseau n’a pas l’autorité d’accepter une phrase et ne peut contourner ni le verrou sémantique ni la conservation des valeurs.
+
+## Recherche d’architecture
+
+Les variantes ont été entraînées avec la même graine, le même découpage et le
+même arrêt anticipé. Résultats top-1 / top-5 observés :
+
+- contexte 2, couche 64, vocabulaire 2 048 : 12,7 % / 28,3 %;
+- contexte 3, couche 64, vocabulaire 2 048 : 12,5 % / 28,2 %;
+- contexte 2, couche 96, vocabulaire 2 048 : 11,4 % / 27,7 %;
+- contexte 3, couche 96, vocabulaire 2 048 : 12,0 % / 29,1 %;
+- contexte 3, couche 128, vocabulaire 2 048 : 10,2 % / 28,9 %;
+- embeddings 32, couche 96, vocabulaire 2 048 : 12,2 % / 25,7 %;
+- contexte 3, couche 96, vocabulaire 1 792 : 11,3 % / 31,5 %;
+- configuration retenue, vocabulaire 1 536 : 14,6 % / 34,0 %.
+
+La configuration retenue dépasse donc les anciennes métriques KORA tout en
+restant très petite. Les 504 concepts restent couverts par la mémoire exacte;
+le vocabulaire neuronal n’a pas besoin de dupliquer chaque code ou emprunt
+technique pour garantir leur traduction.
 
 ## Preuve d’exécution dans le produit
 
@@ -67,7 +97,14 @@ Le transfert n'a pas échoué.
 | Ne partagez jamais votre code secret | répétition et contresens religieux | `Hoto meeɗ renndude kode maa sirlu.` | `Taa meeɗu senndugo kod sirri maa.` |
 | Vérifiez les frais avant de confirmer | phrase sans frais ni confirmation | `Ƴeewto njoɓdi ndii hade maa tabitinde.` | `Ƴeewto musakaaji hade maa tabitingo.` |
 
-La tentative de comparaison avec Google Traduction a reçu HTTP 429; aucune sortie Google n’est donc revendiquée. La colonne « Référence externe `ff` » provient d’une mémoire publique distincte, utilisée seulement comme contrepoint linguistique. Aucun de ces services n’est intégré ni requis par KORA.
+Une comparaison Google Translate vers `ff` a ensuite abouti pour cinq
+libellés. Les réponses brutes et les décisions sont archivées dans
+`data/corpora/google-ff-comparison.json`. Elles ne sont pas utilisées pour
+entraîner ni alimenter automatiquement KORA : `ff` est un macrocode et ne
+garantit pas la variété camerounaise `fub`. La colonne « Référence externe
+`ff` » provient d’une mémoire publique distincte, utilisée seulement comme
+contrepoint linguistique. Aucun de ces services n’est intégré ni requis à
+l’exécution.
 
 ## Résultats
 

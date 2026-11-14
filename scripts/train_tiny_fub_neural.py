@@ -4,8 +4,10 @@
 from __future__ import annotations
 
 import base64
+import copy
 import csv
 import json
+import os
 import random
 from pathlib import Path
 
@@ -17,19 +19,21 @@ from torch.utils.data import DataLoader, TensorDataset
 from build_fub_language_model import (
     DEFAULT_INPUT,
     ROOT,
-    reviewed_phrases,
+    memory_phrases,
+    terminology_phrases,
     tokenize,
 )
 
-OUTPUT = ROOT / "src/fub-neural-model.js"
+OUTPUT = Path(os.environ.get("KORA_MODEL_OUTPUT", ROOT / "src/fub-neural-model.js"))
 SEED = 2026
-VOCAB_LIMIT = 1_024
-CONTEXT_SIZE = 2
-EMBEDDING_SIZE = 24
-HIDDEN_SIZE = 48
-EPOCHS = 25
+VOCAB_LIMIT = int(os.environ.get("KORA_VOCAB_LIMIT", "1536"))
+CONTEXT_SIZE = int(os.environ.get("KORA_CONTEXT_SIZE", "3"))
+EMBEDDING_SIZE = int(os.environ.get("KORA_EMBEDDING_SIZE", "24"))
+HIDDEN_SIZE = int(os.environ.get("KORA_HIDDEN_SIZE", "96"))
+EPOCHS = int(os.environ.get("KORA_MAX_EPOCHS", "40"))
+EARLY_STOPPING_PATIENCE = 6
 BATCH_SIZE = 256
-REVIEWED_WEIGHT = 3
+MEMORY_WEIGHT = 3
 
 
 class TinyContextModel(nn.Module):
@@ -45,19 +49,24 @@ class TinyContextModel(nn.Module):
         return self.output(hidden)
 
 
-def load_sentences() -> tuple[list[list[str]], list[list[str]]]:
+def load_sentences() -> tuple[list[list[str]], list[list[str]], list[list[str]]]:
     common_voice: list[list[str]] = []
     with DEFAULT_INPUT.open(encoding="utf-8", newline="") as stream:
         for row in csv.DictReader(stream, delimiter="\t"):
             tokens = tokenize(row.get("sentence", ""))
             if tokens:
                 common_voice.append(tokens)
-    reviewed: list[list[str]] = []
-    for phrase in reviewed_phrases():
+    memory: list[list[str]] = []
+    for phrase in memory_phrases():
         tokens = tokenize(phrase)
         if tokens:
-            reviewed.append(tokens)
-    return common_voice, reviewed
+            memory.append(tokens)
+    terminology: list[list[str]] = []
+    for phrase in terminology_phrases():
+        tokens = tokenize(phrase)
+        if tokens:
+            terminology.append(tokens)
+    return common_voice, memory, terminology
 
 
 def build_vocabulary(sentences: list[list[str]]) -> tuple[list[str], dict[str, int]]:
@@ -119,17 +128,17 @@ def main() -> None:
     torch.manual_seed(SEED)
     torch.set_num_threads(2)
 
-    common_voice, reviewed = load_sentences()
-    vocabulary, word_to_id = build_vocabulary([*common_voice, *reviewed])
+    common_voice, memory, terminology = load_sentences()
+    vocabulary, word_to_id = build_vocabulary([*common_voice, *memory, *terminology])
     sentence_indices = list(range(len(common_voice)))
     random.shuffle(sentence_indices)
     split = int(len(sentence_indices) * 0.9)
     train_sentences = [common_voice[index] for index in sentence_indices[:split]]
     validation_sentences = [common_voice[index] for index in sentence_indices[split:]]
-    # Reviewed product language receives extra training weight and is never
+    # Product memory receives extra training weight and is never
     # counted in the held-out Common Voice metrics.
     train_contexts, train_targets = examples(
-        [*train_sentences, *(reviewed * REVIEWED_WEIGHT)], word_to_id
+        [*train_sentences, *(memory * MEMORY_WEIGHT), *terminology], word_to_id
     )
     validation_contexts, validation_targets = examples(validation_sentences, word_to_id)
     train_data = TensorDataset(train_contexts, train_targets)
@@ -140,12 +149,33 @@ def main() -> None:
     loader = DataLoader(train_data, batch_size=BATCH_SIZE, shuffle=True)
 
     model.train()
-    for _epoch in range(EPOCHS):
+    best_state = copy.deepcopy(model.state_dict())
+    best_loss = float("inf")
+    best_epoch = 0
+    epochs_trained = 0
+    stale_epochs = 0
+    for epoch in range(1, EPOCHS + 1):
+        model.train()
         for batch_contexts, batch_targets in loader:
             optimizer.zero_grad(set_to_none=True)
             loss = criterion(model(batch_contexts), batch_targets)
             loss.backward()
             optimizer.step()
+        model.eval()
+        with torch.no_grad():
+            epoch_loss = float(criterion(model(validation_contexts), validation_targets))
+        epochs_trained = epoch
+        if epoch_loss < best_loss:
+            best_loss = epoch_loss
+            best_epoch = epoch
+            best_state = copy.deepcopy(model.state_dict())
+            stale_epochs = 0
+        else:
+            stale_epochs += 1
+            if stale_epochs >= EARLY_STOPPING_PATIENCE:
+                break
+
+    model.load_state_dict(best_state)
 
     quantize_weights_in_place(model)
     model.eval()
@@ -169,15 +199,19 @@ def main() -> None:
     }
     metadata = {
         "language": "fub",
-        "kind": "quantized two-token neural language model",
+        "kind": "quantized three-token neural language model",
         "commonVoiceSentences": len(common_voice),
-        "reviewedPhrases": len(reviewed),
+        "memoryPhrases": len(memory),
+        "terminologyCandidatePhrases": len(terminology),
         "vocabulary": len(vocabulary),
         "contextSize": CONTEXT_SIZE,
         "embeddingSize": EMBEDDING_SIZE,
         "hiddenSize": HIDDEN_SIZE,
         "parameters": sum(parameter.numel() for parameter in model.parameters()),
-        "epochs": EPOCHS,
+        "maximumEpochs": EPOCHS,
+        "epochsTrained": epochs_trained,
+        "bestEpoch": best_epoch,
+        "earlyStoppingPatience": EARLY_STOPPING_PATIENCE,
         "validationExamples": len(validation_targets),
         "validationSentences": len(validation_sentences),
         "validationLoss": round(validation_loss, 4),
@@ -192,9 +226,10 @@ def main() -> None:
         f"export const FUB_NEURAL_VOCAB = Object.freeze({json.dumps(vocabulary, ensure_ascii=False, separators=(',', ':'))});\n"
         f"export const FUB_NEURAL_WEIGHTS = Object.freeze({json.dumps(state, ensure_ascii=False, separators=(',', ':'))});\n"
     )
+    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(content, encoding="utf-8")
     print(
-        f"Generated {OUTPUT.relative_to(ROOT)}: {metadata['parameters']} parameters, "
+        f"Generated {OUTPUT}: {metadata['parameters']} parameters, "
         f"top-1={top1:.3f}, top-5={top5:.3f}, "
         f"{OUTPUT.stat().st_size / 1024:.1f} KiB"
     )

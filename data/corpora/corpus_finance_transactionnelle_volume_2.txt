@@ -1,0 +1,1612 @@
+CORPUS DE FINANCE TRANSACTIONNELLE — VOLUME 2
+Transactions, comptes, statuts, erreurs, événements, options et alertes
+========================================================================================
+
+
+########################################################################################
+1. CYCLE DE VIE DES TRANSACTIONS
+########################################################################################
+
+1. Transaction
+Définition : Opération financière enregistrée ou initiée entre un ou plusieurs comptes, clients, commerçants ou prestataires.
+
+2. Transaction entrante
+Définition : Opération reçue par un système financier depuis un autre système, un réseau ou un utilisateur.
+
+3. Transaction sortante
+Définition : Opération émise par un système financier vers un bénéficiaire, un réseau ou un prestataire externe.
+
+4. Transaction initiée
+Définition : Opération créée par un utilisateur ou un système, mais pas nécessairement exécutée.
+
+5. Transaction soumise
+Définition : Opération transmise au service chargé de son traitement.
+
+6. Transaction acceptée
+Définition : Opération dont la demande a été acceptée pour traitement ; cela ne signifie pas toujours que le règlement est final.
+
+7. Transaction autorisée
+Définition : Opération pour laquelle l'autorisation requise a été accordée.
+
+8. Transaction en traitement
+Définition : Opération actuellement prise en charge par un système ou un prestataire.
+
+9. Transaction en attente
+Définition : Opération dont le résultat définitif n'est pas encore connu.
+
+10. Transaction réussie
+Définition : Opération ayant atteint le résultat positif attendu selon la définition du service.
+
+11. Transaction échouée
+Définition : Opération qui n'a pas pu aboutir.
+
+12. Transaction rejetée
+Définition : Opération refusée par le système, l'établissement, le réseau ou une règle métier.
+
+13. Transaction expirée
+Définition : Opération devenue invalide après dépassement du délai autorisé.
+
+14. Transaction annulée
+Définition : Opération interrompue avant son achèvement, selon les règles applicables.
+
+15. Transaction inversée
+Définition : Opération compensatoire qui annule tout ou partie de l'effet financier d'une opération antérieure.
+
+16. Transaction remboursée
+Définition : Opération pour laquelle tout ou partie des fonds a été restitué au payeur.
+
+17. Transaction contestée
+Définition : Opération faisant l'objet d'une réclamation ou d'un litige.
+
+18. Transaction dupliquée
+Définition : Opération détectée comme répétition possible d'une opération déjà reçue.
+
+19. Transaction partielle
+Définition : Opération exécutée pour un montant inférieur au montant initial demandé.
+
+20. Transaction différée
+Définition : Opération programmée ou reportée à un moment ultérieur.
+
+21. Transaction récurrente
+Définition : Opération exécutée de manière répétée selon une périodicité définie.
+
+22. Transaction hors ligne
+Définition : Opération initiée ou autorisée sans connexion directe au système central, avec traitement ultérieur éventuel.
+
+23. Transaction rapprochée
+Définition : Opération associée à une écriture, un relevé ou une opération correspondante.
+
+24. Transaction non rapprochée
+Définition : Opération pour laquelle aucune correspondance comptable ou bancaire n'a encore été identifiée.
+
+25. Transaction finale
+Définition : Opération dont le statut est considéré comme définitif dans le système concerné.
+
+26. Transaction provisoire
+Définition : Opération enregistrée temporairement, en attente de confirmation ou de règlement.
+
+27. Transaction compensée
+Définition : Opération intégrée dans le processus de compensation entre participants.
+
+28. Transaction réglée
+Définition : Opération dont le transfert final des fonds a été effectué selon les règles du système.
+
+29. Transaction interopérable
+Définition : Opération échangée entre plusieurs réseaux ou prestataires compatibles.
+
+30. Transaction transfrontalière
+Définition : Opération impliquant des pays, territoires ou systèmes financiers différents.
+
+########################################################################################
+2. TYPES DE MOUVEMENTS ET OPÉRATIONS
+########################################################################################
+
+1. Crédit de compte
+Définition : Inscription d'un montant au crédit d'un compte.
+
+2. Débit de compte
+Définition : Inscription d'un montant au débit d'un compte.
+
+3. Dépôt en espèces
+Définition : Versement d'argent liquide sur un compte ou portefeuille.
+
+4. Retrait en espèces
+Définition : Sortie d'argent liquide depuis un compte ou portefeuille.
+
+5. Transfert P2P
+Définition : Transfert de fonds d'une personne à une autre.
+
+6. Paiement P2B
+Définition : Paiement d'une personne à une entreprise ou un commerçant.
+
+7. Paiement B2B
+Définition : Paiement entre deux entreprises.
+
+8. Paiement B2P
+Définition : Paiement effectué par une entreprise au profit d'une personne.
+
+9. Virement interne
+Définition : Transfert entre deux comptes gérés par le même établissement ou système.
+
+10. Virement externe
+Définition : Transfert vers un compte tenu par un autre établissement ou prestataire.
+
+11. Virement instantané
+Définition : Transfert traité en temps quasi réel lorsque le système le permet.
+
+12. Virement programmé
+Définition : Transfert planifié pour une date future.
+
+13. Prélèvement
+Définition : Débit effectué à l'initiative d'un créancier autorisé.
+
+14. Paiement de facture
+Définition : Règlement d'une facture auprès d'un fournisseur ou d'un organisme.
+
+15. Paiement marchand
+Définition : Règlement effectué par un client au profit d'un commerçant.
+
+16. Recharge téléphonique
+Définition : Achat de crédit de communication au moyen d'un compte ou portefeuille.
+
+17. Paiement de frais
+Définition : Règlement de frais de service, de dossier ou de traitement.
+
+18. Remboursement marchand
+Définition : Restitution de fonds par un commerçant au payeur.
+
+19. Remboursement de crédit
+Définition : Paiement d'une échéance ou d'une partie du capital et des intérêts d'un prêt.
+
+20. Frais de transfert
+Définition : Montant facturé pour exécuter un transfert.
+
+21. Commission de retrait
+Définition : Frais appliqués à une opération de retrait.
+
+22. Frais de conversion
+Définition : Coût appliqué à la conversion d'une devise ou d'une unité monétaire.
+
+23. Règlement fournisseur
+Définition : Paiement d'une somme due à un fournisseur.
+
+24. Encaissement client
+Définition : Réception d'un paiement provenant d'un client.
+
+25. Transfert de portefeuille
+Définition : Déplacement de valeur entre deux portefeuilles électroniques.
+
+26. Cash-in
+Définition : Conversion d'espèces en valeur électronique.
+
+27. Cash-out
+Définition : Conversion de valeur électronique en espèces.
+
+28. Cashback
+Définition : Restitution ou remise d'une partie du montant dépensé, selon les conditions d'une offre.
+
+29. Paiement fractionné
+Définition : Paiement réparti en plusieurs montants ou échéances.
+
+30. Paiement groupé
+Définition : Exécution d'un ensemble de paiements dans une même instruction ou un même lot.
+
+########################################################################################
+3. RÉSULTATS, STATUTS ET CODES DE RETOUR
+########################################################################################
+
+1. SUCCESS
+Définition : Code ou libellé indiquant une exécution réussie, selon la convention de l'API.
+
+2. FAILED
+Définition : Code ou libellé indiquant que l'opération a échoué.
+
+3. PENDING
+Définition : Opération en attente d'un résultat définitif.
+
+4. PROCESSING
+Définition : Opération en cours de traitement.
+
+5. ACCEPTED
+Définition : Demande acceptée pour traitement.
+
+6. REJECTED
+Définition : Demande rejetée.
+
+7. DECLINED
+Définition : Opération refusée, souvent à la suite d'une règle d'autorisation.
+
+8. CANCELLED
+Définition : Opération annulée.
+
+9. EXPIRED
+Définition : Opération expirée.
+
+10. TIMEOUT
+Définition : Le délai d'attente a été dépassé sans réponse exploitable.
+
+11. REVERSED
+Définition : Opération inversée ou contrepassée.
+
+12. REFUNDED
+Définition : Opération remboursée.
+
+13. PARTIALLY_REFUNDED
+Définition : Remboursement partiel effectué.
+
+14. AUTHORIZED
+Définition : Autorisation accordée.
+
+15. CAPTURED
+Définition : Montant capturé ou confirmé pour encaissement selon le modèle de paiement.
+
+16. SETTLED
+Définition : Règlement finalisé.
+
+17. SETTLEMENT_PENDING
+Définition : Règlement en attente.
+
+18. RECONCILED
+Définition : Opération rapprochée.
+
+19. UNRECONCILED
+Définition : Opération non rapprochée.
+
+20. DUPLICATE
+Définition : Demande considérée comme duplicata.
+
+21. INVALID
+Définition : Donnée ou demande invalide.
+
+22. NOT_FOUND
+Définition : Ressource ou transaction introuvable.
+
+23. INSUFFICIENT_FUNDS
+Définition : Solde ou fonds disponibles insuffisants.
+
+24. LIMIT_EXCEEDED
+Définition : Limite autorisée dépassée.
+
+25. REQUIRES_ACTION
+Définition : Une action supplémentaire de l'utilisateur ou du système est nécessaire.
+
+26. UNKNOWN
+Définition : Résultat inconnu ou non déterminé.
+
+27. PARTIAL_SUCCESS
+Définition : Traitement partiellement réussi.
+
+28. QUEUED
+Définition : Opération placée dans une file d'attente.
+
+29. RETRYING
+Définition : Nouvelle tentative de traitement en cours.
+
+30. MANUAL_REVIEW
+Définition : Opération soumise à une vérification manuelle.
+
+########################################################################################
+4. ERREURS DE PAIEMENT ET MOTIFS DE REJET
+########################################################################################
+
+1. Solde insuffisant
+Définition : Le compte ne dispose pas de fonds suffisants pour couvrir le montant et les frais éventuels.
+
+2. Compte débiteur non autorisé
+Définition : Le compte présente un solde négatif sans facilité de découvert applicable.
+
+3. Compte bloqué
+Définition : Le compte est soumis à une restriction empêchant l'opération.
+
+4. Compte clôturé
+Définition : Le compte destinataire ou émetteur n'est plus actif.
+
+5. Compte inactif
+Définition : Le compte est marqué comme inactif selon les règles du prestataire.
+
+6. Bénéficiaire invalide
+Définition : Les coordonnées ou l'identité du bénéficiaire ne sont pas valides.
+
+7. Bénéficiaire introuvable
+Définition : Le système ne trouve pas le bénéficiaire indiqué.
+
+8. Numéro de compte incorrect
+Définition : Le numéro fourni ne respecte pas le format ou ne correspond pas à un compte connu.
+
+9. Identifiant marchand invalide
+Définition : Le code du commerçant est absent, erroné ou non reconnu.
+
+10. Code PIN incorrect
+Définition : Le code confidentiel fourni est incorrect.
+
+11. Code OTP expiré
+Définition : Le code à usage unique n'est plus valide.
+
+12. Code OTP incorrect
+Définition : Le code de vérification fourni ne correspond pas au code attendu.
+
+13. Authentification échouée
+Définition : Le mécanisme de vérification de l'utilisateur n'a pas abouti.
+
+14. Carte expirée
+Définition : La date de validité de la carte est dépassée.
+
+15. Carte bloquée
+Définition : La carte ne peut plus être utilisée.
+
+16. Carte perdue ou volée
+Définition : La carte est signalée comme perdue ou volée.
+
+17. Plafond dépassé
+Définition : Le montant ou le nombre d'opérations dépasse une limite définie.
+
+18. Limite journalière atteinte
+Définition : Le plafond journalier d'opérations est atteint.
+
+19. Limite mensuelle atteinte
+Définition : Le plafond mensuel est atteint.
+
+20. Devise non prise en charge
+Définition : La devise demandée n'est pas acceptée par le service.
+
+21. Pays non autorisé
+Définition : L'opération provient d'un pays ou vise un pays non pris en charge.
+
+22. Canal indisponible
+Définition : Le canal utilisé ne permet pas d'exécuter l'opération à cet instant.
+
+23. Prestataire indisponible
+Définition : Le service externe nécessaire ne répond pas ou est hors service.
+
+24. Réseau indisponible
+Définition : La connexion au réseau de paiement est interrompue.
+
+25. Délai dépassé
+Définition : Le système n'a pas obtenu de réponse dans le délai prévu.
+
+26. Référence dupliquée
+Définition : Une référence identique a déjà été utilisée.
+
+27. Format invalide
+Définition : Un champ ne respecte pas le format attendu.
+
+28. Champ obligatoire manquant
+Définition : Une donnée indispensable n'a pas été fournie.
+
+29. Signature invalide
+Définition : La signature de la requête ne peut pas être vérifiée.
+
+30. Clé API invalide
+Définition : La clé d'accès à l'API est incorrecte, expirée ou révoquée.
+
+31. Accès non autorisé
+Définition : L'utilisateur ou l'application ne dispose pas des droits nécessaires.
+
+32. Règle antifraude déclenchée
+Définition : Une règle de surveillance a bloqué ou suspendu l'opération.
+
+33. Vérification de conformité requise
+Définition : L'opération nécessite un contrôle complémentaire.
+
+34. Compte destinataire non éligible
+Définition : Le compte ne peut pas recevoir ce type d'opération.
+
+35. Montant minimum non atteint
+Définition : Le montant est inférieur au seuil autorisé.
+
+36. Montant maximum dépassé
+Définition : Le montant est supérieur au plafond autorisé.
+
+37. Erreur de routage
+Définition : Le système n'a pas trouvé de route valide vers le réseau ou le prestataire.
+
+38. Erreur de compensation
+Définition : L'opération n'a pas pu être intégrée ou finalisée dans le processus de compensation.
+
+39. Erreur de règlement
+Définition : Le transfert final des fonds n'a pas été exécuté correctement.
+
+40. Erreur interne
+Définition : Une anomalie est survenue dans le système de traitement.
+
+41. Erreur inconnue
+Définition : Le système ne peut pas déterminer précisément la cause de l'échec.
+
+########################################################################################
+5. ÉVÉNEMENTS TRANSACTIONNELS ET WEBHOOKS
+########################################################################################
+
+1. transaction.created
+Définition : Événement indiquant la création d'une transaction.
+
+2. transaction.submitted
+Définition : Événement indiquant la soumission de l'opération au traitement.
+
+3. transaction.validated
+Définition : Événement indiquant que les contrôles de validation sont passés.
+
+4. transaction.authorized
+Définition : Événement indiquant l'obtention d'une autorisation.
+
+5. transaction.processing
+Définition : Événement indiquant le début ou la poursuite du traitement.
+
+6. transaction.pending
+Définition : Événement signalant que le résultat reste en attente.
+
+7. transaction.succeeded
+Définition : Événement indiquant la réussite de la transaction.
+
+8. transaction.failed
+Définition : Événement indiquant l'échec de la transaction.
+
+9. transaction.rejected
+Définition : Événement indiquant le rejet de la demande.
+
+10. transaction.cancelled
+Définition : Événement indiquant l'annulation de l'opération.
+
+11. transaction.expired
+Définition : Événement indiquant l'expiration de la transaction.
+
+12. transaction.reversed
+Définition : Événement indiquant l'inversion d'une opération antérieure.
+
+13. transaction.refunded
+Définition : Événement indiquant qu'un remboursement a été effectué.
+
+14. transaction.disputed
+Définition : Événement indiquant l'ouverture d'une contestation.
+
+15. transaction.updated
+Définition : Événement indiquant la mise à jour des données de la transaction.
+
+16. transaction.completed
+Définition : Événement signalant la fin du cycle de traitement selon le système.
+
+17. transaction.retry_scheduled
+Définition : Événement signalant qu'une nouvelle tentative est planifiée.
+
+18. transaction.manual_review
+Définition : Événement signalant le passage en vérification manuelle.
+
+19. account.credited
+Définition : Événement indiquant le crédit d'un compte.
+
+20. account.debited
+Définition : Événement indiquant le débit d'un compte.
+
+21. account.frozen
+Définition : Événement indiquant le gel d'un compte.
+
+22. account.unfrozen
+Définition : Événement indiquant la levée du gel d'un compte.
+
+23. account.balance_changed
+Définition : Événement indiquant une modification du solde.
+
+24. account.limit_reached
+Définition : Événement signalant l'atteinte d'une limite de compte.
+
+25. payment.received
+Définition : Événement indiquant la réception d'une demande ou d'un paiement.
+
+26. payment.confirmed
+Définition : Événement indiquant la confirmation d'un paiement.
+
+27. payment.settled
+Définition : Événement indiquant le règlement d'un paiement.
+
+28. payment.refund_initiated
+Définition : Événement indiquant le démarrage d'un remboursement.
+
+29. transfer.initiated
+Définition : Événement indiquant le démarrage d'un transfert.
+
+30. transfer.delivered
+Définition : Événement indiquant la remise ou l'acheminement du transfert au destinataire.
+
+31. transfer.returned
+Définition : Événement indiquant le retour d'un transfert.
+
+32. kyc.review_required
+Définition : Événement indiquant qu'un contrôle KYC est nécessaire.
+
+33. risk.alert_raised
+Définition : Événement signalant la création d'une alerte de risque.
+
+34. webhook.delivery_failed
+Définition : Événement indiquant l'échec de livraison d'un webhook.
+
+35. settlement.batch_closed
+Définition : Événement indiquant la clôture d'un lot de règlement.
+
+########################################################################################
+6. COMPTES, SOLDES ET ÉCRITURES
+########################################################################################
+
+1. Solde disponible
+Définition : Montant immédiatement mobilisable après prise en compte des restrictions et opérations pertinentes.
+
+2. Solde comptable
+Définition : Solde issu des écritures enregistrées dans le système comptable.
+
+3. Solde en attente
+Définition : Montant associé à des opérations non encore définitivement comptabilisées ou réglées.
+
+4. Solde réservé
+Définition : Montant temporairement indisponible en raison d'une autorisation, d'une garantie ou d'une réservation.
+
+5. Solde bloqué
+Définition : Montant indisponible en raison d'une restriction ou d'une mesure de blocage.
+
+6. Solde minimum
+Définition : Montant minimal qui doit rester sur un compte selon les conditions du produit.
+
+7. Solde maximum
+Définition : Limite supérieure de détention ou de fonctionnement d'un compte.
+
+8. Mouvement créditeur
+Définition : Écriture augmentant le solde du compte.
+
+9. Mouvement débiteur
+Définition : Écriture diminuant le solde du compte.
+
+10. Écriture comptable
+Définition : Enregistrement d'une opération dans les comptes selon les règles de comptabilisation.
+
+11. Contrepassation
+Définition : Écriture inverse utilisée pour corriger ou annuler l'effet comptable d'une écriture antérieure.
+
+12. Réservation de fonds
+Définition : Blocage temporaire d'un montant avant capture ou finalisation d'une opération.
+
+13. Libération de fonds
+Définition : Levée d'une réservation ou d'un blocage de montant.
+
+14. Compte source
+Définition : Compte depuis lequel les fonds sont prélevés.
+
+15. Compte destination
+Définition : Compte vers lequel les fonds sont envoyés.
+
+16. Compte de cantonnement
+Définition : Compte destiné à isoler des fonds détenus pour le compte de tiers, lorsque le cadre applicable le prévoit.
+
+17. Compte de règlement
+Définition : Compte utilisé pour dénouer les positions financières.
+
+18. Compte technique
+Définition : Compte interne utilisé par un système pour traiter ou suivre des flux.
+
+19. Compte de frais
+Définition : Compte utilisé pour enregistrer les frais ou commissions.
+
+20. Compte de transit
+Définition : Compte temporaire utilisé pendant le traitement d'un flux financier.
+
+21. Référence de compte
+Définition : Identifiant permettant de retrouver un compte dans un système.
+
+22. Historique des mouvements
+Définition : Liste chronologique des opérations affectant un compte.
+
+23. Journal de transactions
+Définition : Enregistrement ordonné des opérations traitées par une application ou une plateforme.
+
+24. Rapprochement
+Définition : Comparaison d'opérations provenant de plusieurs sources pour identifier les correspondances et écarts.
+
+25. Écart de rapprochement
+Définition : Différence entre les données de deux systèmes ou documents rapprochés.
+
+########################################################################################
+7. WARNINGS, ALERTES ET NOTIFICATIONS
+########################################################################################
+
+1. WARNING
+Définition : Avertissement signalant une situation à surveiller, sans indiquer nécessairement un échec.
+
+2. INFO
+Définition : Message informatif décrivant un événement ou un état normal du système.
+
+3. NOTICE
+Définition : Notification attirant l'attention sur une condition ou une action.
+
+4. ALERT
+Définition : Alerte nécessitant une attention ou une vérification.
+
+5. CRITICAL
+Définition : Niveau signalant une situation critique susceptible d'affecter le service ou les fonds.
+
+6. ERROR
+Définition : Message indiquant une erreur de traitement ou de validation.
+
+7. FATAL
+Définition : Erreur empêchant la poursuite d'un traitement ou le fonctionnement d'un composant.
+
+8. Alerte de solde faible
+Définition : Notification indiquant que le solde approche d'un seuil défini.
+
+9. Alerte de solde insuffisant
+Définition : Notification indiquant que les fonds ne couvrent pas une opération envisagée.
+
+10. Alerte de transaction inhabituelle
+Définition : Signalement d'une opération qui s'écarte du profil ou des règles de surveillance.
+
+11. Alerte de connexion
+Définition : Notification relative à une connexion nouvelle ou considérée comme inhabituelle.
+
+12. Alerte de tentative échouée
+Définition : Signalement d'une ou plusieurs tentatives infructueuses.
+
+13. Alerte de plafond
+Définition : Notification indiquant l'approche ou l'atteinte d'une limite.
+
+14. Alerte de compte bloqué
+Définition : Notification indiquant qu'une restriction a été appliquée au compte.
+
+15. Alerte de retard de règlement
+Définition : Signalement d'un règlement qui dépasse le délai attendu.
+
+16. Alerte de webhook
+Définition : Notification concernant un événement non livré ou une livraison répétée.
+
+17. Alerte de conformité
+Définition : Signalement d'un contrôle ou d'une vérification réglementaire nécessaire.
+
+18. Alerte antifraude
+Définition : Signalement d'un comportement ou d'une opération potentiellement frauduleuse.
+
+19. Notification de débit
+Définition : Message informant le titulaire d'un débit sur son compte.
+
+20. Notification de crédit
+Définition : Message informant le titulaire d'un crédit sur son compte.
+
+21. Notification de transfert reçu
+Définition : Message confirmant la réception d'un transfert.
+
+22. Notification de retrait
+Définition : Message confirmant ou signalant un retrait.
+
+23. Notification de remboursement
+Définition : Message signalant l'émission ou la réception d'un remboursement.
+
+24. Notification de maintenance
+Définition : Message annonçant une interruption planifiée du service.
+
+25. Notification de service indisponible
+Définition : Message indiquant qu'une fonctionnalité n'est momentanément pas accessible.
+
+########################################################################################
+8. OPTIONS ET PARAMÈTRES FINANCIERS
+########################################################################################
+
+1. Montant de transaction
+Définition : Valeur monétaire demandée pour une opération.
+
+2. Devise de transaction
+Définition : Unité monétaire dans laquelle le montant est exprimé.
+
+3. Frais à la charge de l'émetteur
+Définition : Option selon laquelle le donneur d'ordre supporte les frais prévus par le circuit.
+
+4. Frais partagés
+Définition : Option de répartition des frais entre les parties selon les règles du transfert.
+
+5. Frais à la charge du bénéficiaire
+Définition : Option selon laquelle les frais sont supportés par le bénéficiaire, lorsque le circuit le permet.
+
+6. Priorité de transaction
+Définition : Niveau de priorité attribué au traitement d'une opération.
+
+7. Date d'exécution
+Définition : Date prévue ou effective de traitement d'une opération.
+
+8. Heure limite de traitement
+Définition : Heure après laquelle une opération peut être reportée au prochain cycle.
+
+9. Canal de paiement
+Définition : Moyen technique ou commercial par lequel une opération est initiée.
+
+10. Mode de règlement
+Définition : Mécanisme utilisé pour finaliser le transfert des fonds.
+
+11. Mode de confirmation
+Définition : Méthode utilisée pour confirmer le résultat d'une opération.
+
+12. Option de notification
+Définition : Paramètre déterminant les notifications à envoyer au client ou au système appelant.
+
+13. Option de remboursement
+Définition : Paramètre déterminant les modalités de restitution des fonds.
+
+14. Option de réessai
+Définition : Paramètre définissant si et comment une opération peut être retentée.
+
+15. Nombre maximal de tentatives
+Définition : Limite du nombre de nouvelles tentatives automatiques.
+
+16. Délai d'expiration
+Définition : Durée après laquelle une demande ou un lien de paiement n'est plus valable.
+
+17. Clé d'idempotence
+Définition : Identifiant unique permettant d'éviter qu'une même requête répétée ne crée plusieurs opérations.
+
+18. Référence externe
+Définition : Identifiant fourni par un système partenaire pour retrouver une opération.
+
+19. Référence interne
+Définition : Identifiant attribué par le système qui traite l'opération.
+
+20. Métadonnées
+Définition : Informations complémentaires associées à une transaction sans nécessairement modifier son effet financier.
+
+21. Mode test
+Définition : Environnement de simulation ne produisant pas les mêmes effets qu'une opération réelle.
+
+22. Mode production
+Définition : Environnement opérationnel utilisé pour traiter de vraies opérations.
+
+23. Routage automatique
+Définition : Sélection automatique d'un réseau ou prestataire pour acheminer une opération.
+
+24. Routage de secours
+Définition : Basculement vers une route alternative en cas d'indisponibilité.
+
+25. Règlement brut
+Définition : Règlement opération par opération sans compensation nette préalable.
+
+26. Règlement net
+Définition : Règlement des positions après compensation des opérations.
+
+########################################################################################
+9. API, LOGS ET INTÉGRATION TECHNIQUE
+########################################################################################
+
+1. Endpoint
+Définition : Adresse d'une ressource ou fonction accessible via une API.
+
+2. Requête API
+Définition : Message envoyé à un service informatique pour demander une opération ou une information.
+
+3. Réponse API
+Définition : Message retourné par le service après traitement d'une requête.
+
+4. Payload
+Définition : Contenu de données transmis dans une requête, réponse ou notification.
+
+5. Header HTTP
+Définition : En-tête transportant des métadonnées de communication.
+
+6. Webhook
+Définition : Notification envoyée automatiquement par un service vers une URL configurée lorsqu'un événement survient.
+
+7. Callback
+Définition : Fonction ou URL appelée après un événement ou une opération asynchrone.
+
+8. Request ID
+Définition : Identifiant de suivi d'une requête.
+
+9. Transaction ID
+Définition : Identifiant unique attribué à une transaction dans un système.
+
+10. Idempotency key
+Définition : Clé utilisée pour rendre une requête répétée sans effet financier dupliqué.
+
+11. Correlation ID
+Définition : Identifiant permettant de relier plusieurs messages ou opérations appartenant au même parcours.
+
+12. Trace ID
+Définition : Identifiant permettant de suivre une exécution à travers plusieurs composants.
+
+13. HTTP 200
+Définition : Code HTTP indiquant généralement que la requête a été traitée avec succès au niveau HTTP.
+
+14. HTTP 201
+Définition : Code HTTP indiquant généralement la création d'une ressource.
+
+15. HTTP 202
+Définition : Code HTTP indiquant que la demande a été acceptée pour traitement ultérieur.
+
+16. HTTP 400
+Définition : Code HTTP indiquant une requête incorrecte.
+
+17. HTTP 401
+Définition : Code HTTP indiquant une authentification requise ou invalide.
+
+18. HTTP 403
+Définition : Code HTTP indiquant un accès interdit.
+
+19. HTTP 404
+Définition : Code HTTP indiquant une ressource introuvable.
+
+20. HTTP 409
+Définition : Code HTTP indiquant un conflit avec l'état actuel d'une ressource.
+
+21. HTTP 422
+Définition : Code HTTP indiquant généralement des données syntaxiquement valides mais sémantiquement non traitables.
+
+22. HTTP 429
+Définition : Code HTTP indiquant un dépassement de limite de requêtes.
+
+23. HTTP 500
+Définition : Code HTTP indiquant une erreur interne du serveur.
+
+24. HTTP 502
+Définition : Code HTTP indiquant une réponse invalide reçue par une passerelle.
+
+25. HTTP 503
+Définition : Code HTTP indiquant un service temporairement indisponible.
+
+26. HTTP 504
+Définition : Code HTTP indiquant un dépassement de délai au niveau d'une passerelle.
+
+27. Log d'audit
+Définition : Trace permettant d'établir qui a fait quoi, quand et sur quelle ressource.
+
+28. Log applicatif
+Définition : Enregistrement des événements produits par une application.
+
+29. Log de transaction
+Définition : Trace technique liée au traitement d'une opération financière.
+
+30. Retry
+Définition : Nouvelle tentative d'exécution après un échec ou une absence de réponse.
+
+31. Backoff exponentiel
+Définition : Stratégie augmentant progressivement le délai entre les nouvelles tentatives.
+
+32. Rate limiting
+Définition : Limitation du nombre de requêtes autorisées sur une période.
+
+33. Circuit breaker
+Définition : Mécanisme qui interrompt temporairement les appels à un service défaillant.
+
+34. Dead-letter queue
+Définition : File destinée aux messages qui n'ont pas pu être traités après les tentatives prévues.
+
+########################################################################################
+10. FRAUDE, LITIGES ET CONTRÔLES TRANSACTIONNELS
+########################################################################################
+
+1. Transaction suspecte
+Définition : Opération présentant des caractéristiques qui justifient une analyse complémentaire.
+
+2. Faux positif
+Définition : Alerte déclenchée alors que l'opération est légitime.
+
+3. Faux négatif
+Définition : Opération risquée non détectée par le dispositif de contrôle.
+
+4. Vélocité transactionnelle
+Définition : Fréquence ou volume d'opérations sur une période donnée.
+
+5. Empreinte appareil
+Définition : Informations techniques utilisées pour reconnaître un appareil, dans le respect des règles applicables.
+
+6. Géolocalisation transactionnelle
+Définition : Information de localisation associée à une opération, si elle est disponible et légalement traitée.
+
+7. Liste de surveillance
+Définition : Liste utilisée pour effectuer des contrôles sur des personnes, entités ou opérations.
+
+8. Blocage préventif
+Définition : Restriction temporaire appliquée pour réduire un risque.
+
+9. Contrôle manuel
+Définition : Examen réalisé par un opérateur ou une équipe spécialisée.
+
+10. Contestations de paiement
+Définition : Réclamations portant sur une opération de paiement.
+
+11. Litige commerçant
+Définition : Désaccord entre un payeur, un commerçant et éventuellement leurs prestataires.
+
+12. Preuve de paiement
+Définition : Élément permettant d'attester qu'une opération a été initiée ou exécutée.
+
+13. Reçu transactionnel
+Définition : Document ou message récapitulant une opération.
+
+14. Remboursement partiel
+Définition : Restitution d'une partie seulement du montant payé.
+
+15. Remboursement total
+Définition : Restitution de l'intégralité du montant concerné.
+
+16. Délai de contestation
+Définition : Période pendant laquelle une opération peut être contestée selon les règles applicables.
+
+########################################################################################
+DEMANDES CLIENT ET INTENTIONS TRANSACTIONNELLES
+########################################################################################
+- Je veux envoyer de l'argent à un autre compte.
+- Je souhaite effectuer un transfert vers un numéro mobile.
+- Je veux déposer de l'argent sur mon portefeuille.
+- Je souhaite retirer la totalité de mon solde.
+- Je veux payer une facture depuis mon compte.
+- Je souhaite acheter du crédit téléphonique.
+- Je veux transférer de l'argent entre mes deux comptes.
+- Je souhaite annuler le transfert que je viens d'initier.
+- Je veux vérifier si mon paiement est passé.
+- Je souhaite recevoir une preuve de transaction.
+- Je veux connaître les frais avant de confirmer.
+- Je souhaite modifier le montant avant validation.
+- Je veux enregistrer un nouveau bénéficiaire.
+- Je souhaite programmer un paiement pour demain.
+- Je veux rembourser une transaction envoyée par erreur.
+- Je souhaite contester un débit que je ne reconnais pas.
+- Je veux savoir pourquoi mon compte a été débité.
+- Je souhaite consulter les opérations de la journée.
+- Je veux télécharger l'historique de mes transactions.
+- Je souhaite faire opposition à une opération suspecte.
+- Je veux savoir si le bénéficiaire a reçu les fonds.
+- Je souhaite relancer une opération restée en attente.
+- Je veux effectuer un paiement marchand par QR code.
+- Je souhaite payer en plusieurs fois.
+- Je veux désactiver les paiements internationaux.
+
+########################################################################################
+RÉSULTATS POSITIFS ET CONFIRMATIONS
+########################################################################################
+- Transaction effectuée avec succès.
+- Votre paiement a été traité avec succès.
+- Le transfert a été envoyé au bénéficiaire.
+- Les fonds ont été crédités sur le compte destinataire.
+- Votre compte a été débité du montant demandé.
+- Le dépôt a été enregistré.
+- Le retrait a été effectué.
+- Le paiement marchand a été confirmé.
+- Le remboursement a été initié.
+- Le remboursement a été crédité sur votre compte.
+- Le règlement a été finalisé.
+- Votre transaction est terminée.
+- Le bénéficiaire a été ajouté avec succès.
+- Votre demande a été acceptée.
+- Le paiement a été autorisé.
+- Le montant a été réservé avec succès.
+- Les frais ont été calculés et appliqués.
+- Votre reçu est disponible.
+- Le transfert a été confirmé par le réseau partenaire.
+- Le rapprochement de cette opération est terminé.
+
+########################################################################################
+RÉSULTATS NÉGATIFS ET ERREURS VISIBLES
+########################################################################################
+- Échec de la transaction : solde insuffisant.
+- Paiement refusé par l'établissement émetteur.
+- Le compte destinataire est introuvable.
+- Le numéro du bénéficiaire est invalide.
+- Le code PIN saisi est incorrect.
+- Le code de confirmation a expiré.
+- Le plafond journalier est dépassé.
+- Le montant demandé dépasse la limite autorisée.
+- Le compte est temporairement bloqué.
+- Cette devise n'est pas prise en charge.
+- Le service de paiement est momentanément indisponible.
+- Impossible de joindre le réseau bancaire.
+- La transaction a expiré avant confirmation.
+- Une opération identique existe déjà.
+- Le format du montant est incorrect.
+- Un champ obligatoire est manquant.
+- Votre authentification a échoué.
+- Cette opération n'est pas autorisée sur ce compte.
+- Le bénéficiaire ne peut pas recevoir ce type de transfert.
+- Une erreur interne empêche le traitement de la demande.
+- Le paiement a été rejeté par le contrôle de sécurité.
+- Le système n'a pas reçu de réponse du prestataire.
+- Le transfert n'a pas pu être acheminé.
+- Le règlement est en échec ; une vérification est nécessaire.
+- Le résultat de la transaction est actuellement inconnu.
+
+########################################################################################
+STATUTS EN ATTENTE ET MESSAGES INTERMÉDIAIRES
+########################################################################################
+- Votre transaction est en cours de traitement.
+- Votre demande a été reçue et attend sa validation.
+- Le paiement est en attente de confirmation du réseau.
+- Le transfert est en cours d'acheminement.
+- Nous attendons la réponse du prestataire externe.
+- Le montant est réservé en attendant la confirmation.
+- Votre opération est en cours de vérification.
+- Le paiement a été accepté et sera traité prochainement.
+- Une vérification manuelle est nécessaire.
+- Le statut sera mis à jour dès réception de la réponse.
+- Votre demande a été placée dans la file de traitement.
+- Le règlement est programmé pour le prochain cycle.
+- Une nouvelle tentative sera effectuée automatiquement.
+- Le remboursement a été demandé et reste en attente.
+- Le transfert est en attente de disponibilité du réseau.
+- Votre transaction n'est pas encore considérée comme définitive.
+- Ne répétez pas le paiement avant de vérifier son statut.
+- Le résultat final n'a pas encore été communiqué.
+- Le système traite actuellement un volume élevé d'opérations.
+- Veuillez patienter avant de soumettre une nouvelle demande.
+
+########################################################################################
+WARNINGS ET ALERTES
+########################################################################################
+- WARNING : le solde disponible est inférieur au seuil configuré.
+- WARNING : le montant approche de la limite journalière.
+- WARNING : plusieurs tentatives de paiement ont échoué.
+- WARNING : une transaction similaire a été détectée récemment.
+- WARNING : la réponse du prestataire est plus lente que prévu.
+- WARNING : le taux d'échec des transactions augmente.
+- WARNING : le service partenaire présente une latence élevée.
+- WARNING : le compte nécessite une mise à jour des informations.
+- WARNING : le bénéficiaire n'a pas encore été vérifié.
+- WARNING : le paiement est en attente depuis une durée inhabituelle.
+- ALERT : activité transactionnelle inhabituelle détectée.
+- ALERT : plusieurs retraits ont été réalisés en peu de temps.
+- ALERT : une connexion inhabituelle a précédé cette opération.
+- ALERT : le compte a atteint sa limite de transaction.
+- ALERT : une opération nécessite une revue de conformité.
+- NOTICE : les frais applicables ont été mis à jour.
+- NOTICE : le service sera indisponible pendant la maintenance.
+- INFO : votre solde a été actualisé.
+- INFO : une nouvelle transaction a été enregistrée.
+- CRITICAL : le service de règlement est indisponible.
+- ERROR : impossible de confirmer l'état du transfert.
+- FATAL : le composant de traitement financier est arrêté.
+
+########################################################################################
+ÉVÉNEMENTS ET JOURNAUX SYSTÈME
+########################################################################################
+- Événement reçu : transaction.created.
+- Événement reçu : transaction.authorized.
+- Événement reçu : transaction.succeeded.
+- Événement reçu : transaction.failed.
+- Événement reçu : transaction.reversed.
+- Événement reçu : account.credited.
+- Événement reçu : account.debited.
+- Webhook envoyé au système marchand.
+- Échec de livraison du webhook après trois tentatives.
+- Le callback de confirmation a été reçu.
+- La référence externe a été associée à la transaction.
+- La clé d'idempotence a empêché une double exécution.
+- Le moteur de routage a sélectionné le prestataire principal.
+- Le prestataire principal est indisponible ; route secondaire activée.
+- Une opération a été placée en file d'attente.
+- Le délai d'attente de la requête a été dépassé.
+- Le système a enregistré une contrepassation.
+- Le lot de compensation a été clôturé.
+- Le rapprochement automatique a détecté un écart.
+- Une alerte antifraude a été créée.
+
+########################################################################################
+MESSAGES DE SUPPORT ET RÉSOLUTION
+########################################################################################
+- Veuillez vérifier le solde disponible avant de réessayer.
+- Vérifiez le numéro du bénéficiaire et son établissement bancaire.
+- Ne communiquez jamais votre code PIN ou votre code OTP.
+- Conservez la référence de transaction pour le suivi.
+- Veuillez patienter jusqu'à la mise à jour du statut.
+- Si le montant a été débité, ne répétez pas immédiatement l'opération.
+- Contactez le service client en indiquant la référence de transaction.
+- Une vérification du relevé bancaire est nécessaire.
+- Veuillez fournir la date, le montant et le canal de paiement.
+- Le remboursement dépend du résultat de l'investigation.
+- Votre dossier a été transmis à l'équipe de rapprochement.
+- Le prestataire partenaire a été sollicité pour confirmation.
+- Une preuve de débit peut être demandée pour l'analyse.
+- Le compte destinataire doit être vérifié avant un nouvel envoi.
+- Votre demande sera traitée selon les délais du service concerné.
+
+BANQUE ÉTENDUE DE PHRASES SYNTHÉTIQUES
+001. Le virement a été effectué avec succès pour solde insuffisant.
+002. Le virement a été effectué avec succès à cause d'un délai dépassé.
+003. Le virement a été effectué avec succès en raison d'un compte bloqué.
+004. Le virement a été effectué avec succès après validation du code OTP.
+005. Le virement a été effectué avec succès suite à une indisponibilité du réseau.
+006. Le virement a été effectué avec succès après contrôle de conformité.
+007. Le virement a été effectué avec succès en raison d'une limite atteinte.
+008. Le virement a été effectué avec succès à la suite d'une réponse du prestataire.
+009. Le virement est en attente de confirmation pour solde insuffisant.
+010. Le virement est en attente de confirmation à cause d'un délai dépassé.
+011. Le virement est en attente de confirmation en raison d'un compte bloqué.
+012. Le virement est en attente de confirmation après validation du code OTP.
+013. Le virement est en attente de confirmation suite à une indisponibilité du réseau.
+014. Le virement est en attente de confirmation après contrôle de conformité.
+015. Le virement est en attente de confirmation en raison d'une limite atteinte.
+016. Le virement est en attente de confirmation à la suite d'une réponse du prestataire.
+017. Le virement a été rejeté pour solde insuffisant.
+018. Le virement a été rejeté à cause d'un délai dépassé.
+019. Le virement a été rejeté en raison d'un compte bloqué.
+020. Le virement a été rejeté après validation du code OTP.
+021. Le virement a été rejeté suite à une indisponibilité du réseau.
+022. Le virement a été rejeté après contrôle de conformité.
+023. Le virement a été rejeté en raison d'une limite atteinte.
+024. Le virement a été rejeté à la suite d'une réponse du prestataire.
+025. Le virement a échoué pour solde insuffisant.
+026. Le virement a échoué à cause d'un délai dépassé.
+027. Le virement a échoué en raison d'un compte bloqué.
+028. Le virement a échoué après validation du code OTP.
+029. Le virement a échoué suite à une indisponibilité du réseau.
+030. Le virement a échoué après contrôle de conformité.
+031. Le virement a échoué en raison d'une limite atteinte.
+032. Le virement a échoué à la suite d'une réponse du prestataire.
+033. Le virement a été annulé pour solde insuffisant.
+034. Le virement a été annulé à cause d'un délai dépassé.
+035. Le virement a été annulé en raison d'un compte bloqué.
+036. Le virement a été annulé après validation du code OTP.
+037. Le virement a été annulé suite à une indisponibilité du réseau.
+038. Le virement a été annulé après contrôle de conformité.
+039. Le virement a été annulé en raison d'une limite atteinte.
+040. Le virement a été annulé à la suite d'une réponse du prestataire.
+041. Le virement a été traité partiellement pour solde insuffisant.
+042. Le virement a été traité partiellement à cause d'un délai dépassé.
+043. Le virement a été traité partiellement en raison d'un compte bloqué.
+044. Le virement a été traité partiellement après validation du code OTP.
+045. Le virement a été traité partiellement suite à une indisponibilité du réseau.
+046. Le virement a été traité partiellement après contrôle de conformité.
+047. Le virement a été traité partiellement en raison d'une limite atteinte.
+048. Le virement a été traité partiellement à la suite d'une réponse du prestataire.
+049. Le virement a été mis en vérification pour solde insuffisant.
+050. Le virement a été mis en vérification à cause d'un délai dépassé.
+051. Le virement a été mis en vérification en raison d'un compte bloqué.
+052. Le virement a été mis en vérification après validation du code OTP.
+053. Le virement a été mis en vérification suite à une indisponibilité du réseau.
+054. Le virement a été mis en vérification après contrôle de conformité.
+055. Le virement a été mis en vérification en raison d'une limite atteinte.
+056. Le virement a été mis en vérification à la suite d'une réponse du prestataire.
+057. Le virement a été remboursé pour solde insuffisant.
+058. Le virement a été remboursé à cause d'un délai dépassé.
+059. Le virement a été remboursé en raison d'un compte bloqué.
+060. Le virement a été remboursé après validation du code OTP.
+061. Le virement a été remboursé suite à une indisponibilité du réseau.
+062. Le virement a été remboursé après contrôle de conformité.
+063. Le virement a été remboursé en raison d'une limite atteinte.
+064. Le virement a été remboursé à la suite d'une réponse du prestataire.
+065. Le transfert mobile a été effectué avec succès pour solde insuffisant.
+066. Le transfert mobile a été effectué avec succès à cause d'un délai dépassé.
+067. Le transfert mobile a été effectué avec succès en raison d'un compte bloqué.
+068. Le transfert mobile a été effectué avec succès après validation du code OTP.
+069. Le transfert mobile a été effectué avec succès suite à une indisponibilité du réseau.
+070. Le transfert mobile a été effectué avec succès après contrôle de conformité.
+071. Le transfert mobile a été effectué avec succès en raison d'une limite atteinte.
+072. Le transfert mobile a été effectué avec succès à la suite d'une réponse du prestataire.
+073. Le transfert mobile est en attente de confirmation pour solde insuffisant.
+074. Le transfert mobile est en attente de confirmation à cause d'un délai dépassé.
+075. Le transfert mobile est en attente de confirmation en raison d'un compte bloqué.
+076. Le transfert mobile est en attente de confirmation après validation du code OTP.
+077. Le transfert mobile est en attente de confirmation suite à une indisponibilité du réseau.
+078. Le transfert mobile est en attente de confirmation après contrôle de conformité.
+079. Le transfert mobile est en attente de confirmation en raison d'une limite atteinte.
+080. Le transfert mobile est en attente de confirmation à la suite d'une réponse du prestataire.
+081. Le transfert mobile a été rejeté pour solde insuffisant.
+082. Le transfert mobile a été rejeté à cause d'un délai dépassé.
+083. Le transfert mobile a été rejeté en raison d'un compte bloqué.
+084. Le transfert mobile a été rejeté après validation du code OTP.
+085. Le transfert mobile a été rejeté suite à une indisponibilité du réseau.
+086. Le transfert mobile a été rejeté après contrôle de conformité.
+087. Le transfert mobile a été rejeté en raison d'une limite atteinte.
+088. Le transfert mobile a été rejeté à la suite d'une réponse du prestataire.
+089. Le transfert mobile a échoué pour solde insuffisant.
+090. Le transfert mobile a échoué à cause d'un délai dépassé.
+091. Le transfert mobile a échoué en raison d'un compte bloqué.
+092. Le transfert mobile a échoué après validation du code OTP.
+093. Le transfert mobile a échoué suite à une indisponibilité du réseau.
+094. Le transfert mobile a échoué après contrôle de conformité.
+095. Le transfert mobile a échoué en raison d'une limite atteinte.
+096. Le transfert mobile a échoué à la suite d'une réponse du prestataire.
+097. Le transfert mobile a été annulé pour solde insuffisant.
+098. Le transfert mobile a été annulé à cause d'un délai dépassé.
+099. Le transfert mobile a été annulé en raison d'un compte bloqué.
+100. Le transfert mobile a été annulé après validation du code OTP.
+101. Le transfert mobile a été annulé suite à une indisponibilité du réseau.
+102. Le transfert mobile a été annulé après contrôle de conformité.
+103. Le transfert mobile a été annulé en raison d'une limite atteinte.
+104. Le transfert mobile a été annulé à la suite d'une réponse du prestataire.
+105. Le transfert mobile a été traité partiellement pour solde insuffisant.
+106. Le transfert mobile a été traité partiellement à cause d'un délai dépassé.
+107. Le transfert mobile a été traité partiellement en raison d'un compte bloqué.
+108. Le transfert mobile a été traité partiellement après validation du code OTP.
+109. Le transfert mobile a été traité partiellement suite à une indisponibilité du réseau.
+110. Le transfert mobile a été traité partiellement après contrôle de conformité.
+111. Le transfert mobile a été traité partiellement en raison d'une limite atteinte.
+112. Le transfert mobile a été traité partiellement à la suite d'une réponse du prestataire.
+113. Le transfert mobile a été mis en vérification pour solde insuffisant.
+114. Le transfert mobile a été mis en vérification à cause d'un délai dépassé.
+115. Le transfert mobile a été mis en vérification en raison d'un compte bloqué.
+116. Le transfert mobile a été mis en vérification après validation du code OTP.
+117. Le transfert mobile a été mis en vérification suite à une indisponibilité du réseau.
+118. Le transfert mobile a été mis en vérification après contrôle de conformité.
+119. Le transfert mobile a été mis en vérification en raison d'une limite atteinte.
+120. Le transfert mobile a été mis en vérification à la suite d'une réponse du prestataire.
+121. Le transfert mobile a été remboursé pour solde insuffisant.
+122. Le transfert mobile a été remboursé à cause d'un délai dépassé.
+123. Le transfert mobile a été remboursé en raison d'un compte bloqué.
+124. Le transfert mobile a été remboursé après validation du code OTP.
+125. Le transfert mobile a été remboursé suite à une indisponibilité du réseau.
+126. Le transfert mobile a été remboursé après contrôle de conformité.
+127. Le transfert mobile a été remboursé en raison d'une limite atteinte.
+128. Le transfert mobile a été remboursé à la suite d'une réponse du prestataire.
+129. Le paiement marchand a été effectué avec succès pour solde insuffisant.
+130. Le paiement marchand a été effectué avec succès à cause d'un délai dépassé.
+131. Le paiement marchand a été effectué avec succès en raison d'un compte bloqué.
+132. Le paiement marchand a été effectué avec succès après validation du code OTP.
+133. Le paiement marchand a été effectué avec succès suite à une indisponibilité du réseau.
+134. Le paiement marchand a été effectué avec succès après contrôle de conformité.
+135. Le paiement marchand a été effectué avec succès en raison d'une limite atteinte.
+136. Le paiement marchand a été effectué avec succès à la suite d'une réponse du prestataire.
+137. Le paiement marchand est en attente de confirmation pour solde insuffisant.
+138. Le paiement marchand est en attente de confirmation à cause d'un délai dépassé.
+139. Le paiement marchand est en attente de confirmation en raison d'un compte bloqué.
+140. Le paiement marchand est en attente de confirmation après validation du code OTP.
+141. Le paiement marchand est en attente de confirmation suite à une indisponibilité du réseau.
+142. Le paiement marchand est en attente de confirmation après contrôle de conformité.
+143. Le paiement marchand est en attente de confirmation en raison d'une limite atteinte.
+144. Le paiement marchand est en attente de confirmation à la suite d'une réponse du prestataire.
+145. Le paiement marchand a été rejeté pour solde insuffisant.
+146. Le paiement marchand a été rejeté à cause d'un délai dépassé.
+147. Le paiement marchand a été rejeté en raison d'un compte bloqué.
+148. Le paiement marchand a été rejeté après validation du code OTP.
+149. Le paiement marchand a été rejeté suite à une indisponibilité du réseau.
+150. Le paiement marchand a été rejeté après contrôle de conformité.
+151. Le paiement marchand a été rejeté en raison d'une limite atteinte.
+152. Le paiement marchand a été rejeté à la suite d'une réponse du prestataire.
+153. Le paiement marchand a échoué pour solde insuffisant.
+154. Le paiement marchand a échoué à cause d'un délai dépassé.
+155. Le paiement marchand a échoué en raison d'un compte bloqué.
+156. Le paiement marchand a échoué après validation du code OTP.
+157. Le paiement marchand a échoué suite à une indisponibilité du réseau.
+158. Le paiement marchand a échoué après contrôle de conformité.
+159. Le paiement marchand a échoué en raison d'une limite atteinte.
+160. Le paiement marchand a échoué à la suite d'une réponse du prestataire.
+161. Le paiement marchand a été annulé pour solde insuffisant.
+162. Le paiement marchand a été annulé à cause d'un délai dépassé.
+163. Le paiement marchand a été annulé en raison d'un compte bloqué.
+164. Le paiement marchand a été annulé après validation du code OTP.
+165. Le paiement marchand a été annulé suite à une indisponibilité du réseau.
+166. Le paiement marchand a été annulé après contrôle de conformité.
+167. Le paiement marchand a été annulé en raison d'une limite atteinte.
+168. Le paiement marchand a été annulé à la suite d'une réponse du prestataire.
+169. Le paiement marchand a été traité partiellement pour solde insuffisant.
+170. Le paiement marchand a été traité partiellement à cause d'un délai dépassé.
+171. Le paiement marchand a été traité partiellement en raison d'un compte bloqué.
+172. Le paiement marchand a été traité partiellement après validation du code OTP.
+173. Le paiement marchand a été traité partiellement suite à une indisponibilité du réseau.
+174. Le paiement marchand a été traité partiellement après contrôle de conformité.
+175. Le paiement marchand a été traité partiellement en raison d'une limite atteinte.
+176. Le paiement marchand a été traité partiellement à la suite d'une réponse du prestataire.
+177. Le paiement marchand a été mis en vérification pour solde insuffisant.
+178. Le paiement marchand a été mis en vérification à cause d'un délai dépassé.
+179. Le paiement marchand a été mis en vérification en raison d'un compte bloqué.
+180. Le paiement marchand a été mis en vérification après validation du code OTP.
+181. Le paiement marchand a été mis en vérification suite à une indisponibilité du réseau.
+182. Le paiement marchand a été mis en vérification après contrôle de conformité.
+183. Le paiement marchand a été mis en vérification en raison d'une limite atteinte.
+184. Le paiement marchand a été mis en vérification à la suite d'une réponse du prestataire.
+185. Le paiement marchand a été remboursé pour solde insuffisant.
+186. Le paiement marchand a été remboursé à cause d'un délai dépassé.
+187. Le paiement marchand a été remboursé en raison d'un compte bloqué.
+188. Le paiement marchand a été remboursé après validation du code OTP.
+189. Le paiement marchand a été remboursé suite à une indisponibilité du réseau.
+190. Le paiement marchand a été remboursé après contrôle de conformité.
+191. Le paiement marchand a été remboursé en raison d'une limite atteinte.
+192. Le paiement marchand a été remboursé à la suite d'une réponse du prestataire.
+193. Le retrait a été effectué avec succès pour solde insuffisant.
+194. Le retrait a été effectué avec succès à cause d'un délai dépassé.
+195. Le retrait a été effectué avec succès en raison d'un compte bloqué.
+196. Le retrait a été effectué avec succès après validation du code OTP.
+197. Le retrait a été effectué avec succès suite à une indisponibilité du réseau.
+198. Le retrait a été effectué avec succès après contrôle de conformité.
+199. Le retrait a été effectué avec succès en raison d'une limite atteinte.
+200. Le retrait a été effectué avec succès à la suite d'une réponse du prestataire.
+201. Le retrait est en attente de confirmation pour solde insuffisant.
+202. Le retrait est en attente de confirmation à cause d'un délai dépassé.
+203. Le retrait est en attente de confirmation en raison d'un compte bloqué.
+204. Le retrait est en attente de confirmation après validation du code OTP.
+205. Le retrait est en attente de confirmation suite à une indisponibilité du réseau.
+206. Le retrait est en attente de confirmation après contrôle de conformité.
+207. Le retrait est en attente de confirmation en raison d'une limite atteinte.
+208. Le retrait est en attente de confirmation à la suite d'une réponse du prestataire.
+209. Le retrait a été rejeté pour solde insuffisant.
+210. Le retrait a été rejeté à cause d'un délai dépassé.
+211. Le retrait a été rejeté en raison d'un compte bloqué.
+212. Le retrait a été rejeté après validation du code OTP.
+213. Le retrait a été rejeté suite à une indisponibilité du réseau.
+214. Le retrait a été rejeté après contrôle de conformité.
+215. Le retrait a été rejeté en raison d'une limite atteinte.
+216. Le retrait a été rejeté à la suite d'une réponse du prestataire.
+217. Le retrait a échoué pour solde insuffisant.
+218. Le retrait a échoué à cause d'un délai dépassé.
+219. Le retrait a échoué en raison d'un compte bloqué.
+220. Le retrait a échoué après validation du code OTP.
+221. Le retrait a échoué suite à une indisponibilité du réseau.
+222. Le retrait a échoué après contrôle de conformité.
+223. Le retrait a échoué en raison d'une limite atteinte.
+224. Le retrait a échoué à la suite d'une réponse du prestataire.
+225. Le retrait a été annulé pour solde insuffisant.
+226. Le retrait a été annulé à cause d'un délai dépassé.
+227. Le retrait a été annulé en raison d'un compte bloqué.
+228. Le retrait a été annulé après validation du code OTP.
+229. Le retrait a été annulé suite à une indisponibilité du réseau.
+230. Le retrait a été annulé après contrôle de conformité.
+231. Le retrait a été annulé en raison d'une limite atteinte.
+232. Le retrait a été annulé à la suite d'une réponse du prestataire.
+233. Le retrait a été traité partiellement pour solde insuffisant.
+234. Le retrait a été traité partiellement à cause d'un délai dépassé.
+235. Le retrait a été traité partiellement en raison d'un compte bloqué.
+236. Le retrait a été traité partiellement après validation du code OTP.
+237. Le retrait a été traité partiellement suite à une indisponibilité du réseau.
+238. Le retrait a été traité partiellement après contrôle de conformité.
+239. Le retrait a été traité partiellement en raison d'une limite atteinte.
+240. Le retrait a été traité partiellement à la suite d'une réponse du prestataire.
+241. Le retrait a été mis en vérification pour solde insuffisant.
+242. Le retrait a été mis en vérification à cause d'un délai dépassé.
+243. Le retrait a été mis en vérification en raison d'un compte bloqué.
+244. Le retrait a été mis en vérification après validation du code OTP.
+245. Le retrait a été mis en vérification suite à une indisponibilité du réseau.
+246. Le retrait a été mis en vérification après contrôle de conformité.
+247. Le retrait a été mis en vérification en raison d'une limite atteinte.
+248. Le retrait a été mis en vérification à la suite d'une réponse du prestataire.
+249. Le retrait a été remboursé pour solde insuffisant.
+250. Le retrait a été remboursé à cause d'un délai dépassé.
+251. Le retrait a été remboursé en raison d'un compte bloqué.
+252. Le retrait a été remboursé après validation du code OTP.
+253. Le retrait a été remboursé suite à une indisponibilité du réseau.
+254. Le retrait a été remboursé après contrôle de conformité.
+255. Le retrait a été remboursé en raison d'une limite atteinte.
+256. Le retrait a été remboursé à la suite d'une réponse du prestataire.
+257. Le dépôt a été effectué avec succès pour solde insuffisant.
+258. Le dépôt a été effectué avec succès à cause d'un délai dépassé.
+259. Le dépôt a été effectué avec succès en raison d'un compte bloqué.
+260. Le dépôt a été effectué avec succès après validation du code OTP.
+261. Le dépôt a été effectué avec succès suite à une indisponibilité du réseau.
+262. Le dépôt a été effectué avec succès après contrôle de conformité.
+263. Le dépôt a été effectué avec succès en raison d'une limite atteinte.
+264. Le dépôt a été effectué avec succès à la suite d'une réponse du prestataire.
+265. Le dépôt est en attente de confirmation pour solde insuffisant.
+266. Le dépôt est en attente de confirmation à cause d'un délai dépassé.
+267. Le dépôt est en attente de confirmation en raison d'un compte bloqué.
+268. Le dépôt est en attente de confirmation après validation du code OTP.
+269. Le dépôt est en attente de confirmation suite à une indisponibilité du réseau.
+270. Le dépôt est en attente de confirmation après contrôle de conformité.
+271. Le dépôt est en attente de confirmation en raison d'une limite atteinte.
+272. Le dépôt est en attente de confirmation à la suite d'une réponse du prestataire.
+273. Le dépôt a été rejeté pour solde insuffisant.
+274. Le dépôt a été rejeté à cause d'un délai dépassé.
+275. Le dépôt a été rejeté en raison d'un compte bloqué.
+276. Le dépôt a été rejeté après validation du code OTP.
+277. Le dépôt a été rejeté suite à une indisponibilité du réseau.
+278. Le dépôt a été rejeté après contrôle de conformité.
+279. Le dépôt a été rejeté en raison d'une limite atteinte.
+280. Le dépôt a été rejeté à la suite d'une réponse du prestataire.
+281. Le dépôt a échoué pour solde insuffisant.
+282. Le dépôt a échoué à cause d'un délai dépassé.
+283. Le dépôt a échoué en raison d'un compte bloqué.
+284. Le dépôt a échoué après validation du code OTP.
+285. Le dépôt a échoué suite à une indisponibilité du réseau.
+286. Le dépôt a échoué après contrôle de conformité.
+287. Le dépôt a échoué en raison d'une limite atteinte.
+288. Le dépôt a échoué à la suite d'une réponse du prestataire.
+289. Le dépôt a été annulé pour solde insuffisant.
+290. Le dépôt a été annulé à cause d'un délai dépassé.
+291. Le dépôt a été annulé en raison d'un compte bloqué.
+292. Le dépôt a été annulé après validation du code OTP.
+293. Le dépôt a été annulé suite à une indisponibilité du réseau.
+294. Le dépôt a été annulé après contrôle de conformité.
+295. Le dépôt a été annulé en raison d'une limite atteinte.
+296. Le dépôt a été annulé à la suite d'une réponse du prestataire.
+297. Le dépôt a été traité partiellement pour solde insuffisant.
+298. Le dépôt a été traité partiellement à cause d'un délai dépassé.
+299. Le dépôt a été traité partiellement en raison d'un compte bloqué.
+300. Le dépôt a été traité partiellement après validation du code OTP.
+301. Le dépôt a été traité partiellement suite à une indisponibilité du réseau.
+302. Le dépôt a été traité partiellement après contrôle de conformité.
+303. Le dépôt a été traité partiellement en raison d'une limite atteinte.
+304. Le dépôt a été traité partiellement à la suite d'une réponse du prestataire.
+305. Le dépôt a été mis en vérification pour solde insuffisant.
+306. Le dépôt a été mis en vérification à cause d'un délai dépassé.
+307. Le dépôt a été mis en vérification en raison d'un compte bloqué.
+308. Le dépôt a été mis en vérification après validation du code OTP.
+309. Le dépôt a été mis en vérification suite à une indisponibilité du réseau.
+310. Le dépôt a été mis en vérification après contrôle de conformité.
+311. Le dépôt a été mis en vérification en raison d'une limite atteinte.
+312. Le dépôt a été mis en vérification à la suite d'une réponse du prestataire.
+313. Le dépôt a été remboursé pour solde insuffisant.
+314. Le dépôt a été remboursé à cause d'un délai dépassé.
+315. Le dépôt a été remboursé en raison d'un compte bloqué.
+316. Le dépôt a été remboursé après validation du code OTP.
+317. Le dépôt a été remboursé suite à une indisponibilité du réseau.
+318. Le dépôt a été remboursé après contrôle de conformité.
+319. Le dépôt a été remboursé en raison d'une limite atteinte.
+320. Le dépôt a été remboursé à la suite d'une réponse du prestataire.
+321. Le remboursement a été effectué avec succès pour solde insuffisant.
+322. Le remboursement a été effectué avec succès à cause d'un délai dépassé.
+323. Le remboursement a été effectué avec succès en raison d'un compte bloqué.
+324. Le remboursement a été effectué avec succès après validation du code OTP.
+325. Le remboursement a été effectué avec succès suite à une indisponibilité du réseau.
+326. Le remboursement a été effectué avec succès après contrôle de conformité.
+327. Le remboursement a été effectué avec succès en raison d'une limite atteinte.
+328. Le remboursement a été effectué avec succès à la suite d'une réponse du prestataire.
+329. Le remboursement est en attente de confirmation pour solde insuffisant.
+330. Le remboursement est en attente de confirmation à cause d'un délai dépassé.
+331. Le remboursement est en attente de confirmation en raison d'un compte bloqué.
+332. Le remboursement est en attente de confirmation après validation du code OTP.
+333. Le remboursement est en attente de confirmation suite à une indisponibilité du réseau.
+334. Le remboursement est en attente de confirmation après contrôle de conformité.
+335. Le remboursement est en attente de confirmation en raison d'une limite atteinte.
+336. Le remboursement est en attente de confirmation à la suite d'une réponse du prestataire.
+337. Le remboursement a été rejeté pour solde insuffisant.
+338. Le remboursement a été rejeté à cause d'un délai dépassé.
+339. Le remboursement a été rejeté en raison d'un compte bloqué.
+340. Le remboursement a été rejeté après validation du code OTP.
+341. Le remboursement a été rejeté suite à une indisponibilité du réseau.
+342. Le remboursement a été rejeté après contrôle de conformité.
+343. Le remboursement a été rejeté en raison d'une limite atteinte.
+344. Le remboursement a été rejeté à la suite d'une réponse du prestataire.
+345. Le remboursement a échoué pour solde insuffisant.
+346. Le remboursement a échoué à cause d'un délai dépassé.
+347. Le remboursement a échoué en raison d'un compte bloqué.
+348. Le remboursement a échoué après validation du code OTP.
+349. Le remboursement a échoué suite à une indisponibilité du réseau.
+350. Le remboursement a échoué après contrôle de conformité.
+351. Le remboursement a échoué en raison d'une limite atteinte.
+352. Le remboursement a échoué à la suite d'une réponse du prestataire.
+353. Le remboursement a été annulé pour solde insuffisant.
+354. Le remboursement a été annulé à cause d'un délai dépassé.
+355. Le remboursement a été annulé en raison d'un compte bloqué.
+356. Le remboursement a été annulé après validation du code OTP.
+357. Le remboursement a été annulé suite à une indisponibilité du réseau.
+358. Le remboursement a été annulé après contrôle de conformité.
+359. Le remboursement a été annulé en raison d'une limite atteinte.
+360. Le remboursement a été annulé à la suite d'une réponse du prestataire.
+361. Le remboursement a été traité partiellement pour solde insuffisant.
+362. Le remboursement a été traité partiellement à cause d'un délai dépassé.
+363. Le remboursement a été traité partiellement en raison d'un compte bloqué.
+364. Le remboursement a été traité partiellement après validation du code OTP.
+365. Le remboursement a été traité partiellement suite à une indisponibilité du réseau.
+366. Le remboursement a été traité partiellement après contrôle de conformité.
+367. Le remboursement a été traité partiellement en raison d'une limite atteinte.
+368. Le remboursement a été traité partiellement à la suite d'une réponse du prestataire.
+369. Le remboursement a été mis en vérification pour solde insuffisant.
+370. Le remboursement a été mis en vérification à cause d'un délai dépassé.
+371. Le remboursement a été mis en vérification en raison d'un compte bloqué.
+372. Le remboursement a été mis en vérification après validation du code OTP.
+373. Le remboursement a été mis en vérification suite à une indisponibilité du réseau.
+374. Le remboursement a été mis en vérification après contrôle de conformité.
+375. Le remboursement a été mis en vérification en raison d'une limite atteinte.
+376. Le remboursement a été mis en vérification à la suite d'une réponse du prestataire.
+377. Le remboursement a été remboursé pour solde insuffisant.
+378. Le remboursement a été remboursé à cause d'un délai dépassé.
+379. Le remboursement a été remboursé en raison d'un compte bloqué.
+380. Le remboursement a été remboursé après validation du code OTP.
+381. Le remboursement a été remboursé suite à une indisponibilité du réseau.
+382. Le remboursement a été remboursé après contrôle de conformité.
+383. Le remboursement a été remboursé en raison d'une limite atteinte.
+384. Le remboursement a été remboursé à la suite d'une réponse du prestataire.
+385. Le paiement de facture a été effectué avec succès pour solde insuffisant.
+386. Le paiement de facture a été effectué avec succès à cause d'un délai dépassé.
+387. Le paiement de facture a été effectué avec succès en raison d'un compte bloqué.
+388. Le paiement de facture a été effectué avec succès après validation du code OTP.
+389. Le paiement de facture a été effectué avec succès suite à une indisponibilité du réseau.
+390. Le paiement de facture a été effectué avec succès après contrôle de conformité.
+391. Le paiement de facture a été effectué avec succès en raison d'une limite atteinte.
+392. Le paiement de facture a été effectué avec succès à la suite d'une réponse du prestataire.
+393. Le paiement de facture est en attente de confirmation pour solde insuffisant.
+394. Le paiement de facture est en attente de confirmation à cause d'un délai dépassé.
+395. Le paiement de facture est en attente de confirmation en raison d'un compte bloqué.
+396. Le paiement de facture est en attente de confirmation après validation du code OTP.
+397. Le paiement de facture est en attente de confirmation suite à une indisponibilité du réseau.
+398. Le paiement de facture est en attente de confirmation après contrôle de conformité.
+399. Le paiement de facture est en attente de confirmation en raison d'une limite atteinte.
+400. Le paiement de facture est en attente de confirmation à la suite d'une réponse du prestataire.
+401. Le paiement de facture a été rejeté pour solde insuffisant.
+402. Le paiement de facture a été rejeté à cause d'un délai dépassé.
+403. Le paiement de facture a été rejeté en raison d'un compte bloqué.
+404. Le paiement de facture a été rejeté après validation du code OTP.
+405. Le paiement de facture a été rejeté suite à une indisponibilité du réseau.
+406. Le paiement de facture a été rejeté après contrôle de conformité.
+407. Le paiement de facture a été rejeté en raison d'une limite atteinte.
+408. Le paiement de facture a été rejeté à la suite d'une réponse du prestataire.
+409. Le paiement de facture a échoué pour solde insuffisant.
+410. Le paiement de facture a échoué à cause d'un délai dépassé.
+411. Le paiement de facture a échoué en raison d'un compte bloqué.
+412. Le paiement de facture a échoué après validation du code OTP.
+413. Le paiement de facture a échoué suite à une indisponibilité du réseau.
+414. Le paiement de facture a échoué après contrôle de conformité.
+415. Le paiement de facture a échoué en raison d'une limite atteinte.
+416. Le paiement de facture a échoué à la suite d'une réponse du prestataire.
+417. Le paiement de facture a été annulé pour solde insuffisant.
+418. Le paiement de facture a été annulé à cause d'un délai dépassé.
+419. Le paiement de facture a été annulé en raison d'un compte bloqué.
+420. Le paiement de facture a été annulé après validation du code OTP.
+421. Le paiement de facture a été annulé suite à une indisponibilité du réseau.
+422. Le paiement de facture a été annulé après contrôle de conformité.
+423. Le paiement de facture a été annulé en raison d'une limite atteinte.
+424. Le paiement de facture a été annulé à la suite d'une réponse du prestataire.
+425. Le paiement de facture a été traité partiellement pour solde insuffisant.
+426. Le paiement de facture a été traité partiellement à cause d'un délai dépassé.
+427. Le paiement de facture a été traité partiellement en raison d'un compte bloqué.
+428. Le paiement de facture a été traité partiellement après validation du code OTP.
+429. Le paiement de facture a été traité partiellement suite à une indisponibilité du réseau.
+430. Le paiement de facture a été traité partiellement après contrôle de conformité.
+431. Le paiement de facture a été traité partiellement en raison d'une limite atteinte.
+432. Le paiement de facture a été traité partiellement à la suite d'une réponse du prestataire.
+433. Le paiement de facture a été mis en vérification pour solde insuffisant.
+434. Le paiement de facture a été mis en vérification à cause d'un délai dépassé.
+435. Le paiement de facture a été mis en vérification en raison d'un compte bloqué.
+436. Le paiement de facture a été mis en vérification après validation du code OTP.
+437. Le paiement de facture a été mis en vérification suite à une indisponibilité du réseau.
+438. Le paiement de facture a été mis en vérification après contrôle de conformité.
+439. Le paiement de facture a été mis en vérification en raison d'une limite atteinte.
+440. Le paiement de facture a été mis en vérification à la suite d'une réponse du prestataire.
+441. Le paiement de facture a été remboursé pour solde insuffisant.
+442. Le paiement de facture a été remboursé à cause d'un délai dépassé.
+443. Le paiement de facture a été remboursé en raison d'un compte bloqué.
+444. Le paiement de facture a été remboursé après validation du code OTP.
+445. Le paiement de facture a été remboursé suite à une indisponibilité du réseau.
+446. Le paiement de facture a été remboursé après contrôle de conformité.
+447. Le paiement de facture a été remboursé en raison d'une limite atteinte.
+448. Le paiement de facture a été remboursé à la suite d'une réponse du prestataire.
+449. Le recharge téléphonique a été effectué avec succès pour solde insuffisant.
+450. Le recharge téléphonique a été effectué avec succès à cause d'un délai dépassé.
+451. Le recharge téléphonique a été effectué avec succès en raison d'un compte bloqué.
+452. Le recharge téléphonique a été effectué avec succès après validation du code OTP.
+453. Le recharge téléphonique a été effectué avec succès suite à une indisponibilité du réseau.
+454. Le recharge téléphonique a été effectué avec succès après contrôle de conformité.
+455. Le recharge téléphonique a été effectué avec succès en raison d'une limite atteinte.
+456. Le recharge téléphonique a été effectué avec succès à la suite d'une réponse du prestataire.
+457. Le recharge téléphonique est en attente de confirmation pour solde insuffisant.
+458. Le recharge téléphonique est en attente de confirmation à cause d'un délai dépassé.
+459. Le recharge téléphonique est en attente de confirmation en raison d'un compte bloqué.
+460. Le recharge téléphonique est en attente de confirmation après validation du code OTP.
+461. Le recharge téléphonique est en attente de confirmation suite à une indisponibilité du réseau.
+462. Le recharge téléphonique est en attente de confirmation après contrôle de conformité.
+463. Le recharge téléphonique est en attente de confirmation en raison d'une limite atteinte.
+464. Le recharge téléphonique est en attente de confirmation à la suite d'une réponse du prestataire.
+465. Le recharge téléphonique a été rejeté pour solde insuffisant.
+466. Le recharge téléphonique a été rejeté à cause d'un délai dépassé.
+467. Le recharge téléphonique a été rejeté en raison d'un compte bloqué.
+468. Le recharge téléphonique a été rejeté après validation du code OTP.
+469. Le recharge téléphonique a été rejeté suite à une indisponibilité du réseau.
+470. Le recharge téléphonique a été rejeté après contrôle de conformité.
+471. Le recharge téléphonique a été rejeté en raison d'une limite atteinte.
+472. Le recharge téléphonique a été rejeté à la suite d'une réponse du prestataire.
+473. Le recharge téléphonique a échoué pour solde insuffisant.
+474. Le recharge téléphonique a échoué à cause d'un délai dépassé.
+475. Le recharge téléphonique a échoué en raison d'un compte bloqué.
+476. Le recharge téléphonique a échoué après validation du code OTP.
+477. Le recharge téléphonique a échoué suite à une indisponibilité du réseau.
+478. Le recharge téléphonique a échoué après contrôle de conformité.
+479. Le recharge téléphonique a échoué en raison d'une limite atteinte.
+480. Le recharge téléphonique a échoué à la suite d'une réponse du prestataire.
+481. Le recharge téléphonique a été annulé pour solde insuffisant.
+482. Le recharge téléphonique a été annulé à cause d'un délai dépassé.
+483. Le recharge téléphonique a été annulé en raison d'un compte bloqué.
+484. Le recharge téléphonique a été annulé après validation du code OTP.
+485. Le recharge téléphonique a été annulé suite à une indisponibilité du réseau.
+486. Le recharge téléphonique a été annulé après contrôle de conformité.
+487. Le recharge téléphonique a été annulé en raison d'une limite atteinte.
+488. Le recharge téléphonique a été annulé à la suite d'une réponse du prestataire.
+489. Le recharge téléphonique a été traité partiellement pour solde insuffisant.
+490. Le recharge téléphonique a été traité partiellement à cause d'un délai dépassé.
+491. Le recharge téléphonique a été traité partiellement en raison d'un compte bloqué.
+492. Le recharge téléphonique a été traité partiellement après validation du code OTP.
+493. Le recharge téléphonique a été traité partiellement suite à une indisponibilité du réseau.
+494. Le recharge téléphonique a été traité partiellement après contrôle de conformité.
+495. Le recharge téléphonique a été traité partiellement en raison d'une limite atteinte.
+496. Le recharge téléphonique a été traité partiellement à la suite d'une réponse du prestataire.
+497. Le recharge téléphonique a été mis en vérification pour solde insuffisant.
+498. Le recharge téléphonique a été mis en vérification à cause d'un délai dépassé.
+499. Le recharge téléphonique a été mis en vérification en raison d'un compte bloqué.
+500. Le recharge téléphonique a été mis en vérification après validation du code OTP.
+501. Le recharge téléphonique a été mis en vérification suite à une indisponibilité du réseau.
+502. Le recharge téléphonique a été mis en vérification après contrôle de conformité.
+503. Le recharge téléphonique a été mis en vérification en raison d'une limite atteinte.
+504. Le recharge téléphonique a été mis en vérification à la suite d'une réponse du prestataire.
+505. Le recharge téléphonique a été remboursé pour solde insuffisant.
+506. Le recharge téléphonique a été remboursé à cause d'un délai dépassé.
+507. Le recharge téléphonique a été remboursé en raison d'un compte bloqué.
+508. Le recharge téléphonique a été remboursé après validation du code OTP.
+509. Le recharge téléphonique a été remboursé suite à une indisponibilité du réseau.
+510. Le recharge téléphonique a été remboursé après contrôle de conformité.
+511. Le recharge téléphonique a été remboursé en raison d'une limite atteinte.
+512. Le recharge téléphonique a été remboursé à la suite d'une réponse du prestataire.
+
+NIVEAUX DE SÉVÉRITÉ
+DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, FATAL

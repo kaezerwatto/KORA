@@ -1,0 +1,46 @@
+{
+  "checkedAt": "2026-11-14",
+  "provider": "Google Translate public response",
+  "providerTarget": "ff",
+  "koraTarget": "fub",
+  "providerLanguageAnnouncement": "https://support.google.com/translate/answer/15139004?hl=en",
+  "queryEndpoint": "https://translate.googleapis.com/translate_a/single?client=gtx&sl={source}&tl=ff&dt=t&q={text}",
+  "policy": "Comparison only. The Google target is macro-language Fulani (ff), not a guarantee of Adamawa Fulfulde (fub). No Google output is imported automatically.",
+  "entries": [
+    {
+      "sourceLanguage": "fr",
+      "source": "compte courant",
+      "google": "konte jooni ɗee",
+      "kora": "Konte jooni",
+      "decision": "KORA retained for interface consistency and local review."
+    },
+    {
+      "sourceLanguage": "fr",
+      "source": "bénéficiaire",
+      "google": "naftortooɗo",
+      "kora": "Jaɓoowo",
+      "decision": "KORA retained: recipient role is explicit and already used consistently."
+    },
+    {
+      "sourceLanguage": "fr",
+      "source": "solde insuffisant",
+      "google": "balans mo ŋakkaani",
+      "kora": "Kaalisi yonaa",
+      "decision": "KORA retained after native correction; yonaa is the required negative form."
+    },
+    {
+      "sourceLanguage": "fr",
+      "source": "transaction en attente",
+      "google": "njulaagu jogorngu waɗeede",
+      "kora": "Transaksiyon ɗon e fadde",
+      "decision": "KORA retained: the progressive pending state is explicit."
+    },
+    {
+      "sourceLanguage": "fr",
+      "source": "transfert effectué",
+      "google": "jolngo timmaani",
+      "kora": "Transfeer timmii",
+      "decision": "KORA retained: the completed state must remain unambiguous."
+    }
+  ]
+}

@@ -11,7 +11,8 @@ const payload = {
   format: "kora-fub-neural-int8",
   task: "next-word prediction and safe-candidate fluency ranking",
   language: "fub",
-  license: "MIT; training sentences: Common Voice CC0 and KORA reviewed memory",
+  license:
+    "MIT; training language: Common Voice CC0, KORA memory and KORA terminology candidates",
   metadata: FUB_NEURAL_META,
   vocabulary: FUB_NEURAL_VOCAB,
   tensors: FUB_NEURAL_WEIGHTS

@@ -12,6 +12,11 @@ import {
   GENERAL_TEMPLATES_EN,
   GENERAL_TEMPLATES_FR
 } from "./general-translations.js";
+import {
+  CORPUS_EN_TO_FUB,
+  CORPUS_FR_TO_FUB,
+  CORPUS_PRESERVED_TERMS
+} from "./corpus-translations.js";
 import { rankFubCandidates, scoreFubFluency } from "./language-model.js";
 
 const FRENCH_MARKERS = /\b(le|la|les|des|du|de|votre|vous|avant|après|bonjour|bonsoir|bienvenue|transfert|frais|solde|compte|vérifiez|paiement|carte|mot|passe|retrait|dépôt)\b/i;
@@ -48,8 +53,14 @@ export function normalizeText(value) {
 
 export function detectSource(text, hint = "auto") {
   const key = normalizeText(text);
-  const inFr = Object.hasOwn(FR_TO_FUB, key) || Object.hasOwn(GENERAL_FR_TO_FUB, key);
-  const inEn = Object.hasOwn(EN_TO_FUB, key) || Object.hasOwn(GENERAL_EN_TO_FUB, key);
+  const inFr =
+    Object.hasOwn(FR_TO_FUB, key) ||
+    Object.hasOwn(GENERAL_FR_TO_FUB, key) ||
+    Object.hasOwn(CORPUS_FR_TO_FUB, key);
+  const inEn =
+    Object.hasOwn(EN_TO_FUB, key) ||
+    Object.hasOwn(GENERAL_EN_TO_FUB, key) ||
+    Object.hasOwn(CORPUS_EN_TO_FUB, key);
   if (inFr && !inEn) return "fr";
   if (inEn && !inFr) return "en";
   if (hint === "fr" || hint === "en") return hint;
@@ -134,10 +145,14 @@ function applyTemplates(masked, source) {
   return candidates.length ? rankFubCandidates(candidates)[0].text : null;
 }
 
-function applyGlossary(masked, source) {
+function applyGlossary(masked, source, includeCorpus) {
   const generalMemory = source === "en" ? GENERAL_EN_TO_FUB : GENERAL_FR_TO_FUB;
+  const corpusMemory = source === "en" ? CORPUS_EN_TO_FUB : CORPUS_FR_TO_FUB;
   const glossary = [
     ...Object.entries(generalMemory).sort((a, b) => b[0].length - a[0].length),
+    ...(includeCorpus
+      ? Object.entries(corpusMemory).sort((a, b) => b[0].length - a[0].length)
+      : []),
     ...(source === "en" ? GLOSSARY_EN : GLOSSARY_FR)
   ];
   let output = masked;
@@ -172,9 +187,12 @@ export function isProtectedWhole(text, extraValues = []) {
 }
 
 export function translateText(text, options = {}) {
-  const { sourceHint = "auto", protectedValues = [] } = options;
+  const { sourceHint = "auto", domainHint = "general", protectedValues = [] } = options;
   const original = String(text ?? "");
   const key = normalizeText(original);
+  if (CORPUS_PRESERVED_TERMS.has(original.normalize("NFC").trim())) {
+    return { text: original, source: null, method: "protected-code", changed: false };
+  }
   if (!key || protectedValues.some((value) => normalizeText(value) === key)) {
     return { text: original, source: null, method: "protected", changed: false };
   }
@@ -182,7 +200,13 @@ export function translateText(text, options = {}) {
   const source = detectSource(original, sourceHint);
   const memory = source === "en" ? EN_TO_FUB : FR_TO_FUB;
   const generalMemory = source === "en" ? GENERAL_EN_TO_FUB : GENERAL_FR_TO_FUB;
-  const exact = memory[key] ?? generalMemory[key];
+  const corpusMemory = source === "en" ? CORPUS_EN_TO_FUB : CORPUS_FR_TO_FUB;
+  const includeCorpus =
+    domainHint === "financial" || CRITICAL_MARKERS[source].test(original);
+  const exact =
+    memory[key] ??
+    generalMemory[key] ??
+    (includeCorpus ? corpusMemory[key] : undefined);
   if (exact) {
     const translated = preserveOuterWhitespace(original, exact);
     if (!preservesSensitive(original, translated, protectedValues)) {
@@ -202,7 +226,7 @@ export function translateText(text, options = {}) {
 
   const { masked, values } = maskSensitive(original, protectedValues);
   const templated = applyTemplates(masked, source);
-  const composed = templated ?? applyGlossary(masked, source);
+  const composed = templated ?? applyGlossary(masked, source, includeCorpus);
   if (!composed) return { text: original, source, method: "original", changed: false };
 
   const restored = preserveOuterWhitespace(original, restoreSensitive(composed, values));

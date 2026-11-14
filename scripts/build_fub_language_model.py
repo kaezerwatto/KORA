@@ -22,6 +22,7 @@ REVIEWED_SOURCES = [
     ROOT / "src/translations.js",
     ROOT / "src/general-translations.js",
 ]
+TERMINOLOGY_INPUT = ROOT / "data/corpora/financial-terminology-candidates.json"
 
 
 def tokenize(text: str) -> list[str]:
@@ -45,7 +46,7 @@ def tokenize(text: str) -> list[str]:
     return tokens
 
 
-def reviewed_phrases() -> list[str]:
+def memory_phrases() -> list[str]:
     phrases: set[str] = set()
     value_pattern = re.compile(r':\s*"((?:\\.|[^"\\])*)"')
     for source in REVIEWED_SOURCES:
@@ -58,6 +59,19 @@ def reviewed_phrases() -> list[str]:
             if len(tokenize(value)) >= 1:
                 phrases.add(value)
     return sorted(phrases)
+
+
+def terminology_phrases() -> list[str]:
+    if not TERMINOLOGY_INPUT.exists():
+        return []
+    document = json.loads(TERMINOLOGY_INPUT.read_text(encoding="utf-8"))
+    phrases = {
+        str(entry.get("fub", "")).strip()
+        for entry in document.get("entries", [])
+        if entry.get("status") != "preserved-code"
+        and len(tokenize(str(entry.get("fub", "")))) >= 1
+    }
+    return sorted(phrase for phrase in phrases if phrase)
 
 
 def main() -> None:
@@ -90,10 +104,14 @@ def main() -> None:
             token_count += len(tokens)
             consume(tokens)
 
-    reviewed = reviewed_phrases()
-    reviewed_token_count = sum(len(tokenize(phrase)) for phrase in reviewed)
-    for phrase in reviewed:
+    memory = memory_phrases()
+    memory_token_count = sum(len(tokenize(phrase)) for phrase in memory)
+    for phrase in memory:
         consume(tokenize(phrase), weight=3)
+    terminology = terminology_phrases()
+    terminology_token_count = sum(len(tokenize(phrase)) for phrase in terminology)
+    for phrase in terminology:
+        consume(tokenize(phrase))
 
     compact_transitions: dict[str, list[list[str | int]]] = {}
     ranked_contexts = sorted(
@@ -118,12 +136,14 @@ def main() -> None:
     ]
     metadata = {
         "language": "fub",
-        "corpus": "Mozilla Common Voice 27.0 + KORA reviewed fub memory",
+        "corpus": "Mozilla Common Voice 27.0 + KORA memory + terminology candidates",
         "license": "CC0 + MIT",
         "sentences": sentence_count,
         "tokens": token_count,
-        "reviewedPhrases": len(reviewed),
-        "reviewedTokens": reviewed_token_count,
+        "memoryPhrases": len(memory),
+        "memoryTokens": memory_token_count,
+        "terminologyCandidatePhrases": len(terminology),
+        "terminologyCandidateTokens": terminology_token_count,
         "contexts": len(compact_transitions),
         "vocabulary": len(compact_unigrams),
         "kind": "interpolated unigram/bigram/trigram next-word model",
@@ -139,7 +159,7 @@ def main() -> None:
     print(
         f"Generated {OUTPUT.relative_to(ROOT)}: "
         f"{sentence_count} sentences, {token_count} tokens, "
-        f"{len(reviewed)} reviewed phrases, {len(compact_transitions)} contexts, "
+        f"{len(memory)} memory phrases, {len(compact_transitions)} contexts, "
         f"{OUTPUT.stat().st_size / 1024:.1f} KiB"
     )
 

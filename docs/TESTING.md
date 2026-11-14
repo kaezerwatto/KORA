@@ -20,6 +20,11 @@
 - conservation des saisies, notamment `Payment for services`;
 - ajout de nœuds, remplacement de texte, attributs dynamiques, Shadow DOM ouvert et iframe;
 - traduction dynamique du message `hello mon frere qui est tu`.
+- fermeture de la popup après action et restitution immédiate du focus;
+- `Ctrl+A` sur toute la page traduite et dans un champ de formulaire;
+- principaux libellés visibles d’une page UBA Cameroon reproduite localement;
+- couverture bilingue de chaque libellé financier importé;
+- conservation stricte des codes HTTP, événements et identifiants API.
 
 ## Test Chrome en direct
 
@@ -34,11 +39,17 @@
 7. contrôle nom, téléphone, montants, référence et intégrité des données enregistrées;
 8. ouvre une seconde page, bascule Safinum en anglais et confirme la traduction vers le même `fub`.
 
+Un contrôle séparé ouvre aussi `https://www.ubacameroon.com/`, vérifie les
+principaux blocs visibles et sélectionne le document puis un champ avec
+`Ctrl+A`. La traduction n’installe aucun gestionnaire clavier et ne modifie pas
+la sélection native.
+
 Résultat de référence :
 
 ```text
 LIVE PASS: French journey, dynamic content, form values and receipt integrity.
 LIVE PASS: English source switched and translated to the same fub interface.
+UBA LIVE PASS: translated homepage, page selection 1942 characters, field selection 10/10.
 ```
 
 ## Matrice manuelle avant remise

@@ -8,7 +8,7 @@
 
 KORA fonctionne sans serveur de traduction, sans API distante, sans télémétrie et sans transmission du contenu des pages.
 
-Le manifest fournit des icônes optimisées en `16`, `32`, `48` et `128` pixels. La marque conserve son fond sombre original tout en remplissant presque tout le canevas afin de rester plus visible dans le sélecteur d’extensions, dont la taille d’affichage est imposée par Chrome.
+Le manifest fournit des icônes optimisées en `16`, `32`, `48` et `128` pixels. La marque conserve son fond sombre original et une présence forte dans le sélecteur d’extensions, avec une marge régulière entre les bulles et le contour.
 
 ![Popup KORA](docs/assets/kora-popup.png)
 
@@ -43,6 +43,9 @@ La popup reste volontairement simple :
 - `Français` ou `English` restaure le texte original et déclenche le sélecteur natif du site lorsqu’il existe;
 - l’interrupteur active ou restaure la traduction immédiatement.
 
+Après une action, la popup se ferme et rend le focus à la page. Les raccourcis
+du navigateur et du site, notamment `Ctrl+A`, restent utilisables.
+
 Le contenu ajouté après le chargement est traduit automatiquement.
 
 KORA surveille les surfaces DOM accessibles au navigateur :
@@ -62,15 +65,19 @@ Les Shadow DOM fermés, le texte dessiné dans un `<canvas>`, les images et les 
 
 KORA embarque une base d’intelligence linguistique légère et entièrement locale :
 
-- réseau neuronal à contexte de deux mots, 77 104 paramètres, poids int8;
-- couche d’embedding de 24 dimensions et couche cachée de 48 neurones;
+- réseau neuronal à contexte de trois mots, 192 864 paramètres, poids int8;
+- couche d’embedding de 24 dimensions et couche cachée de 96 neurones;
 - entraîné sur 1 067 phrases Adamawa Fulfulde de Common Voice 27, sous licence CC0;
-- 9 368 tokens Common Voice, 243 formulations KORA relues, 1 101 mots fréquents et 1 385 contextes prédictifs;
+- 9 368 tokens Common Voice, 262 formulations de la mémoire KORA et 386
+  formulations terminologiques candidates à poids réduit;
+- repli n-gramme de 1 198 mots fréquents et 1 559 contextes prédictifs;
 - prédiction neuronale du mot suivant avec repli n-gramme déterministe;
 - score de fluidité déterministe pour classer plusieurs formulations sûres;
 - cache local des 1 000 derniers scores pour éviter de recalculer les libellés répétés;
-- validation séparée sur 107 phrases Common Voice : top-1 13,4 %, top-5 32,6 %;
-- environ 114 Kio de poids, vocabulaire et métadonnées avant minification.
+- arrêt anticipé reproductible : meilleur état obtenu à l’époque 2 sur 8
+  exécutées;
+- validation séparée sur 107 phrases Common Voice : top-1 14,6 %, top-5 34,0 %;
+- environ 273 Kio de poids, vocabulaire et métadonnées avant minification.
 
 Le réseau neuronal est réellement exécuté dans l’extension : chaque traduction acceptée passe par `scoreFubFluency`, qui appelle l’inférence int8, et le classement de plusieurs candidats utilise sa probabilité avec un repli n-gramme. Ce réseau n’est toutefois pas un traducteur libre : il prédit la fluidité en `fub` et ne peut ni modifier un montant, ni autoriser seul une action financière.
 
@@ -150,6 +157,9 @@ Dans un `<select>`, seul le libellé visible d’une option est traduit. Sa prop
 
 - parcours Safinum : tableau de bord, frais, bénéficiaire, récapitulatif et reçu;
 - erreurs et alertes de sécurité;
+- inventaires financiers fournis : banque, transaction, monétique, crédit,
+  investissement, comptabilité, conformité, microfinance, fiscalité, API et
+  litiges — 512 libellés, 504 concepts dédupliqués, 113 codes protégés;
 - contenu dynamique et contrôles d’intégrité financière;
 - authentification, code OTP/PIN et session;
 - carte, paiement, dépôt, retrait et transfert;
@@ -163,6 +173,8 @@ Prérequis : Node.js 20+, Python 3 et Google Chrome. Le réentraînement optionn
 ```bash
 npm install
 npm run build:icons
+npm run build:corpora
+npm run build:terminology
 npm run build:model
 npm run model:train
 npm run model:export
@@ -206,12 +218,14 @@ src/
   engine.js                  pipeline sémantique et intégrité
   translations.js            mémoire Safinum relue
   general-translations.js    phrasebook financier général
+  corpus-translations.js     terminologie financière FR/EN générée
   fub-language-model.js      modèle n-gramme compact généré
   fub-neural-model.js        poids neuronaux int8 générés
   neural-language-model.js   inférence neuronale JavaScript
   language-model.js          fusion neuronale et repli n-gramme
   popup.*                    interface dark et sélecteur FUB/FR/EN
 scripts/
+  build_corpus_translations.mjs
   build_fub_language_model.py
   train_tiny_fub_neural.py
   export_neural_model.mjs
@@ -221,9 +235,16 @@ scripts/
   package.mjs
 tests/
   engine.test.mjs
+  corpus.test.mjs
   popup.test.mjs
   pages.test.mjs
   live.test.mjs
+  uba-live.test.mjs
+data/corpora/
+  corpus_terminologique_financier_volume_1.txt
+  corpus_finance_transactionnelle_volume_2.txt
+  financial-terminology-candidates.json
+  index.json
 ```
 
 ## Sources linguistiques
@@ -232,8 +253,15 @@ tests/
 - Tourneux & Konaï, vocabulaire mobile du Cameroun septentrional, CC BY 4.0;
 - dictionnaires et vocabulaires SIL consultés selon leurs conditions;
 - corrections Adamawa documentées dans `docs/LINGUISTIC_VALIDATION.md`.
+- deux inventaires financiers fournis au projet, avec provenance, empreintes et
+  exclusions documentées dans [`docs/FINANCIAL_CORPORA.md`](docs/FINANCIAL_CORPORA.md).
 
 PanLex et le dictionnaire SIL complet ne sont pas redistribués : leurs conditions ne permettent pas une intégration commerciale sans clarification ou autorisation écrite.
+
+Les deux inventaires financiers fournis au projet sont conservés dans le dépôt
+avec leur empreinte, leur absence de licence déclarée et leurs exclusions
+explicites. Ils ne sont pas embarqués bruts dans l’extension et ne sont jamais
+présentés comme un corpus parallèle `fub`.
 
 ## Équipe KORA
 

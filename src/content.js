@@ -2,8 +2,9 @@ import { translateText } from "./engine.js";
 
 const shouldInitialize = !globalThis.__KORA_CONTENT_INITIALIZED__;
 if (shouldInitialize) globalThis.__KORA_CONTENT_INITIALIZED__ = true;
-const PROTOCOL_VERSION = 8;
+const PROTOCOL_VERSION = 10;
 const SKIP_TAGS = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "CODE", "PRE", "SVG", "CANVAS", "IFRAME", "TEXTAREA"]);
+const FINANCIAL_CONTEXT_PATTERN = /\b(?:account|bank(?:ing)?|beneficiary|credit|debit|fees?|finance|fintech|money|payment|recipient|transaction|transfer|wallet|banque|bénéficiaire|compte|crédit|débit|frais|montant|paiement|solde|transaction|transfert)\b/giu;
 const records = new Map();
 const attributeRecords = new Map();
 const langRecords = new Map();
@@ -18,6 +19,7 @@ let stats = freshStats();
 let originalTooltip;
 let observedRoots = new WeakSet();
 const translationSourceFields = new WeakSet();
+let financialContextDetected = false;
 
 function freshStats() {
   return { scanned: 0, translated: 0, protected: 0, fallback: 0, memory: 0, template: 0, glossary: 0 };
@@ -89,6 +91,22 @@ function pageSourceHint() {
   return sourceHint;
 }
 
+function pageDomainHint() {
+  if (financialContextDetected) return "financial";
+  const sample = [
+    location.hostname,
+    document.title,
+    document.body?.innerText.slice(0, 20_000) ?? ""
+  ].join(" ");
+  const markers = new Set(
+    [...sample.matchAll(FINANCIAL_CONTEXT_PATTERN)].map((match) =>
+      match[0].toLocaleLowerCase("fr")
+    )
+  );
+  financialContextDetected = markers.size >= 2;
+  return financialContextDetected ? "financial" : "general";
+}
+
 function translateNode(node, protectedList) {
   const current = node.nodeValue ?? "";
   if (!parentIsEligible(node)) return;
@@ -104,6 +122,7 @@ function translateNode(node, protectedList) {
     : protectedList;
   const result = translateText(current, {
     sourceHint: pageSourceHint(),
+    domainHint: pageDomainHint(),
     protectedValues: textProtectedValues
   });
 
@@ -145,6 +164,7 @@ function translateAttribute(element, attribute, protectedList) {
   if (previous && current === previous.translated) return;
   const result = translateText(current, {
     sourceHint: pageSourceHint(),
+    domainHint: pageDomainHint(),
     protectedValues: protectedList
   });
   if (!result.changed) return;

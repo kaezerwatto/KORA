@@ -21,6 +21,7 @@ flowchart LR
         C[Content script]
         E[Engine]
         TM[Mémoires FR/EN → fub]
+        CT[Terminologie financière contrôlée]
         LM[Petit réseau neuronal fub]
         NG[Repli n-gramme]
         S[(Préférences locales)]
@@ -32,6 +33,7 @@ flowchart LR
     C --> S
     C --> E
     E --> TM
+    E --> CT
     E --> LM
     LM --> NG
     E -->|Traduction sûre ou abstention| C
@@ -73,9 +75,11 @@ flowchart TD
     B -->|Oui| Z[Conserver intact]
     B -->|Non| C[Détecter FR ou EN]
     C --> D[Masquer montants, dates, comptes et références]
-    D --> E{Mémoire exacte ?}
+    D --> E{Mémoire historique exacte ?}
     E -->|Oui| J[Candidat fub]
-    E -->|Non| F{Gabarit typé ?}
+    E -->|Non| CE{Terme financier contrôlé ?}
+    CE -->|Oui| J
+    CE -->|Non| F{Gabarit typé ?}
     F -->|Oui| J
     F -->|Non| G{Phrasebook couvert ?}
     G -->|Oui| J
@@ -94,9 +98,15 @@ Ordre des méthodes :
 
 1. mémoire exacte Safinum;
 2. mémoire générale web et financière;
-3. gabarit avec emplacements typés;
-4. phrasebook longest-match;
-5. abstention.
+3. terminologie dédupliquée des corpus financiers;
+4. gabarit avec emplacements typés;
+5. phrasebook longest-match;
+6. abstention.
+
+La terminologie étendue est activée dans un contexte financier ou lorsque le
+segment contient lui-même un marqueur financier non ambigu. Cette porte évite,
+par exemple, de traduire le mot français « action » comme un titre boursier sur
+une page sans rapport avec la finance.
 
 Le modèle de langue n’autorise jamais une traduction. Il classe uniquement plusieurs formulations déjà acceptées par le verrou sémantique.
 
@@ -177,15 +187,16 @@ Un garde global versionné empêche l’initialisation multiple. Si une ancienne
 Corpus :
 
 - 1 067 phrases Common Voice 27 `fub`, CC0;
-- 243 formulations KORA relues;
+- 262 formulations historiques de la mémoire KORA;
+- 386 formulations terminologiques candidates à poids réduit;
 - 9 368 tokens Common Voice;
-- 1 101 mots fréquents;
-- 1 385 contextes prédictifs.
+- 1 198 mots fréquents;
+- 1 559 contextes prédictifs.
 
 ```mermaid
 flowchart LR
-    A[Deux mots précédents] --> B[Embeddings 24 dimensions]
-    B --> C[Couche tanh 48 neurones]
+    A[Trois mots précédents] --> B[Embeddings 24 dimensions]
+    B --> C[Couche tanh 96 neurones]
     C --> D[Distribution du mot suivant]
     E[Trigramme, bigramme, unigramme] --> F[Repli déterministe]
     D --> G[Fusion 85 %]
@@ -194,7 +205,16 @@ flowchart LR
     H --> I[Classement de candidats déjà sûrs]
 ```
 
-Le réseau compte 77 104 paramètres. Ses poids, son vocabulaire et ses métadonnées occupent environ 114 Kio avant minification. Sur 107 phrases Common Voice tenues hors entraînement, le modèle int8 atteint 13,4 % top-1 et 32,6 % top-5. La top-5 est la métrique la plus pertinente pour son rôle de classement de plusieurs candidats. Un cache borné conserve les 1 000 derniers scores afin que les libellés répétés ne relancent pas l’inférence. Ces métriques restent distinctes d’une qualité de traduction : le modèle complète le moteur déterministe mais ne remplace pas un modèle neuronal de traduction générale.
+Le réseau compte 192 864 paramètres. Ses poids, son vocabulaire et ses
+métadonnées occupent environ 273 Kio avant minification. L’entraînement utilise
+un arrêt anticipé : sur le run reproductible final, le meilleur état est celui
+de l’époque 2 et l’exécution s’arrête après 8 époques. Sur 107 phrases Common
+Voice tenues hors entraînement, le modèle int8 atteint 14,6 % top-1 et 34,0 %
+top-5. La top-5 est la métrique la plus pertinente pour son rôle de classement
+de plusieurs candidats. Un cache borné conserve les 1 000 derniers scores afin
+que les libellés répétés ne relancent pas l’inférence. Ces métriques restent
+distinctes d’une qualité de traduction : le modèle complète le moteur
+déterministe mais ne remplace pas un modèle neuronal de traduction générale.
 
 ## Modules
 
@@ -202,12 +222,14 @@ Le réseau compte 77 104 paramètres. Ses poids, son vocabulaire et ses métadon
 - `src/engine.js` : intégrité, couverture et cascade de traduction;
 - `src/translations.js` : parcours Safinum bilingue;
 - `src/general-translations.js` : web, finance, éducation et assistants;
+- `src/corpus-translations.js` : index FR/EN généré depuis la terminologie contrôlée;
 - `src/language-model.js` : prédiction et score de fluidité;
 - `src/fub-language-model.js` : paramètres générés;
 - `src/fub-neural-model.js` : poids neuronaux int8 générés;
 - `src/neural-language-model.js` : inférence neuronale locale;
 - `src/popup.*` : interface utilisateur;
 - `scripts/export_neural_model.mjs` : export JSON portable du modèle int8;
+- `scripts/build_corpus_translations.mjs` : validation et compilation des corpus;
 - `scripts/build.mjs` : bundle Chrome;
 - `scripts/package.mjs` : ZIP et dossier unpacked.
 
@@ -215,7 +237,9 @@ Le réseau compte 77 104 paramètres. Ses poids, son vocabulaire et ses métadon
 
 ```mermaid
 flowchart LR
-    S[Sources] --> M[Construction du modèle]
+    S[Sources] --> T[Compilation terminologique]
+    T --> M[Construction du modèle]
+    T --> B[esbuild]
     S --> I[Génération des icônes]
     M --> E[Export JSON du modèle]
     M --> B[esbuild]

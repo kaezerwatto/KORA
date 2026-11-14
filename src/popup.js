@@ -3,7 +3,7 @@ const statusTitle = document.querySelector("#status-title");
 const statusDetail = document.querySelector("#status-detail");
 const statusIcon = document.querySelector("#status-icon");
 const languageInputs = [...document.querySelectorAll('input[name="display-language"]')];
-const PROTOCOL_VERSION = 8;
+const PROTOCOL_VERSION = 10;
 
 async function activeTab() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -25,6 +25,11 @@ function pageLabel(tab) {
 
 async function wait(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
+
+function returnFocusToPage() {
+  if (location.protocol !== "chrome-extension:") return;
+  setTimeout(() => window.close(), 80);
 }
 
 async function sendToPage(message) {
@@ -115,6 +120,7 @@ async function toggleTranslation() {
     return;
   }
   await refresh();
+  returnFocusToPage();
 }
 
 enabled.addEventListener("change", () => {
@@ -137,6 +143,7 @@ for (const input of languageInputs) {
         return;
       }
       renderAvailable(response, tab);
+      returnFocusToPage();
     })().catch(async () => {
       renderUnavailable(await activeTab());
     });

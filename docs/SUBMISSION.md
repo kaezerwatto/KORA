@@ -10,7 +10,12 @@ KORA est une extension Chrome qui traduit localement les interfaces financières
 
 Sa particularité est un verrou d’intégrité financière : les montants, frais, totaux, devises, noms, téléphones, comptes, références et données saisies ne sont jamais traduits. Toute traduction qui ne conserve pas une valeur est rejetée.
 
-KORA couvre le parcours complet Safinum Pay, ses erreurs et ses alertes. Elle détecte aussi les contenus ajoutés après chargement. Pour un texte inédit, elle combine des gabarits à valeurs protégées et un glossaire financier sourcé. Elle préfère conserver l’original plutôt que produire un contresens.
+KORA couvre le parcours complet Safinum Pay, ses erreurs et ses alertes. Elle
+détecte aussi les contenus ajoutés après chargement. Sa terminologie contrôlée
+inventorie 512 libellés financiers fournis, dédupliqués en 504 concepts FR/EN,
+avec un statut explicite pour chaque formulation `fub`. Pour un texte inédit,
+elle combine des gabarits à valeurs protégées et un glossaire financier
+sourcé. Elle préfère conserver l’original plutôt que produire un contresens.
 
 ## Contribution technique propre
 
@@ -20,8 +25,8 @@ KORA couvre le parcours complet Safinum Pay, ses erreurs et ses alertes. Elle d�
 - petit réseau neuronal `fub` int8 pour classer la fluidité des formulations sûres;
 - traduction dynamique idempotente compatible avec Vue;
 - retour instantané au texte original;
-- interface accessible et lecture optionnelle;
-- tests automatisés sur l’environnement Safinum réel et ses contrôles d’intégrité financière.
+- popup accessible qui restitue immédiatement le focus et les raccourcis clavier;
+- tests automatisés sur Safinum, une page UBA réelle et les corpus financiers.
 
 ## Confidentialité
 
