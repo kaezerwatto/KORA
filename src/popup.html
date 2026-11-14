@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>KORA — Traduction privée</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main class="app">
+      <header class="topbar">
+        <div class="brand">
+          <img src="icons/icon-48.png" width="36" height="36" alt="">
+          <div>
+            <h1>KORA</h1>
+            <p>Fulfulde Adamawa</p>
+          </div>
+        </div>
+        <span class="local-badge">
+          <span aria-hidden="true"></span>
+          Privé
+        </span>
+      </header>
+
+      <section class="hero" aria-live="polite">
+        <div class="hero-copy">
+          <span class="status-icon" id="status-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg>
+          </span>
+          <div>
+            <h2 id="status-title">Analyse de la page…</h2>
+            <p id="status-detail">Connexion sécurisée à l’onglet actif.</p>
+          </div>
+        </div>
+        <label class="switch" aria-label="Activer ou suspendre KORA">
+          <input id="enabled" type="checkbox" role="switch">
+          <span aria-hidden="true"></span>
+        </label>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <div>
+            <span class="eyebrow">Langue source</span>
+            <strong>Détection de la page</strong>
+          </div>
+          <span class="target">→ FUB</span>
+        </div>
+        <fieldset>
+          <legend class="sr-only">Choisir la langue source</legend>
+          <div class="segments">
+            <label><input type="radio" name="source" value="auto" checked><span>Auto</span></label>
+            <label><input type="radio" name="source" value="fr"><span>Français</span></label>
+            <label><input type="radio" name="source" value="en"><span>English</span></label>
+          </div>
+        </fieldset>
+        <button id="rescan" class="primary" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v6h-6"/></svg>
+          <span>Traduire cette page</span>
+        </button>
+      </section>
+
+      <section class="metrics" aria-label="Résultat de la dernière analyse">
+        <div>
+          <span class="metric-value" id="translated">0</span>
+          <span class="metric-label">Traduits</span>
+        </div>
+        <div>
+          <span class="metric-value" id="protected">0</span>
+          <span class="metric-label">Protégés</span>
+        </div>
+        <div>
+          <span class="metric-value" id="fallback">0</span>
+          <span class="metric-label">Conservés</span>
+        </div>
+      </section>
+
+      <details class="lab">
+        <summary>
+          <span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v5l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3M8 14h8"/></svg>
+            Tester une phrase
+          </span>
+          <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </summary>
+        <div class="lab-body">
+          <label for="sample">Français ou anglais</label>
+          <textarea id="sample" rows="3" placeholder="Ex. Votre paiement est en attente."></textarea>
+          <button id="translate-sample" class="secondary" type="button">Traduire localement</button>
+          <output id="sample-output" lang="fub" aria-live="polite"></output>
+          <button id="speak-sample" class="text-button" type="button" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5ZM15 9a4 4 0 0 1 0 6M18 6a8 8 0 0 1 0 12"/></svg>
+            Écouter
+          </button>
+        </div>
+      </details>
+
+      <footer>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+        <p><strong>Zéro donnée envoyée.</strong> Noms, montants et références restent sur votre appareil.</p>
+      </footer>
+
+      <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>

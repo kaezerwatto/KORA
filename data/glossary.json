@@ -1,0 +1,80 @@
+{
+  "language": {
+    "name": "Adamawa Fulfulde",
+    "iso639_3": "fub",
+    "script": "Latn",
+    "orthography": "ɓ ɗ ƴ ŋ ɲ"
+  },
+  "sources": {
+    "tourneux_mobile": {
+      "title": "L’impact de la téléphonie mobile sur le fulfulde du Cameroun septentrional",
+      "url": "https://zenodo.org/records/7822936",
+      "license": "CC BY 4.0",
+      "region": "Maroua, Cameroun"
+    },
+    "sil_dictionary": {
+      "title": "English–Fulfulde Dictionary",
+      "url": "https://www.sil.org/resources/archives/82623",
+      "license": "Consultation only; no extraction or redistribution without written permission",
+      "region": "Cameroon",
+      "entries": 11190
+    },
+    "sil_basic": {
+      "title": "Vocabulaire de base en quatre langues",
+      "url": "https://www.sil.org/resources/archives/47372",
+      "license": "SIL archive terms",
+      "region": "Cameroon"
+    },
+    "peace_corps": {
+      "title": "Fulfulde Technical Language Manual",
+      "url": "https://www.livelingua.com/peace-corps/Fulfulde/fulfulde%20peace%20corps.pdf",
+      "license": "Reference use; redistribution not asserted",
+      "region": "Mali; candidate terms only"
+    },
+    "common_voice": {
+      "title": "Common Voice 27.0 — Adamawa Fulfulde",
+      "url": "https://mozilladatacollective.com/datasets/cmu5tt70c006co1072drx736t",
+      "license": "CC0",
+      "region": "Ngaoundéré, Cameroon"
+    },
+    "panlex": {
+      "title": "PanLex — Adamawa Fulfulde subset",
+      "url": "https://panlex.org/license/",
+      "license": "CC BY-NC-SA 4.0; not integrated pending commercial-use clarification",
+      "region": "fub-000"
+    }
+  },
+  "terms": [
+    {"fr": "argent", "en": "money", "fub": "kaalisi", "status": "attested", "sources": ["peace_corps"]},
+    {"fr": "banque", "en": "bank", "fub": "baŋki", "status": "attested", "sources": ["peace_corps", "sil_dictionary"]},
+    {"fr": "compte", "en": "account", "fub": "konte", "status": "borrowed-proposed", "sources": ["tourneux_mobile"]},
+    {"fr": "transfert", "en": "transfer", "fub": "transfeer", "status": "borrowed-proposed", "sources": ["tourneux_mobile"]},
+    {"fr": "frais", "en": "fees", "fub": "musakaaji", "status": "candidate-cross-dialect", "sources": ["peace_corps"]},
+    {"fr": "montant", "en": "amount", "fub": "jate kaalisi", "status": "candidate-cross-dialect", "sources": ["peace_corps"]},
+    {"fr": "total", "en": "total", "fub": "kawral", "status": "candidate-cross-dialect", "sources": ["peace_corps"]},
+    {"fr": "bénéficiaire", "en": "beneficiary", "fub": "jaɓoowo", "status": "proposed", "sources": ["sil_dictionary"]},
+    {"fr": "nom", "en": "name", "fub": "innde", "status": "attested", "sources": ["common_voice", "sil_dictionary"]},
+    {"fr": "numéro", "en": "number", "fub": "lamba", "status": "attested-mobile", "sources": ["tourneux_mobile"]},
+    {"fr": "téléphone", "en": "phone", "fub": "telefon", "status": "attested-mobile", "sources": ["tourneux_mobile"]},
+    {"fr": "sécurité", "en": "security", "fub": "kisal", "status": "proposed", "sources": ["sil_dictionary"]},
+    {"fr": "vérifier", "en": "check", "fub": "ƴeewtugo", "status": "proposed", "sources": ["sil_dictionary"]},
+    {"fr": "confirmer", "en": "confirm", "fub": "tabitingo", "status": "native-review-2026", "sources": ["sil_dictionary"]},
+    {"fr": "continuer", "en": "continue", "fub": "jokkugo", "status": "attested", "sources": ["common_voice", "sil_dictionary"]},
+    {"fr": "retour", "en": "back", "fub": "ruttugo", "status": "proposed", "sources": ["sil_dictionary"]},
+    {"fr": "annuler", "en": "cancel", "fub": "haaytingo", "status": "native-review-2026", "sources": ["sil_dictionary"]},
+    {"fr": "erreur", "en": "error", "fub": "juumre", "status": "proposed", "sources": ["sil_dictionary"]},
+    {"fr": "réseau", "en": "network", "fub": "reso", "status": "attested-mobile", "sources": ["tourneux_mobile"]},
+    {"fr": "paiement", "en": "payment", "fub": "yoɓugo", "status": "native-review-2026", "sources": ["sil_dictionary"]},
+    {"fr": "gratuit", "en": "free", "fub": "meere", "status": "proposed", "sources": ["sil_dictionary"]},
+    {"fr": "référence", "en": "reference", "fub": "referans", "status": "borrowed-proposed", "sources": ["tourneux_mobile"]},
+    {"fr": "opération", "en": "operation", "fub": "transaksiyon", "status": "borrowed-proposed", "sources": ["tourneux_mobile"]},
+    {"fr": "succès", "en": "success", "fub": "moƴƴii", "status": "proposed", "sources": ["sil_dictionary"]},
+    {"fr": "code secret", "en": "secret code", "fub": "kod sirri", "status": "attested-mobile", "sources": ["tourneux_mobile"]},
+    {"fr": "crédit", "en": "credit", "fub": "kerdii", "status": "attested-mobile", "sources": ["tourneux_mobile"]},
+    {"fr": "épargne", "en": "savings", "fub": "marugol", "status": "candidate-cross-dialect", "sources": ["peace_corps"]},
+    {"fr": "rembourser", "en": "repay", "fub": "yoɓugo nyamaande", "status": "native-review-2026", "sources": ["peace_corps", "common_voice"]},
+    {"fr": "dette", "en": "debt", "fub": "nyamaande", "status": "attested", "sources": ["common_voice"]},
+    {"fr": "valider", "en": "validate", "fub": "jaɓugo", "status": "native-review-2026", "sources": ["sil_dictionary"]},
+    {"fr": "solde insuffisant", "en": "insufficient balance", "fub": "kaalisi yonaa", "status": "native-review-2026", "sources": ["sil_dictionary"]}
+  ]
+}
