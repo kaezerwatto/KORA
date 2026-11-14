@@ -46,10 +46,19 @@ La popup reste volontairement simple :
 Après une action, la popup se ferme et rend le focus à la page. Les raccourcis
 du navigateur et du site, notamment `Ctrl+A`, restent utilisables.
 
-Le contenu ajouté après le chargement est traduit automatiquement.
-Pour les libellés connus, une faute unique non ambiguë est aussi tolérée :
-`solde insufisant` est rapproché de `solde insuffisant`, puis traduit en
-`Kaalisi yonaa`. Si plusieurs corrections sont possibles, KORA s’abstient.
+Le contenu ajouté après le chargement est traduit automatiquement. Le
+correcteur orthographique couvre toutes les entrées textuelles traduisibles
+des mémoires FR/EN :
+
+- accents omis et ponctuation variable;
+- lettre manquante, ajoutée ou remplacée;
+- lettres voisines inversées;
+- jusqu’à quatre opérations sur une phrase longue.
+
+Ainsi `sodle insufisant` est rapproché de `solde insuffisant`, puis traduit en
+`Kaalisi yonaa`. La distance autorisée augmente avec la longueur du texte.
+KORA exige une meilleure correspondance unique; si deux sens concurrents sont
+aussi proches, le texte original reste affiché.
 
 KORA surveille les surfaces DOM accessibles au navigateur :
 
@@ -63,6 +72,73 @@ KORA surveille les surfaces DOM accessibles au navigateur :
 Les valeurs de champs financiers ou personnels restent intactes. Un champ explicitement destiné à fournir une phrase de test dynamique est traité comme une source à traduire, sans modifier la valeur du champ lui-même.
 
 Les Shadow DOM fermés, le texte dessiné dans un `<canvas>`, les images et les pages protégées comme `chrome://` ou le Chrome Web Store ne sont pas accessibles aux extensions.
+
+### Pourquoi la page jury ou une page d’administration est traduite
+
+KORA ne contient aucune règle « jury » ou « admin ». Lorsque Fulfulde est
+activé, le content script traduit tout texte visible et accessible de la page,
+qu’il appartienne à un client, un administrateur ou un outil d’évaluation.
+C’est le comportement normal d’une extension de traduction générale et cela
+permet au jury de vérifier les ajouts dynamiques. Les valeurs saisies, codes et
+identifiants restent protégés. Pour conserver une interface administrative
+dans sa langue source, il suffit de désactiver KORA ou de choisir Français /
+English dans la popup.
+
+## Architecture et rôle des composants
+
+- `manifest.json` déclare Manifest V3, les permissions locales, les icônes, la
+  popup et l’injection du content script dans les pages ordinaires.
+- `src/popup.js` lit l’état de l’onglet, active/restaure la traduction et
+  demande au sélecteur natif du site de passer en français ou en anglais.
+- `src/content.js` parcourt le DOM, protège les champs, observe les mutations,
+  traduit les attributs visibles et restaure exactement les nœuds originaux.
+- `src/engine.js` orchestre la langue source, l’intégrité financière, les
+  mémoires, le correcteur, les gabarits et l’abstention.
+- `src/spelling.js` indexe toutes les clés FR/EN et calcule une distance
+  Damerau–Levenshtein bornée. Il ne choisit une correction que si le meilleur
+  sens est unique.
+- `src/translations.js` porte la mémoire bilingue du parcours Safinum.
+- `src/general-translations.js` couvre les interfaces web et financières
+  générales.
+- `src/corpus-translations.js` est généré depuis les 504 concepts financiers;
+  il expose 391 clés FR, 390 clés EN et 113 codes à conserver.
+- `src/language-model.js` fusionne prédiction neuronale et n-gramme, puis
+  classe uniquement des formulations dont le sens est déjà connu.
+- `src/neural-language-model.js` exécute les tenseurs int8 contenus dans
+  `src/fub-neural-model.js`.
+- `chrome.storage.local` conserve seulement activation et langue d’affichage;
+  aucun texte de page n’y est enregistré.
+
+```mermaid
+sequenceDiagram
+    participant U as Utilisateur
+    participant P as Popup
+    participant C as Content script
+    participant E as Engine
+    participant S as Correcteur
+    participant M as Mémoires
+    participant L as Modèle fub
+    participant D as DOM
+
+    U->>P: Active Fulfulde
+    P->>C: KORA_DISPLAY_LANGUAGE
+    C->>D: Lit textes et attributs accessibles
+    C->>E: translateText(segment, valeurs protégées)
+    E->>M: Recherche exacte FR/EN
+    alt entrée exacte absente
+        E->>S: Recherche orthographique bornée
+        S-->>E: candidat unique ou abstention
+    end
+    E->>L: Score de fluidité des candidats sûrs
+    L-->>E: classement
+    E-->>C: traduction ou original
+    C->>D: Modifie uniquement le texte visible
+    D-->>C: MutationObserver signale un ajout
+```
+
+La description détaillée des contrats d’intégration se trouve dans
+[`docs/INTEGRATION.md`](docs/INTEGRATION.md), et les schémas complets dans
+[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 ## Modèle linguistique embarqué
 
@@ -203,6 +279,42 @@ import {
 formulation `fub` et `rankFubCandidates` trie plusieurs formulations déjà
 sûres. Ces fonctions ne traduisent pas seules une phrase FR/EN.
 
+### Utiliser le moteur complet séparément
+
+Pour traduire une chaîne FR/EN, il faut importer le moteur, pas seulement le
+modèle de fluidité :
+
+```js
+import { translateText } from "./src/engine.js";
+
+const result = translateText("sodle insufisant", {
+  sourceHint: "fr",
+  domainHint: "financial",
+  protectedValues: []
+});
+
+console.log(result.text);   // Kaalisi yonaa
+console.log(result.method); // spelling-memory
+```
+
+Le résultat contient `text`, `changed`, `source`, `method` et, lorsqu’une
+formulation `fub` a été produite, son score `fluency`. Pour une application
+Node ou un autre bundler JavaScript, copier `src/engine.js` avec ses modules
+générés et exécuter d’abord :
+
+```bash
+npm run build:terminology
+npm run build:model
+```
+
+Pour intégrer seulement le modèle de langue dans un autre produit, importer
+`predictNextFub`, `scoreFubFluency` ou `rankFubCandidates`. Le fichier
+`release/kora-fub-neural-model.json` convient à un autre runtime : il contient
+le vocabulaire, les métadonnées, les tenseurs int8 et leurs échelles. Le code
+de référence qui montre comment reconstruire l’inférence se trouve dans
+`src/neural-language-model.js`. L’artefact seul ne fournit pas la traduction
+FR/EN : les mémoires et `translateText` restent nécessaires.
+
 ## Intégrité et confidentialité
 
 KORA ne modifie jamais :
@@ -225,8 +337,8 @@ Dans un `<select>`, seul le libellé visible d’une option est traduit. Sa prop
   investissement, comptabilité, conformité, microfinance, fiscalité, API et
   litiges — 512 libellés, 504 concepts dédupliqués, 113 codes protégés;
 - contenu dynamique et contrôles d’intégrité financière;
-- correction conservatrice d’une faute unique lorsqu’une seule entrée connue
-  correspond;
+- correction conservatrice de plusieurs fautes bornées lorsqu’un seul sens
+  connu correspond;
 - authentification, code OTP/PIN et session;
 - carte, paiement, dépôt, retrait et transfert;
 - compte, historique, relevé, crédit, prêt et remboursement;
@@ -236,6 +348,13 @@ La terminologie compilée expose 391 clés françaises et 390 clés anglaises
 pour 504 concepts. Elle alimente 386 formulations `fub` distinctes dans
 l’entraînement à poids réduit. Cette surface s’ajoute aux 262 formulations
 historiques KORA et aux gabarits capables de conserver des valeurs variables.
+
+Le test orthographique parcourt 1 252 libellés textuels réellement
+traduisibles : 628 français et 624 anglais. Pour chacun, il génère des
+variantes avec suppression, duplication ou inversion de lettre et exige de
+retrouver exactement la même sortie. Les entrées contenant des nombres, les
+codes techniques et les valeurs personnelles sont volontairement exclues de
+la correction approximative.
 
 « Contenu dynamique » signifie tout texte réellement exposé au DOM accessible :
 nœud ajouté ou remplacé, attribut visible, option, Shadow DOM ouvert ou iframe
@@ -258,9 +377,12 @@ npm run model:train
 npm run model:export
 npm run model:demo
 npm test
+npm run test:spelling
 npm run test:popup
 npm run test:pages
 npm run test:live
+npm run test:uba
+npm run test:all
 npm run package
 ```
 
@@ -279,6 +401,8 @@ La suite vérifie :
 - prédiction du mot suivant et score de fluidité reproductible;
 - noms arbitraires sans personne codée en dur;
 - valeurs sensibles restaurées octet pour octet;
+- correction orthographique de 1 252 entrées FR/EN, accents et cas
+  multifaute, avec abstention en cas d’ambiguïté;
 - refus des phrases financières incomplètement comprises;
 - popup sombre, sélecteur Fulfulde/Français/English et activation immédiate;
 - pages bancaires génériques FR/EN;
@@ -286,7 +410,8 @@ La suite vérifie :
 - contenu dynamique et bascule de langue;
 - texte, attributs, Shadow DOM ouvert et iframes;
 - conservation de `Payment for services` lorsqu’il s’agit d’une saisie;
-- traduction live de `hello mon frere qui est tu` après ajout dynamique.
+- traduction live de `hello mon frere qui est tu` et `sodle insufisant` après
+  ajout dynamique.
 
 ## Structure
 
@@ -294,6 +419,7 @@ La suite vérifie :
 src/
   content.js                 analyse et traduction du DOM
   engine.js                  pipeline sémantique et intégrité
+  spelling.js                correction orthographique bornée et non ambiguë
   translations.js            mémoire Safinum relue
   general-translations.js    phrasebook financier général
   corpus-translations.js     terminologie financière FR/EN générée
@@ -313,6 +439,7 @@ scripts/
   package.mjs
 tests/
   engine.test.mjs
+  spelling.test.mjs
   corpus.test.mjs
   popup.test.mjs
   pages.test.mjs

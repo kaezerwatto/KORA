@@ -13,7 +13,7 @@ Le content script est chargé à `document_idle` sur la page normale. Il :
 1. collecte temporairement les nœuds texte avant toute mutation;
 2. ignore scripts, styles, SVG, code, canvas, iframe et contenu éditable;
 3. classe chaque texte comme valeur protégée ou texte traduisible;
-4. applique la cascade mémoire → gabarit → glossaire → original;
+4. applique la cascade mémoire → orthographe → gabarit → glossaire → original;
 5. ajoute `lang="fub"` et conserve l’original pour la réversibilité;
 6. surveille les changements avec `MutationObserver`.
 
@@ -49,6 +49,15 @@ anglais ──┘
 Les erreurs et alertes publiques sont couvertes explicitement. Les entrées
 étendues portent un statut de provenance; les codes API restent inchangés.
 Voir `docs/FINANCIAL_CORPORA.md`.
+
+### Correction orthographique
+
+`src/spelling.js` construit un index séparé pour chaque mémoire. Les accents
+et variantes de ponctuation sont normalisés, puis une distance
+Damerau–Levenshtein autorise de une à quatre opérations selon la longueur. Une
+sortie est acceptée uniquement lorsque le meilleur sens est unique; sinon la
+cascade continue sans correction. Les nombres, codes et valeurs protégées ne
+sont jamais corrigés approximativement.
 
 ### Gabarits
 
@@ -94,6 +103,10 @@ KORA combine :
 - traitement idempotent grâce aux enregistrements original/traduction.
 
 Ce mécanisme couvre les étapes montées par Vue, les calculs de frais, les erreurs et les textes ajoutés après chargement.
+
+Le mécanisme est indépendant du rôle de la page : une interface jury ou admin
+est traduite si l’utilisateur active KORA. Aucun nom de page ni sélecteur
+Safinum privé n’est nécessaire.
 
 ## 6. Accessibilité
 

@@ -258,19 +258,25 @@ test("covers injected test controls and financial audit labels", () => {
   }
 });
 
-test("corrects one unambiguous typo in injected financial labels", () => {
-  const french = translateText("solde insufisant", {
+test("corrects multiple unambiguous spelling errors in injected financial labels", () => {
+  const french = translateText("sodle insufisant", {
     sourceHint: "auto",
     domainHint: "financial"
   });
-  const english = translateText("insufficient balanc", {
+  const english = translateText("insuficient balnce", {
     sourceHint: "auto",
+    domainHint: "financial"
+  });
+  const accent = translateText("beneficiaire", {
+    sourceHint: "fr",
     domainHint: "financial"
   });
   assert.equal(french.text, "Kaalisi yonaa");
-  assert.equal(french.method, "typo-memory");
+  assert.equal(french.method, "spelling-memory");
   assert.equal(english.text, "Kaalisi yonaa");
-  assert.equal(english.method, "typo-memory");
+  assert.equal(english.method, "spelling-memory");
+  assert.equal(accent.text, "Jaɓoowo");
+  assert.equal(accent.method, "spelling-memory");
   assert.equal(
     translateText("customer pineapple", {
       sourceHint: "auto",

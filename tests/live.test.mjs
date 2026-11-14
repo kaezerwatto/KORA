@@ -163,7 +163,7 @@ try {
         : HTMLInputElement.prototype;
     Object.getOwnPropertyDescriptor(prototype, "value")?.set?.call(
       field,
-      "solde insufisant"
+      "sodle insufisant"
     );
     field.dispatchEvent(new Event("input", { bubbles: true }));
     field.dispatchEvent(new Event("change", { bubbles: true }));
@@ -173,7 +173,7 @@ try {
     () =>
       [...document.querySelectorAll("[data-kora-original]")].some(
         (node) =>
-          node.dataset.koraOriginal === "solde insufisant" &&
+          node.dataset.koraOriginal === "sodle insufisant" &&
           node.textContent.includes("Kaalisi yonaa")
       ),
     { timeout: 10_000 }

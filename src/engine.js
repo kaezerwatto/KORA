@@ -18,6 +18,7 @@ import {
   CORPUS_PRESERVED_TERMS
 } from "./corpus-translations.js";
 import { rankFubCandidates, scoreFubFluency } from "./language-model.js";
+import { findSpellingMatch } from "./spelling.js";
 
 const FRENCH_MARKERS = /\b(le|la|les|des|du|de|votre|vous|avant|après|bonjour|bonsoir|bienvenue|transfert|frais|solde|compte|vérifiez|paiement|carte|mot|passe|retrait|dépôt)\b/i;
 const ENGLISH_MARKERS = /\b(the|your|you|before|after|hello|welcome|good evening|transfer|fees?|balance|account|check|confirm|payment|card|password|withdrawal|deposit)\b/i;
@@ -32,8 +33,6 @@ const CRITICAL_MARKERS = Object.freeze({
 const NAME_PATTERN = /^(?:[\p{Lu}][\p{L}'’.-]*)(?:\s+[\p{Lu}][\p{L}'’.-]*){1,4}$/u;
 const GREETING_PATTERN = /^(?:bonjour|bonsoir|bienvenue|hello|good evening|welcome)[,\s]+/iu;
 const OPAQUE_CODE_PATTERN = /^(?=.*[\p{Lu}\d])[\p{Lu}\d_.:/-]{4,}$/u;
-const TYPO_ENTRY_CACHE = new WeakMap();
-const TYPO_RESULT_CACHE = new Map();
 const SENSITIVE_PATTERNS = [
   /[+\-]?\d[\d\s\u00a0\u202f.,]*\s*(?:FCFA|XAF|CFA|%)/giu,
   /(?:\+?\d[\d\s().-]{6,}\d)/gu,
@@ -51,84 +50,6 @@ export function normalizeText(value) {
     .replace(/\s+/g, " ")
     .trim()
     .toLocaleLowerCase("fr");
-}
-
-function differsByOneEdit(left, right) {
-  const a = [...left];
-  const b = [...right];
-  if (Math.abs(a.length - b.length) > 1 || left === right) return false;
-  if (a.length === b.length) {
-    const differences = a
-      .map((character, index) => character === b[index] ? -1 : index)
-      .filter((index) => index >= 0);
-    if (differences.length === 1) return true;
-    return differences.length === 2 &&
-      differences[1] === differences[0] + 1 &&
-      a[differences[0]] === b[differences[1]] &&
-      a[differences[1]] === b[differences[0]];
-  }
-  const [shorter, longer] = a.length < b.length ? [a, b] : [b, a];
-  let shortIndex = 0;
-  let longIndex = 0;
-  let skipped = false;
-  while (shortIndex < shorter.length && longIndex < longer.length) {
-    if (shorter[shortIndex] === longer[longIndex]) {
-      shortIndex += 1;
-      longIndex += 1;
-    } else {
-      if (skipped) return false;
-      skipped = true;
-      longIndex += 1;
-    }
-  }
-  return true;
-}
-
-function typoTolerantLookup(key, memories, namespace) {
-  const cacheKey = `${namespace}:${key}`;
-  if (TYPO_RESULT_CACHE.has(cacheKey)) return TYPO_RESULT_CACHE.get(cacheKey);
-  if (
-    key.length < 6 ||
-    /[\d⟪⟫]/u.test(key) ||
-    !/^[\p{L}\p{M}\s'’.,;:!?()/-]+$/u.test(key)
-  ) {
-    TYPO_RESULT_CACHE.set(cacheKey, null);
-    return null;
-  }
-  const matches = [];
-  for (const memory of memories) {
-    let byShape = TYPO_ENTRY_CACHE.get(memory);
-    if (!byShape) {
-      byShape = new Map();
-      for (const entry of Object.entries(memory)) {
-        const candidate = entry[0];
-        const shape = `${candidate[0]}:${candidate.length}`;
-        const bucket = byShape.get(shape) ?? [];
-        bucket.push(entry);
-        byShape.set(shape, bucket);
-      }
-      TYPO_ENTRY_CACHE.set(memory, byShape);
-    }
-    const entries = [-1, 0, 1].flatMap(
-      (delta) => byShape.get(`${key[0]}:${key.length + delta}`) ?? []
-    );
-    for (const [candidate, translation] of entries) {
-      if (
-        differsByOneEdit(key, candidate)
-      ) {
-        matches.push({ candidate, translation });
-      }
-    }
-  }
-  const translations = new Set(matches.map(({ translation }) => translation));
-  const result = translations.size === 1
-    ? { key: matches[0].candidate, translation: matches[0].translation }
-    : null;
-  if (TYPO_RESULT_CACHE.size >= 2_000) {
-    TYPO_RESULT_CACHE.delete(TYPO_RESULT_CACHE.keys().next().value);
-  }
-  TYPO_RESULT_CACHE.set(cacheKey, result);
-  return result;
 }
 
 export function detectSource(text, hint = "auto") {
@@ -211,6 +132,16 @@ function preserveOuterWhitespace(original, translated) {
   return `${leading}${translated.trim()}${trailing}`;
 }
 
+function preserveBoundaryPunctuation(original, translated) {
+  const trimmed = original.trim();
+  const prefix = trimmed.match(/^[^\p{L}\p{N}]+/u)?.[0] ?? "";
+  const suffix = (trimmed.match(/[^\p{L}\p{N}]+$/u)?.[0] ?? "").trim();
+  let output = translated.trim();
+  if (prefix && !/^[^\p{L}\p{N}]/u.test(output)) output = `${prefix}${output}`;
+  if (suffix && !/[^\p{L}\p{N}]$/u.test(output)) output = `${output}${suffix}`;
+  return output;
+}
+
 function applyTemplates(masked, source) {
   const templates = source === "en"
     ? [...TEMPLATES_EN, ...GENERAL_TEMPLATES_EN]
@@ -289,12 +220,12 @@ export function translateText(text, options = {}) {
     (includeCorpus ? corpusMemory[key] : undefined);
   let exactMethod = "memory";
   if (!exact) {
-    let typoMatch = typoTolerantLookup(
+    let spellingMatch = findSpellingMatch(
       key,
       [memory, generalMemory, ...(includeCorpus ? [corpusMemory] : [])],
       `${source}:${includeCorpus}`
     );
-    if (!typoMatch && sourceHint === "auto") {
+    if (!spellingMatch && sourceHint === "auto") {
       const alternateSource = source === "fr" ? "en" : "fr";
       const alternateMemory = alternateSource === "en" ? EN_TO_FUB : FR_TO_FUB;
       const alternateGeneral = alternateSource === "en"
@@ -305,7 +236,7 @@ export function translateText(text, options = {}) {
         : CORPUS_FR_TO_FUB;
       const alternateIncludesCorpus =
         domainHint === "financial" || CRITICAL_MARKERS[alternateSource].test(original);
-      typoMatch = typoTolerantLookup(
+      spellingMatch = findSpellingMatch(
         key,
         [
           alternateMemory,
@@ -314,7 +245,7 @@ export function translateText(text, options = {}) {
         ],
         `${alternateSource}:${alternateIncludesCorpus}`
       );
-      if (typoMatch) {
+      if (spellingMatch) {
         source = alternateSource;
         memory = alternateMemory;
         generalMemory = alternateGeneral;
@@ -322,13 +253,16 @@ export function translateText(text, options = {}) {
         includeCorpus = alternateIncludesCorpus;
       }
     }
-    if (typoMatch) {
-      exact = typoMatch.translation;
-      exactMethod = "typo-memory";
+    if (spellingMatch) {
+      exact = spellingMatch.translation;
+      exactMethod = "spelling-memory";
     }
   }
   if (exact) {
-    const translated = preserveOuterWhitespace(original, exact);
+    const rendered = exactMethod === "spelling-memory"
+      ? preserveBoundaryPunctuation(original, exact)
+      : exact;
+    const translated = preserveOuterWhitespace(original, rendered);
     if (!preservesSensitive(original, translated, protectedValues)) {
       return { text: original, source, method: "integrity-fallback", changed: false };
     }

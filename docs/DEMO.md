@@ -33,6 +33,8 @@ Insister sur la référence et les montants identiques.
 Ajouter dynamiquement : « Votre transfert de 9 500 FCFA est en attente. »
 
 Montrer la traduction instantanée sans rechargement et la conservation exacte de `9 500 FCFA`.
+Injecter ensuite `sodle insufisant` : KORA corrige les deux fautes et affiche
+`Kaalisi yonaa`, sans modifier le champ source.
 
 ## 2:05–2:30 — erreur et sécurité
 

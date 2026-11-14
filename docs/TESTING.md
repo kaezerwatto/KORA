@@ -10,18 +10,22 @@
 - catalogue complet des textes publics;
 - masquage et restauration des valeurs;
 - protection des données saisies;
-- contenu financier inédit traité par gabarit ou glossaire.
+- contenu financier inédit traité par gabarit ou glossaire;
 - formes Adamawa corrigées (`-go`, `yonaa`);
-- intentions financières générales et seuil de confiance.
+- intentions financières générales et seuil de confiance;
 - réseau neuronal `fub` quantifié, prédiction du mot suivant, score de fluidité et repli n-gramme;
+- 1 252 libellés traduisibles avec faute générée : 628 FR et 624 EN;
+- accents manquants, suppression, duplication, substitution, inversion et
+  plusieurs erreurs sur une phrase longue;
+- abstention orthographique lorsque deux sens sont aussi proches;
 - popup dark avec interrupteur et sélecteur FUB/FR/EN;
 - restauration réelle FR/EN et retour vers Fulfulde via les messages d’extension;
 - traduction du libellé d’une option sans modification de sa valeur technique;
 - conservation des saisies, notamment `Payment for services`;
 - ajout de nœuds, remplacement de texte, attributs dynamiques, Shadow DOM ouvert et iframe;
-- traduction dynamique du message `hello mon frere qui est tu`.
-- traduction dynamique de `solde insufisant` par rapprochement orthographique
-  unique vers `Kaalisi yonaa`;
+- traduction dynamique du message `hello mon frere qui est tu`;
+- traduction dynamique de `sodle insufisant` malgré deux fautes vers
+  `Kaalisi yonaa`;
 - fermeture de la popup après action et restitution immédiate du focus;
 - `Ctrl+A` sur toute la page traduite et dans un champ de formulaire;
 - principaux libellés visibles d’une page UBA Cameroon reproduite localement;
@@ -34,7 +38,7 @@
 
 1. lance Google Chrome avec l’extension unpacked;
 2. ouvre l’environnement Safinum de test;
-3. ajoute réellement `hello mon frere qui est tu`, puis `solde insufisant`,
+3. ajoute réellement `hello mon frere qui est tu`, puis `sodle insufisant`,
    après chargement et contrôle leurs traductions;
 4. vérifie le tableau de bord et les valeurs canoniques;
 5. injecte après chargement « Votre transfert de 9 500 FCFA est en attente. »;
@@ -52,8 +56,30 @@ Résultat de référence :
 ```text
 LIVE PASS: French journey, dynamic content, form values and receipt integrity.
 LIVE PASS: English source switched and translated to the same fub interface.
-UBA LIVE PASS: translated homepage, page selection 2203 characters, field selection 10/10.
+UBA LIVE PASS: translated homepage, page selection >1000 characters, field selection 10/10.
 ```
+
+## Commandes et périmètre
+
+```bash
+npm test
+npm run test:spelling
+npm run test:popup
+npm run test:pages
+npm run test:live
+npm run test:uba
+npm run test:all
+npm run package
+```
+
+- `npm test` exécute moteur, corpus, export du modèle et orthographe;
+- `test:spelling` parcourt toutes les clés textuelles éligibles;
+- `test:popup` valide le protocole popup/content script;
+- `test:pages` couvre texte, attributs, options, mutations, iframe et Shadow DOM;
+- `test:live` contrôle le parcours Safinum et les injections réelles;
+- `test:uba` vérifie une page externe non préparée et la sélection native;
+- `test:all` regroupe tous les contrôles précédents;
+- `package` reconstruit les livrables et refuse un ZIP supérieur à 10 Mio.
 
 ## Matrice manuelle avant remise
 

@@ -2,7 +2,7 @@ import { translateText } from "./engine.js";
 
 const shouldInitialize = !globalThis.__KORA_CONTENT_INITIALIZED__;
 if (shouldInitialize) globalThis.__KORA_CONTENT_INITIALIZED__ = true;
-const PROTOCOL_VERSION = 11;
+const PROTOCOL_VERSION = 12;
 const SKIP_TAGS = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "CODE", "PRE", "SVG", "CANVAS", "IFRAME", "TEXTAREA"]);
 const FINANCIAL_CONTEXT_PATTERN = /\b(?:account|bank(?:ing)?|beneficiary|credit|debit|fees?|finance|fintech|money|payment|recipient|transaction|transfer|wallet|banque|bénéficiaire|compte|crédit|débit|frais|montant|paiement|solde|transaction|transfert)\b/giu;
 const records = new Map();
@@ -28,7 +28,7 @@ function freshStats() {
     protected: 0,
     fallback: 0,
     memory: 0,
-    "typo-memory": 0,
+    "spelling-memory": 0,
     template: 0,
     glossary: 0
   };

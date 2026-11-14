@@ -20,6 +20,7 @@ flowchart LR
         P[Popup]
         C[Content script]
         E[Engine]
+        SC[Correcteur orthographique]
         TM[Mémoires FR/EN → fub]
         CT[Terminologie financière contrôlée]
         LM[Modèle neuronal fub]
@@ -32,6 +33,8 @@ flowchart LR
     P --> S
     C --> S
     C --> E
+    E --> SC
+    SC --> TM
     E --> TM
     E --> CT
     E --> LM
@@ -77,7 +80,7 @@ flowchart TD
     C --> D[Masquer montants, dates, comptes et références]
     D --> E{Mémoire historique exacte ?}
     E -->|Oui| J[Candidat fub]
-    E -->|Non| R{Faute unique non ambiguë ?}
+    E -->|Non| R{Correction bornée non ambiguë ?}
     R -->|Oui| J
     R -->|Non| CE{Terme financier contrôlé ?}
     CE -->|Oui| J
@@ -110,11 +113,14 @@ segment contient lui-même un marqueur financier non ambigu. Cette porte évite,
 par exemple, de traduire le mot français « action » comme un titre boursier sur
 une page sans rapport avec la finance.
 
-Le rapprochement orthographique accepte au maximum une insertion, suppression,
-substitution ou inversion adjacente et seulement si toutes les correspondances
-possibles donnent la même traduction. Le modèle de langue n’autorise jamais
-une traduction. Il classe uniquement plusieurs formulations déjà acceptées
-par le verrou sémantique.
+Le rapprochement orthographique normalise accents et ponctuation, puis accepte
+une à quatre opérations selon la longueur : insertion, suppression,
+substitution ou inversion adjacente. Il ne retient le résultat que si le
+meilleur sens est unique. Les 1 252 libellés textuels traduisibles possèdent
+chacun un test de variante générée; nombres, codes et valeurs personnelles
+sont exclus de ce rapprochement. Le modèle de langue n’autorise jamais une
+traduction. Il classe uniquement plusieurs formulations déjà acceptées par le
+verrou sémantique.
 
 ## Sélection Fulfulde, Français et English
 
@@ -184,6 +190,11 @@ flowchart LR
 
 Les mutations produites par `append`, `innerHTML`, `DocumentFragment`, remplacement de `textContent` et rendu de framework suivent le même pipeline. Les Shadow DOM fermés, le contenu d’un canvas, les pixels d’une image et les pages internes protégées par Chrome ne sont pas exposés à une extension et restent donc hors périmètre technique.
 
+Le pipeline n’identifie pas un rôle « jury » ou « administrateur ». Une page
+administrative est traduite comme toute autre page lorsque KORA est active.
+Cette neutralité évite un couplage au site de soumission et permet de démontrer
+les mutations sur l’environnement jury sans règle dédiée.
+
 Un garde global versionné empêche l’initialisation multiple. Si une ancienne version du content script est encore attachée à l’onglet, la popup recharge la page une fois pour installer le protocole courant.
 
 ## Modèle de langue
@@ -230,6 +241,7 @@ déterministe mais ne remplace pas un modèle neuronal de traduction générale.
 
 - `src/content.js` : DOM, mutations, restauration et messages popup;
 - `src/engine.js` : intégrité, couverture et cascade de traduction;
+- `src/spelling.js` : index orthographique, distance bornée et abstention;
 - `src/translations.js` : parcours Safinum bilingue;
 - `src/general-translations.js` : web, finance, éducation et assistants;
 - `src/corpus-translations.js` : index FR/EN généré depuis la terminologie contrôlée;

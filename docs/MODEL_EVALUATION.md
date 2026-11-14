@@ -74,6 +74,11 @@ Le réseau n’est pas seulement livré comme fichier. Le chemin exécuté est :
 4. le score neuronal compte pour 80 % du score de fluidité, avec 20 % de repli n-gramme;
 5. `rankFubCandidates` trie uniquement des candidats déjà sûrs.
 
+Le correcteur orthographique appartient à `src/spelling.js`, avant cette
+séquence. Il rapproche une entrée FR/EN d’une clé connue; il ne demande pas au
+réseau neuronal de deviner un mot source. Cette séparation permet de tester
+indépendamment les 1 252 libellés corrigibles et la fluidité `fub`.
+
 La commande réelle est :
 
 ```bash

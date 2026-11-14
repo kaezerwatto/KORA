@@ -15,18 +15,25 @@ détecte aussi les contenus ajoutés après chargement. Sa terminologie contrôl
 inventorie 512 libellés financiers fournis, dédupliqués en 504 concepts FR/EN,
 avec un statut explicite pour chaque formulation `fub`. Pour un texte inédit,
 elle combine des gabarits à valeurs protégées et un glossaire financier
-sourcé. Elle préfère conserver l’original plutôt que produire un contresens.
+sourcé. Un correcteur borné prend en charge les fautes sur 1 252 libellés
+FR/EN testés, tout en refusant les correspondances ambiguës. Elle préfère
+conserver l’original plutôt que produire un contresens.
 
 ## Contribution technique propre
 
 - analyse générique du DOM d’une page non modifiée;
 - verrou local des données financières;
 - moteur bilingue FR/EN → FUB déterministe;
+- correction orthographique multifaute, indexée sur toutes les mémoires;
 - réseau neuronal `fub` int8 pour classer la fluidité des formulations sûres;
 - traduction dynamique idempotente compatible avec Vue;
 - retour instantané au texte original;
 - popup accessible qui restitue immédiatement le focus et les raccourcis clavier;
 - tests automatisés sur Safinum, une page UBA réelle et les corpus financiers.
+
+L’environnement jury n’est pas traité spécialement : son texte est traduit
+par le même analyseur DOM et le même observateur de mutations que toute page
+administrative ou bancaire.
 
 ## Confidentialité
 

@@ -35,7 +35,7 @@ try {
           }
           if (message.type === "KORA_STATUS") {
             return {
-              protocolVersion: 11,
+              protocolVersion: 12,
               enabled,
               displayLanguage,
               sourceHint: "auto",
